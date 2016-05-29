@@ -1,0 +1,6 @@
+export const REQUEST = 'REQUEST'
+export const REQUEST_SUCC = 'REQUEST_SUCC'
+export const REQUEST_ERROR = 'REQUEST_ERROR'
+export const REQUEST_LOADING = 'REQUEST_LOADING'
+
+export const GET_OPTION_POST_LIST = 'GET_OPTION_POST_LIST'

@@ -1,5 +1,5 @@
-import * as optionPostList from './optionPostList'
+import getOptionPostList from './getOptionPostList'
 
 export default {
-    getOptionPostList: optionPostList.getOptionPostList
+    getOptionPostList: getOptionPostList
 }

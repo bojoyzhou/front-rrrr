@@ -10,7 +10,7 @@ class Editor extends Component {
             <div>
                 <Menu></Menu>
                 {this.props.children}
-                <p>main</p>
+                <div> main </div>
             </div>
         )
     }

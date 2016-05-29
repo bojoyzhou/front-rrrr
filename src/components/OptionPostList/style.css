@@ -1,0 +1,44 @@
+li.list-group-posts {
+	padding-left: 15px;
+	transition: .2s;
+	border-bottom: #e7e7e7 dashed 1px;
+	background-color: #fff;
+	list-style: none;
+}
+.posts-item-head {
+	position: relative;
+}
+.posts-item-title {
+	line-height: 46px;
+}
+.posts-item .close {
+	position: absolute;
+	right: 20px;
+	top: 12px;
+}
+.posts-item-body {
+	color: #999;
+}
+.posts-item-foot {
+	margin-top: 24px;
+	font-size: 12px;
+	position: relative;
+	padding-bottom: 12px;
+	text-align: center;
+	color: #bfbfbf;
+}
+span.author {
+	position: absolute;
+	left: 0;
+}
+span.date {
+	margin-left: -48px;
+}
+span.link {
+	position: absolute;
+	right: 24px;
+}
+.link a:focus, .link a:visited {
+	color: #bfbfbf;
+	text-decoration: none;
+}

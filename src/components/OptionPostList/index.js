@@ -1,33 +1,38 @@
-
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as optionPostList from '../../actions/optionPostList'
+
+import actions from '../../actions'
+import style from './style.css'
 
 class OptionPostList extends Component {
+    constructor(props, context) {
+        super(props, context)
+    }
+    componentDidMount(){
+        let { actions } = this.props
+        actions.getOptionPostList();
+    }
     render() {
-        let { posts, actions } = this.props
-        actions.getOptionPostList({
-            status:'request'
-        });
+        let { posts } = this.props        
+
         return (
-            <ul class="js-posts">
+            <ul>
                 {
-                    posts.map(function (post){
+                    posts.map(function (post, idx){
                         return (
-                            <li class="list-group-posts" data-id="1">
-                                <div class="posts-item">
-                                    <div class="posts-item-head">
-                                        <div class="posts-item-title">{post.title}</div>
-                                        <div class="close">×</div>
+                            <li key={idx} className="list-group-posts" data-id="1">
+                                <div className="posts-item">
+                                    <div className="posts-item-head">
+                                        <div className="posts-item-title">{post.title}</div>
+                                        <div className="close">×</div>
                                     </div>
-                                    <div class="posts-item-body">{post.content}</div>
-                                    <div class="posts-item-foot">
-                                        <span class="author">{post.source}</span>
-                                        <span class="date">{post.date}</span>
-                                        <span class="link"><a href="1">查看原文</a></span>
+                                    <div className="posts-item-body">{post.content}</div>
+                                    <div className="posts-item-foot">
+                                        <span className="author">{post.source}</span>
+                                        <span className="date">{post.date}</span>
+                                        <span className="link"><a href="1">查看原文</a></span>
                                     </div>
                                 </div>
                             </li>
@@ -48,8 +53,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(optionPostList, dispatch),
-        dispatch: dispatch
+        actions: bindActionCreators(actions, dispatch),
     }
 }
 

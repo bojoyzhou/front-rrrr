@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
-import * as TodoActions from '../../actions/todos'
 
 import style from './style.css'
 
@@ -28,9 +27,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(TodoActions, dispatch)
-    }
+    return { }
 }
 
 export default connect(

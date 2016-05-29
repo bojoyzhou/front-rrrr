@@ -1,56 +1,58 @@
-
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import style from './style.css'
 
 class Menu extends Component {
     render() {
+        let pathname = this.props.pathname
         return (
-            <ul class="menu">
-                <li class="menu-item-1 js-btn-import">
-                    <Link to="/editor/import">
-                        <i class="pre-icon pre-import"></i>
+            <ul className="menu">
+                <li className="menu-item">
+                    <Link className={ pathname == "/editor/import" ? "menu-item-link active" : "menu-item-link"} to="/editor/import">
+                        <i className="pre-icon pre-import"></i>
                         导入内容
                     </Link>
                 </li>
-                <li class="menu-item-1 js-btn-common">
-                    <Link to="/editor/common">
-                        <i class="pre-icon pre-edit"></i>
+                <li className="menu-item">
+                    <Link className={ pathname == "/editor/common" ? "menu-item-link active" : "menu-item-link"} to="/editor/common">
+                        <i className="pre-icon pre-edit"></i>
                         常用
-                        <i class="after-icon arrow arrow-up"></i>
+                        <i className="after-icon arrow arrow-up"></i>
                     </Link>
                 </li>
-                <ul class="menu-2">
-                    <li class="menu-item-2 js-btn-common" data-id="1">
-                        <Link to="/editor/common/1">标题</Link>
+                <ul className="sub-menu">
+                    <li className="sub-menu-item" data-id="1">
+                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/1">标题</Link>
                     </li>
-                    <li class="menu-item-2 js-btn-common" data-id="2">
-                        <Link to="/editor/common/2">正文</Link>
+                    <li className="sub-menu-item" data-id="2">
+                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/2">正文</Link>
                     </li>
-                    <li class="menu-item-2 js-btn-common" data-id="3">
-                        <Link to="/editor/common/3">图文</Link>
+                    <li className="sub-menu-item" data-id="3">
+                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/3">图文</Link>
                     </li>
-                    <li class="menu-item-2 js-btn-common" data-id="4">
-                        <Link to="/editor/common/4">关注</Link>
+                    <li className="sub-menu-item" data-id="4">
+                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/4">关注</Link>
                     </li>
-                    <li class="menu-item-2 js-btn-common" data-id="5">
-                        <Link to="/editor/common/5">分隔</Link>
+                    <li className="sub-menu-item" data-id="5">
+                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/5">分隔</Link>
                     </li>
-                    <li class="menu-item-2 js-btn-common" data-id="6">
-                        <Link to="/editor/common/6">插件</Link>
+                    <li className="sub-menu-item" data-id="6">
+                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/6">插件</Link>
                     </li>
-                    <li class="menu-item-2 js-btn-common" data-id="7">
-                        <Link to="/editor/common/7">其他</Link>
+                    <li className="sub-menu-item" data-id="7">
+                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/7">其他</Link>
                     </li>
                 </ul>
-                <li class="menu-item-1 js-btn-image">
-                    <Link to="/editor/images">
-                        <i class="pre-icon pre-img"></i>
+                <li className="menu-item">
+                    <Link className={ pathname == "/editor/images" ? "menu-item-link active" : "menu-item-link"} to="/editor/images">
+                        <i className="pre-icon pre-img"></i>
                         我的图库
                     </Link>
                 </li>
-                <li class="menu-item-1">
-                    <Link to="/document">
-                        <i class="pre-icon pre-doc"></i>
+                <li className="menu-item">
+                    <Link className="menu-item-link" to="/document">
+                        <i className="pre-icon pre-doc"></i>
                         我的内容
                     </Link>
                 </li>
@@ -58,5 +60,19 @@ class Menu extends Component {
         )
     }
 }
+function mapStateToProps(state) {
+    return {
+        pathname: state.routing.locationBeforeTransitions.pathname
+    }
+}
 
-export default Menu
+function mapDispatchToProps(dispatch) {
+    return {
+        
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Menu)

@@ -21,7 +21,9 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
-                <IndexRoute component={Editor} />
+                <IndexRoute component={Editor}>
+                    <IndexRoute component={Import} />
+                </IndexRoute>
                 <Route path="/editor" component={Editor}>
                     <IndexRoute component={Import} />
                     <Route path="/editor/import" component={Import}>

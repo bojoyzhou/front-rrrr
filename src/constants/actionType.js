@@ -1,1 +1,0 @@
-export const GET_OPTION_POST_LIST = 'GET_OPTION_POST_LIST'

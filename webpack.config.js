@@ -27,11 +27,12 @@ module.exports = {
         }, {
             test: /\.css$/,
             include: /src/,
-            loaders: [
-                'style-loader',
-                'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-                'postcss-loader'
-            ]
+            loader: 'style!css'
+            // loaders: [
+            //     'style-loader',
+            //     'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+            //     'postcss-loader'
+            // ]
         }, {
             test: /\.css$/,
             exclude: /src/,
@@ -43,6 +44,9 @@ module.exports = {
                 'react-hot',
                 'babel-loader'
             ]
+        }, {
+            test: /\.(png|jpg)$/,
+            loader: 'url-loader?limit=8192'
         }],
     },
     resolve: {
@@ -65,8 +69,23 @@ module.exports = {
         contentBase: './src',
         hot: true,
         proxy: {
-            '/api/*': {
-                target: 'http://www.8zcloud.com'
+            '/api/collectpager': {
+                target: {
+                    ret: 0,
+                    data: {
+                        hehe: 1
+                    }
+                }
+                // target: 'http://www.8zcloud.com'
+            },
+            '/api/hehheheh': {
+                target: {
+                    ret: 0,
+                    data: {
+                        hehe: 1
+                    }
+                }
+                // target: 'http://www.8zcloud.com'
             }
         }
     }
