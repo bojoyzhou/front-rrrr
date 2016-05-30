@@ -69,24 +69,27 @@ module.exports = {
         contentBase: './src',
         hot: true,
         proxy: {
-            '/api/collectpager': {
-                target: {
-                    ret: 0,
-                    data: {
-                        hehe: 1
-                    }
-                }
-                // target: 'http://www.8zcloud.com'
+            '/api/*':{
+                target: 'http://www.8zcloud.com'
             },
-            '/api/hehheheh': {
-                target: {
-                    ret: 0,
-                    data: {
-                        hehe: 1
-                    }
-                }
-                // target: 'http://www.8zcloud.com'
+            '/upload/*':{
+                target: 'http://imgs.8zcloud.com'
+            },
+            '/getfiles*':{
+                target: 'http://imgs.8zcloud.com'
             }
+            // '/api/collectpager': {
+            //     target: 'http://www.8zcloud.com'
+            // },
+            // '/api/hehheheh': {
+            //     target: {
+            //         ret: 0,
+            //         data: {
+            //             hehe: 1
+            //         }
+            //     }
+            //     // target: 'http://www.8zcloud.com'
+            // }
         }
     }
 }

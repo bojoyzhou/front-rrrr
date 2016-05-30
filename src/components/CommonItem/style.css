@@ -1,0 +1,9 @@
+.container-common-item{
+
+}
+.container-common-item .RankEditor{
+    padding: 25px!important;
+}
+.container-common-item .RankEditor:hover{
+    background: #f5f5f5;
+}

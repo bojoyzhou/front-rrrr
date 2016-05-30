@@ -1,16 +1,18 @@
-
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 
+import style from './style.css'
+
 import Menu from '../Menu'
+import TextArea from '../TextArea'
 
 class Editor extends Component {
     render() {
         return (
-            <div>
+            <div className="container-editor clear">
                 <Menu></Menu>
                 {this.props.children}
-                <div> main </div>
+                <TextArea></TextArea>
             </div>
         )
     }

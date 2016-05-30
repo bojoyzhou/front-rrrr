@@ -1,6 +1,8 @@
+import { bindActionCreators } from 'redux'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+
 import style from './style.css'
 
 class Menu extends Component {
@@ -22,25 +24,25 @@ class Menu extends Component {
                     </Link>
                 </li>
                 <ul className="sub-menu">
-                    <li className="sub-menu-item" data-id="1">
+                    <li className="sub-menu-item">
                         <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/1">标题</Link>
                     </li>
-                    <li className="sub-menu-item" data-id="2">
+                    <li className="sub-menu-item">
                         <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/2">正文</Link>
                     </li>
-                    <li className="sub-menu-item" data-id="3">
+                    <li className="sub-menu-item">
                         <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/3">图文</Link>
                     </li>
-                    <li className="sub-menu-item" data-id="4">
+                    <li className="sub-menu-item">
                         <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/4">关注</Link>
                     </li>
-                    <li className="sub-menu-item" data-id="5">
+                    <li className="sub-menu-item">
                         <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/5">分隔</Link>
                     </li>
-                    <li className="sub-menu-item" data-id="6">
+                    <li className="sub-menu-item">
                         <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/6">插件</Link>
                     </li>
-                    <li className="sub-menu-item" data-id="7">
+                    <li className="sub-menu-item">
                         <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/7">其他</Link>
                     </li>
                 </ul>
@@ -68,7 +70,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        
+
     }
 }
 

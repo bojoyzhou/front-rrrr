@@ -29,6 +29,7 @@ ReactDOM.render(
                     <Route path="/editor/import" component={Import}>
                     </Route>
                     <Route path="/editor/common" component={Common}>
+                        <IndexRoute component={CommonItem} />
                         <Route path="/editor/common/:id" component={CommonItem}>
                         </Route>
                     </Route>

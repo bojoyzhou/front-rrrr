@@ -10,7 +10,7 @@ class Common extends Component {
                     <div className="panel-title">
                         常用样式
                     </div>
-                    <div className="panel-posts-body js-plugin-body">
+                    <div className="panel-posts-body">
                         {this.props.children}
                     </div>
                 </div>

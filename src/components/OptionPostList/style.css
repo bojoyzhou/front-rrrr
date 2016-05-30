@@ -42,3 +42,7 @@ span.link {
 	color: #bfbfbf;
 	text-decoration: none;
 }
+.post-ul{
+	margin: 0;
+	padding: 0
+}

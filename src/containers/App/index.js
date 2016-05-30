@@ -16,7 +16,7 @@ class App extends Component {
             <div>
                 <Header></Header>
                 {this.props.children}
-                <DevTools />
+                <DevTools></DevTools>
             </div>
         )
     }

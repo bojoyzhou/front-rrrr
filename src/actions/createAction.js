@@ -1,24 +1,18 @@
-export function createAction(type, status) {
+import { createAction } from 'redux-actions'
+
+export default _createAction
+
+function _createAction(type, status) {
 	if (status) {
-		return (...args) => (dispatch) => {
+		return (action) => (dispatch) => {
 			return dispatch({
 				type,
 				status,
 				dispatch,
-				payload: {
-					...args
-				}
+				payload: action
 			})
 		}
 	} else {
-		return (...args) => {
-			return {
-				type,
-				status,
-				payload: {
-					...args
-				}
-			}
-		}
+		return createAction(type)
 	}
 }

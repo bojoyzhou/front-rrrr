@@ -1,39 +1,42 @@
 import { handleActions } from 'redux-actions'
-import actions from '../actions'
-import { GET_OPTION_POST_LIST, REQUEST, REQUEST_SUCC, REQUEST_ERROR, REQUEST_LOADING } from '../constants'
-import ajax from 'ajax'
+import { createReducer } from './createReducer'
 
+/**
+ * 导入当前reduce的常量
+ *
+ */
+import { GET_OPTION_POST_LIST } from '../constants'
+const type = GET_OPTION_POST_LIST
+
+/**
+ * 定义默认的state
+ *
+*/
 const initialState = {
     posts: []
 }
-
-export default handleActions({
-    GET_OPTION_POST_LIST (state, action) {
-        if(action.status == REQUEST || !action.status){
-            const dispatch = action.dispatch;
-            ajax({
-                url:'/api/collectpager?uid=2',
-                dataType:'json',
-                success:function(ret){
-                    dispatch({
-                        type: GET_OPTION_POST_LIST,
-                        status: REQUEST_SUCC,
-                        payload: {
-                            posts: [{
-                                title:'title',
-                                content:'content',
-                                source:'hahaha',
-                                date:'2016-02-01'
-                            }]
-                        }
-                    });
-                }
-            })
-            return state
-        }else if(action.status == REQUEST_SUCC){
-            return action.payload
-        }else{
-            return state
-        }
+/**
+ * @param  {Object} redux触发的action对象
+ * @return {Object} 即将发起ajax调用的ajax的选项
+ */
+const options = (action) => {
+    return {
+        url:'/api/collectpager?uid=2',
+        dataType:'json'
     }
-}, initialState)
+}
+
+/**
+ * @param  {Mixed} ajax接口返回的结果
+ * @return {Object} 返回一个state, 结构需同initialState一致，返回的state作为新的state,用来触发视图更新
+ */
+const hook = (result) => {
+    return {
+        posts: result.list
+    }
+}
+
+/**
+ * 导出模块
+ */
+export default createReducer(type, options, hook, initialState)

@@ -15,10 +15,10 @@ class OptionPostList extends Component {
         actions.getOptionPostList();
     }
     render() {
-        let { posts } = this.props        
+        let { posts } = this.props
 
         return (
-            <ul>
+            <ul className="post-ul">
                 {
                     posts.map(function (post, idx){
                         return (
@@ -28,10 +28,10 @@ class OptionPostList extends Component {
                                         <div className="posts-item-title">{post.title}</div>
                                         <div className="close">×</div>
                                     </div>
-                                    <div className="posts-item-body">{post.content}</div>
+                                    <div className="posts-item-body">{post.summary}</div>
                                     <div className="posts-item-foot">
-                                        <span className="author">{post.source}</span>
-                                        <span className="date">{post.date}</span>
+                                        <span className="author">{post.author}</span>
+                                        <span className="date">{post.sendtime}</span>
                                         <span className="link"><a href="1">查看原文</a></span>
                                     </div>
                                 </div>

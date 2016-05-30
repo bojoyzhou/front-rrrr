@@ -1,0 +1,74 @@
+.container-images {
+    float: left;
+    height: 100%;
+}
+.container-images .panel-images {
+    width: 386px;
+    background-color: #fff;
+    padding-top: 51px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    height: 169px;
+}
+.container-images .panel-images input {
+    width: 350px;
+    height: 34px;
+    padding-left: 8px;
+}
+.container-images button.btn-primary {
+    margin-top: 22px;
+    font-size: 14px;
+    border: #fa9b5b solid 1px;
+    border-radius: 5px;
+    text-align: center;
+    width: 81px;
+    line-height: 30px;
+    color: #fa9b5b;
+    background-color: #fff;
+}
+.container-images .panel-posts {
+    box-sizing: border-box;
+    margin-top: -169px;
+    width: 386px;
+    padding-top: 185px;
+    height: 100%;
+    font-size: 14px;
+}
+.container-images .panel-title {
+    background-color: #fff;
+    border-bottom: #f5f5f5 solid 1px;
+    padding-left: 15px;
+    line-height: 54px;
+    color: #fa9b5b;
+}
+.container-images .panel-posts-body {
+    height: 100%;
+    padding-top: 55px;
+    overflow: auto;
+    margin-top: -55px;
+    box-sizing: border-box;
+}
+.container-images .panel-posts{
+    overflow: hidden;
+}
+.container-images .panel-posts-body {
+    height: 100%;
+    background-color: #fff;
+    overflow: hidden;
+}
+.container-images .panel-title{
+    position: relative;
+
+}
+.container-images .panel-title span{
+    color: #333;
+
+    margin-left: 15px;
+}
+.container-images .panel-title button{
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+    margin: 0;
+}
