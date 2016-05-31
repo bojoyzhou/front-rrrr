@@ -4,6 +4,7 @@ import style from './style.css'
 
 class Header extends Component {
     render() {
+        const { actions } = this.props
         return (
             <nav className="nav">
                 <div className="nav-logo">logo</div>
@@ -55,12 +56,27 @@ class Header extends Component {
                     </li>
                 </ul>
                 <div className="right">
-                    <a className="login" href="">登录</a> |
+                    <a onClick={() => actions.openLoginDialog()} className="login" href="javascript:;">登录</a> |
                     <a className="home" href="">home</a>
                 </div>
             </nav>
         )
     }
 }
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import actions from '../../actions'
+function mapStateToProps(state) {
+    return { }
+}
 
-export default Header
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actions, dispatch)
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header)

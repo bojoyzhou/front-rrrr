@@ -15,6 +15,11 @@ export const createReducer = (options, initialState) => {
     return handleActions(actionOptions, initialState)
 }
 
+export const assign = (target, dest) => {
+    let obj = Object.assign({}, target);
+    return Object.assign(obj, dest);
+}
+
 function wrapperAction(type, item){
     return (state, action) => {
         if(action.status == REQUEST || !action.status){

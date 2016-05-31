@@ -5,11 +5,13 @@ import optionPostList from './optionPostList'
 import commonStyle from './commonStyle'
 import userPics from './userPics'
 import selectPic from './selectPic'
+import login from './login'
 
 export default combineReducers({
     routing,
     optionPostList,
     commonStyle,
     userPics,
-    selectPic
+    selectPic,
+    login
 })

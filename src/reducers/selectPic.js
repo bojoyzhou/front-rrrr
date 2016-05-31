@@ -1,10 +1,10 @@
-import { createReducer } from './createReducer'
+import { createReducer, assign } from './createReducer'
 
 /**
  * 导入当前reduce的常量
  *
  */
-import { SELECT_PIC, SELECT_PICS_CANCEL, SELECT_PICS_CONFIRM, SELECT_PICS_OPEN } from '../constants'
+import { SELECT_PIC, SELECT_PICS_CANCEL, SELECT_PICS_CONFIRM, SELECT_PICS_OPEN, PICK_PIC } from '../constants'
 
 /**
  * 定义默认的state
@@ -21,7 +21,7 @@ const initialState = {
 }
 
 export default createReducer({
-    SELECT_PIC: (state, action) => ({
+    [ SELECT_PIC ]: (state, action) => ({
         selectPics: [{
             id: makeId(),
             url: makeHost(action.payload.url),
@@ -29,22 +29,22 @@ export default createReducer({
         }, ...state.selectPics],
         isActived: state.isActived
     }),
-    SELECT_PICS_OPEN: (state, action) => ({
+    [ SELECT_PICS_OPEN ]: (state, action) => ({
         selectPics: state.selectPics,
         isActived: true
     }),
-    SELECT_PICS_CANCEL: (state, action) => ({
+    [ SELECT_PICS_CANCEL ]: (state, action) => ({
         selectPics: state.selectPics,
         isActived: false
     }),
-    SELECT_PICS_CONFIRM: (state, action) => {
+    [ SELECT_PICS_CONFIRM ]: (state, action) => {
         console.log(state.selectPics.filter((pic) => pic.picked))
         return {
             selectPics: state.selectPics,
             isActived: false
         }
     },
-    PICK_PIC: (state, action) => {
+    [ PICK_PIC ]: (state, action) => {
         const pid = action.payload
         const selectPics = state.selectPics.map((pic) => {
             return pic.id == pid ? assign(pic, { picked: !pic.picked }) : pic
@@ -62,9 +62,4 @@ function makeHost(url){
 
 function makeId(){
     return Math.random().toString(36).replace(/\W/, '').slice(1, 6);
-}
-
-function assign(target, dest){
-    let obj = Object.assign({}, target);
-    return Object.assign(obj, dest);
 }
