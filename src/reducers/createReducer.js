@@ -2,14 +2,26 @@ import { handleActions } from 'redux-actions'
 import ajax from 'ajax'
 import { REQUEST, REQUEST_SUCC, REQUEST_ERROR, REQUEST_LOADING } from '../constants'
 
-export const createReducer = (type, options, hook, initialState) => {
+export const createReducer = (options, initialState) => {
     let actionOptions = { };
-    actionOptions[type] = (state, action) => {
+    for(const type in options){
+        const item = options[type]
+        if(typeof item == 'function'){
+            actionOptions[type] = item
+        }else if(item.preload && item.success){
+            actionOptions[type] = wrapperAction(type, item);
+        }
+    }
+    return handleActions(actionOptions, initialState)
+}
+
+function wrapperAction(type, item){
+    return (state, action) => {
         if(action.status == REQUEST || !action.status){
             const dispatch = action.dispatch;
-            let ajaxOption = options(action);
+            let ajaxOption = item.preload(action);
             ajaxOption.success = (result) => {
-                let payload = hook(result);
+                let payload = item.success(result);
                 dispatch({
                     type,
                     payload,
@@ -24,11 +36,4 @@ export const createReducer = (type, options, hook, initialState) => {
             return state
         }
     }
-    return handleActions(actionOptions, initialState)
-}
-
-export const createReducerSync = (type, hook, initialState) => {
-    let actionOptions = {}
-    actionOptions[type] = hook
-    return handleActions(actionOptions, initialState)
 }

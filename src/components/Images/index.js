@@ -8,7 +8,8 @@ import ImagesPanel from '../ImagesPanel'
 
 class Images extends Component {
     handleAddPic(){
-
+        const actions = this.props.actions
+        actions.selectPicOpen()
     }
     fetchDate() {
         this.props.actions.getUserPics()
@@ -30,7 +31,7 @@ class Images extends Component {
                         <PicList pics={pics}></PicList>
                     </div>
                 </div>
-                <ImagesPanel addingPic={addingPic}></ImagesPanel>
+                <ImagesPanel></ImagesPanel>
             </div>
         )
     }

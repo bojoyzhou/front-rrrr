@@ -6,7 +6,6 @@ import { createReducer } from './createReducer'
  *
  */
 import { GET_OPTION_POST_LIST } from '../constants'
-const type = GET_OPTION_POST_LIST
 
 /**
  * 定义默认的state
@@ -15,28 +14,15 @@ const type = GET_OPTION_POST_LIST
 const initialState = {
     posts: []
 }
-/**
- * @param  {Object} redux触发的action对象
- * @return {Object} 即将发起ajax调用的ajax的选项
- */
-const options = (action) => {
-    return {
-        url:'/api/collectpager?uid=2',
-        dataType:'json'
-    }
-}
 
-/**
- * @param  {Mixed} ajax接口返回的结果
- * @return {Object} 返回一个state, 结构需同initialState一致，返回的state作为新的state,用来触发视图更新
- */
-const hook = (result) => {
-    return {
-        posts: result.list
+export default createReducer({
+    [ GET_OPTION_POST_LIST ]: {
+        preload: (action) => ({
+            url:'/api/collectpager?uid=2',
+            dataType:'json'
+        }),
+        success: (result) => ({
+            posts: result.list
+        })
     }
-}
-
-/**
- * 导出模块
- */
-export default createReducer(type, options, hook, initialState)
+}, initialState)

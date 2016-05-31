@@ -1,10 +1,10 @@
-import getOptionPostList from './getOptionPostList'
-import getCommonStyle from './getCommonStyle'
-import getUserPics from './getUserPics'
+import * as getOptionPostList from './getOptionPostList'
+import * as getCommonStyle from './getCommonStyle'
+import * as getUserPics from './getUserPics'
 import * as selectPic from './selectPic'
 export default {
-    getOptionPostList,
-    getCommonStyle,
-    getUserPics,
+    ...getOptionPostList,
+    ...getCommonStyle,
+    ...getUserPics,
     ...selectPic
 }

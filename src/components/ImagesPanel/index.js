@@ -29,12 +29,12 @@ class ImagesPanel extends Component {
                 }
             },
             uploadSuccess: function(result){
-                actions.uploadPic(result.data)
+                actions.selectPic(result.data)
             }
         }
-        const selectPics = this.props.selectPics
+        const { selectPics, isActived } = this.props
         return (
-            <div className="container-images-panel">
+            <div className="container-images-panel" style={{display: isActived ? "block" : "none"}}>
                 <div className="mask">
                     <div className="mask-panel">
                         <div className="mask-title">
@@ -46,8 +46,8 @@ class ImagesPanel extends Component {
                                 <a href="#">网络图片上传</a>
                             </div>
                             <div className="tabs-content">
-                                <ImageFluid pics={selectPics}>
-                                    <div className="img_fluid add">
+                                <ImageFluid>
+                                    <div className="add">
                                         <img src={require("./img/img_add.png")} alt="" />
                                         <FileUpload className="img-file" options={options}></FileUpload>
                                     </div>
@@ -72,7 +72,8 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
-        selectPics: state.selectPic.file
+        isActived: state.selectPic.isActived,
+        selectPics: state.selectPic.selectPics
     }
 }
 

@@ -9,3 +9,6 @@ export const GET_USER_PICS = 'GET_USER_PICS'
 export const SELECT_PIC = 'SELECT_PIC'
 export const SELECT_PICS_CANCEL = 'SELECT_PICS_CANCEL'
 export const SELECT_PICS_CONFIRM = 'SELECT_PICS_CONFIRM'
+export const SELECT_PICS_OPEN = 'SELECT_PICS_OPEN'
+
+export const PICK_PIC = 'PICK_PIC'
