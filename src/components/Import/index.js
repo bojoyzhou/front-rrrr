@@ -8,7 +8,12 @@ import style from './style.css'
 class Import extends Component {
     handleChange(e) {
         const {actions} = this.props
-        actions.changeImportUrl(e.target.value)
+        actions.changeImportUrl({
+            url: e.target.value,
+            hook: (action) => {
+                actions.insertEditor(action.payload)
+            }
+        })
     }
     render() {
         const {importUrl} = this.props

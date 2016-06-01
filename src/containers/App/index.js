@@ -9,6 +9,7 @@ import style from './style.css'
 import Header from '../../components/Header'
 import Editor from '../../components/Editor'
 import Login from '../../components/Login'
+import InfoSide from '../../components/InfoSide'
 import DevTools from '../DevTools';
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
                 <Header></Header>
                 {this.props.children}
                 <Login></Login>
+                <InfoSide></InfoSide>
                 <DevTools></DevTools>
             </div>
         )

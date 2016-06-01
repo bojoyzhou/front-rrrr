@@ -36,7 +36,6 @@ export default createReducer({
             dataType: 'json'
         }),
         success: (result, state) => {
-            console.log(result.data.content)
             actions.insertEditor(result.data.content)
             return state
         }
