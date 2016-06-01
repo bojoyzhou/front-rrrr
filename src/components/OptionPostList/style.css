@@ -1,25 +1,32 @@
-li.list-group-posts {
+.container-option-post-list li.list-group-posts {
 	padding-left: 15px;
 	transition: .2s;
 	border-bottom: #e7e7e7 dashed 1px;
 	background-color: #fff;
 	list-style: none;
 }
-.posts-item-head {
+.container-option-post-list li.list-group-posts:hover{
+	background-color: #f5f5f5;
+}
+.container-option-post-list li.list-group-posts:active{
+	background-color: #f0f0f0;
+}
+.container-option-post-list .posts-item-head {
 	position: relative;
 }
-.posts-item-title {
+.container-option-post-list .posts-item-title {
 	line-height: 46px;
 }
-.posts-item .close {
+.container-option-post-list .posts-item .close {
 	position: absolute;
 	right: 20px;
 	top: 12px;
 }
-.posts-item-body {
+.container-option-post-list .posts-item-body {
 	color: #999;
+	cursor: default;
 }
-.posts-item-foot {
+.container-option-post-list .posts-item-foot {
 	margin-top: 24px;
 	font-size: 12px;
 	position: relative;
@@ -27,22 +34,22 @@ li.list-group-posts {
 	text-align: center;
 	color: #bfbfbf;
 }
-span.author {
+.container-option-post-list span.author {
 	position: absolute;
 	left: 0;
 }
-span.date {
+.container-option-post-list span.date {
 	margin-left: -48px;
 }
-span.link {
+.container-option-post-list span.link {
 	position: absolute;
 	right: 24px;
 }
-.link a:focus, .link a:visited {
+.container-option-post-list .link a:focus, .link a:visited {
 	color: #bfbfbf;
 	text-decoration: none;
 }
-.post-ul{
+.container-option-post-list .post-ul{
 	margin: 0;
 	padding: 0
 }

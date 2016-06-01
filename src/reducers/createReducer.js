@@ -24,9 +24,9 @@ function wrapperAction(type, item){
     return (state, action) => {
         if(action.status == REQUEST || !action.status){
             const dispatch = action.dispatch;
-            let ajaxOption = item.preload(action);
+            let ajaxOption = item.preload(action, state);
             ajaxOption.success = (result) => {
-                let payload = item.success(result);
+                let payload = item.success(result, state);
                 dispatch({
                     type,
                     payload,

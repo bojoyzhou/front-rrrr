@@ -6,9 +6,9 @@
     list-style: none;
     transition: .2s;
     padding: 10px;
+    text-align: center;
 }
 .container-pic-list .item-img img{
-    width: 100%;
 
 }
 .container-pic-list .item-img:hover{

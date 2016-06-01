@@ -25,6 +25,27 @@
     color: #fff;
     padding-left: 15px;
     box-sizing: border-box;
+    position: relative;
+}
+.container-login .mask-title .close{
+    width: 25px;
+    height: 25px;
+    right: -50px;
+    top: 10px;
+    position: absolute;
+    display: block;
+    line-height: 25px;
+    text-align: center;
+}
+.container-login .mask-title .close:hover{
+    border: #f2f2f2 solid 1px;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,.2);
+}
+.container-login .mask-title .close:active{
+    color: #fff;
+    border: #999 solid 1px;
+    background-color: rgba(0,0,0,.6);
 }
 .container-login .mask-body {
     padding: 25px 30px 18px;
@@ -90,6 +111,9 @@
     padding: 0;
     height: 210px;
 }
+.container-login .form label:first-child{
+    height: 20px
+}
 .container-login .form label {
     display: block;
     width: 100%;
@@ -123,7 +147,7 @@
 .container-login .form{
     overflow: hidden;
 }
-.container-login .login-form{
+.container-login .login_dialog .form{
     padding-top: 20px;
     box-sizing: border-box;
 }
@@ -143,8 +167,6 @@
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
-}
-.container-login button.btn.btn-block {
     background-color: #fa9b5b;
     color: #fff;
 }
@@ -152,6 +174,9 @@
     float: right;
     font-size: 12px;
 }
-.container-login .form.regist-form {
-    padding-top: 35px;
+.container-login .regist_dialog .form{
+    box-sizing: border-box;
+}
+.container-login .regist_dialog .mask-footer{
+    margin-top: 30px;
 }

@@ -42,7 +42,7 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
-        pics: state.userPics.pics,
+        pics: state.selectPic.pics,
         addingPic: false
     }
 }

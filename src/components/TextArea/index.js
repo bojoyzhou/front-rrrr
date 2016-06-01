@@ -5,7 +5,9 @@ import style from './style.css'
 
 class TextArea extends Component {
     componentDidMount(){
-        this.ue = UE.getEditor('editor')
+        const ue = UE.getEditor('editor')
+        const { actions } = this.props
+        actions.initEditor(ue)
     }
     render() {
         return (
@@ -16,4 +18,22 @@ class TextArea extends Component {
     }
 }
 
-export default TextArea
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import actions from '../../actions'
+function mapStateToProps(state) {
+    return {
+        state: state
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actions, dispatch)
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TextArea)

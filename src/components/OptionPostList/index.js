@@ -14,19 +14,22 @@ class OptionPostList extends Component {
         let { actions } = this.props
         actions.getOptionPostList();
     }
+    handleClick(docid){
+        let { actions } = this.props
+        actions.getPostDetail(docid)
+    }
     render() {
         let { posts } = this.props
-
+        const handleClick = this.handleClick.bind(this)
         return (
-            <ul className="post-ul">
+            <ul className="container-option-post-list">
                 {
                     posts.map(function (post, idx){
                         return (
-                            <li key={idx} className="list-group-posts" data-id="1">
+                            <li onClick={() => handleClick(post.docid)} key={idx} className="list-group-posts" data-id="1">
                                 <div className="posts-item">
                                     <div className="posts-item-head">
                                         <div className="posts-item-title">{post.title}</div>
-                                        <div className="close">×</div>
                                     </div>
                                     <div className="posts-item-body">{post.summary}</div>
                                     <div className="posts-item-foot">

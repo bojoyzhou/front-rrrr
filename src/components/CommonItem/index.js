@@ -22,17 +22,18 @@ class CommonItem extends Component {
         }
         this.fetchData()
     }
-    handleClick(e){
-        debugger
+    handleClick(idx){
+        const { styleHtml, actions } = this.props
+        actions.insertEditor(styleHtml[idx])
     }
     render() {
-        let styleHtml = this.props.styleHtml
+        const { styleHtml } = this.props
         return (
             <div className="container-common-item box">
                 {
                     styleHtml.map((style, idx) => {
                         return (
-                            <section key={idx} dangerouslySetInnerHTML={{__html:style}}></section>
+                            <section onClick={() => this.handleClick(idx)} key={idx} dangerouslySetInnerHTML={{__html:style}}></section>
                         )
                     })
                 }
