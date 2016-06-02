@@ -1,5 +1,6 @@
 .container-common-item{
-
+    height: 100%;
+    overflow: auto;
 }
 .container-common-item .RankEditor{
     padding: 25px!important;

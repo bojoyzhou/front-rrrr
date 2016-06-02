@@ -11,11 +11,11 @@ class Images extends Component {
         const actions = this.props.actions
         actions.selectPicOpen()
     }
-    fetchDate() {
+    fetchData() {
         this.props.actions.getUserPics()
     }
     componentDidMount() {
-         this.fetchDate()
+         this.fetchData()
     }
     render() {
         const {pics, addingPic} = this.props

@@ -111,9 +111,6 @@
     padding: 0;
     height: 210px;
 }
-.container-login .form label:first-child{
-    height: 20px
-}
 .container-login .form label {
     display: block;
     width: 100%;
@@ -148,13 +145,13 @@
     overflow: hidden;
 }
 .container-login .login_dialog .form{
-    padding-top: 20px;
+    padding-top: 5px;
     box-sizing: border-box;
 }
 .container-login .form-tail {
     float: right;
     font-size: 12px;
-    margin-top: 35px;
+    margin-top: 12px;
 }
 .container-login .form-tail label {
     padding: 0 10px;
@@ -174,9 +171,17 @@
     float: right;
     font-size: 12px;
 }
-.container-login .regist_dialog .form{
+.container-login .regist_dialog .step-1{
+    padding-top: 30px;
     box-sizing: border-box;
 }
-.container-login .regist_dialog .mask-footer{
-    margin-top: 30px;
+.container-login .form label.vcode input{
+    width: 290px;
 }
+.container-login .vcode .vcode-img{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+}
+

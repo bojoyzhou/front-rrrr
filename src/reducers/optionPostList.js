@@ -6,7 +6,7 @@ import actions from '../actions'
  * 导入当前reduce的常量
  *
  */
-import { GET_OPTION_POST_LIST, GET_POST_DETAIL, CHANGE_IMPORT_URL } from '../constants'
+import { GET_OPTION_POST_LIST, GET_POST_DETAIL, IMPORT_CONTENT } from '../constants'
 
 /**
  * 定义默认的state
@@ -14,6 +14,7 @@ import { GET_OPTION_POST_LIST, GET_POST_DETAIL, CHANGE_IMPORT_URL } from '../con
 */
 const initialState = {
     importUrl: '',
+    content: '',
     posts: []
 }
 
@@ -29,19 +30,39 @@ export default createReducer({
     },
     [ GET_POST_DETAIL ]: {
         preload: (action) => ({
-            url: 'api/collectsingle?uid=2&docid=2',
+            url: '/api/collectsingle?uid=2',
             data: {
-                docid: action.payload
+                docid: action.payload.docid
             },
             dataType: 'json'
         }),
         success: (result, state) => {
-            actions.insertEditor(result.data.content)
-            return state
+            return assign(state, {
+                content: result.data.content
+            })
         }
     },
-    [ CHANGE_IMPORT_URL ]: (state, action) => (assign(state, {
-        importUrl: action.payload
-    }))
+    [ IMPORT_CONTENT ]: {
+        preload: (action) => ({
+            url: '/api/load-url',
+            data: {
+                url: action.payload.url
+            },
+            dataType: 'json'
+        }),
+        success: (result, state) => {
+            console.log(result)
+            return assign(state, {
+                content: result.result.content.map((item) => {
+                    if(item.text){
+                        return '<p>' + item.text + '</p>'
+                    }else if(item.img){
+                        return '<p><img src="'+ item.img +'"></p>'
+                    }
+                }).join('')
+            })
+            // return state
+        }
+    }
 
 }, initialState)

@@ -28,9 +28,7 @@
 }
 .container-images .panel-posts {
     box-sizing: border-box;
-    margin-top: -169px;
     width: 386px;
-    padding-top: 185px;
     height: 100%;
     font-size: 14px;
 }
@@ -43,10 +41,12 @@
 }
 .container-images .panel-posts-body {
     height: 100%;
-    padding-top: 55px;
-    overflow: auto;
-    margin-top: -55px;
     box-sizing: border-box;
+    padding-bottom: 60px;
+}
+.container-images .container-pic-list{
+    height: 100%;
+    overflow: auto;
 }
 .container-images .panel-posts{
     overflow: hidden;

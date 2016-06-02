@@ -5,7 +5,7 @@ export const REQUEST_LOADING = 'REQUEST_LOADING'
 
 export const GET_OPTION_POST_LIST = 'GET_OPTION_POST_LIST'
 export const GET_POST_DETAIL = 'GET_POST_DETAIL'
-export const CHANGE_IMPORT_URL = 'CHANGE_IMPORT_URL'
+export const IMPORT_CONTENT = 'IMPORT_CONTENT'
 
 export const GET_COMMON_STYLE = 'GET_COMMON_STYLE'
 
@@ -14,6 +14,7 @@ export const SELECT_PICS_CANCEL = 'SELECT_PICS_CANCEL'
 export const SELECT_PICS_CONFIRM = 'SELECT_PICS_CONFIRM'
 export const SELECT_PICS_OPEN = 'SELECT_PICS_OPEN'
 export const PICK_PIC = 'PICK_PIC'
+export const GET_USER_PICS = 'GET_USER_PICS'
 
 export const LOGIN_DIALOG = 'LOGIN_DIALOG'
 export const REGIST_DIALOG = 'REGIST_DIALOG'
@@ -26,7 +27,13 @@ export const DO_LOGIN = 'DO_LOGIN'
 export const DO_REGIST = 'DO_REGIST'
 export const DO_FORGOT = 'DO_FORGOT'
 export const LOGIN_DATA_CHANGE = 'LOGIN_DATA_CHANGE'
+export const REGIST_DIALOG_1 = 'REGIST_DIALOG_1'
+export const REGIST_DIALOG_2 = 'REGIST_DIALOG_2'
 
 export const EDIT_INSERT = 'EDIT_INSERT'
 export const EDIT_VALUE = 'EDIT_VALUE'
 export const EDIT_INIT = 'EDIT_INIT'
+
+export const SELECT_COVER = 'SELECT_COVER'
+export const SAVE_CONTENT = 'SAVE_CONTENT'
+export const CHANGE_SIDEINFO = 'CHANGE_SIDEINFO'

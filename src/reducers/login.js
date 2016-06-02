@@ -21,6 +21,8 @@ import {
     LOGIN_DIALOG,
     REGIST_DIALOG,
     FORGOT_DIALOG,
+    REGIST_DIALOG_1,
+    REGIST_DIALOG_2,
     LOGIN_DATA_CHANGE
 } from '../constants'
 
@@ -31,6 +33,7 @@ import {
 const initialState = {
     isOpened: false,
     status: LOGIN_DIALOG,
+    step: REGIST_DIALOG_1,
     data: {
         uname: '',
         email: '',
@@ -50,7 +53,8 @@ export default createReducer({
     })),
     [OPEN_REGIST_DIALOG]: (state, action) => (assign(state, {
         isOpened: true,
-        status: REGIST_DIALOG
+        status: REGIST_DIALOG,
+        step: REGIST_DIALOG_1
     })),
     [OPEN_FORGOT_DIALOG]: (state, action) => (assign(state, {
         isOpened: true,
@@ -61,6 +65,12 @@ export default createReducer({
             [action.payload.name]: action.payload.value
         })
     })),
+    [REGIST_DIALOG_1]: (state, action) => {
+        const { email, vcode } = state.data
+        return assign(state, {
+            step: REGIST_DIALOG_2
+        })
+    },
     [DO_LOGIN]: {
         preload: (action, state) => ({
             url: '/api/login',

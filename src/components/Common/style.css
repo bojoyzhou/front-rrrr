@@ -4,9 +4,7 @@
 }
 .container-common .panel-posts {
     box-sizing: border-box;
-    margin-top: -169px;
     width: 386px;
-    padding-top: 185px;
     height: 100%;
     font-size: 14px;
 }
@@ -19,8 +17,9 @@
 }
 .container-common .panel-posts-body {
     height: 100%;
-    padding-top: 55px;
-    overflow: auto;
-    margin-top: -55px;
     box-sizing: border-box;
+    padding-top: 55px;
+    margin-top: -55px;
+    padding-bottom: 60px;
+    background-color: #fff;
 }

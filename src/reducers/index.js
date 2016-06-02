@@ -13,5 +13,5 @@ export default combineReducers({
     commonStyle,
     selectPic,
     login,
-    textArea
+    textArea,
 })

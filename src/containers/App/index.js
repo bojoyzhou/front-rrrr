@@ -20,7 +20,6 @@ class App extends Component {
                 {this.props.children}
                 <Login></Login>
                 <InfoSide></InfoSide>
-                <DevTools></DevTools>
             </div>
         )
     }

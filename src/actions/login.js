@@ -1,5 +1,5 @@
 import createAction from './createAction'
-import {OPEN_LOGIN_DIALOG, CLOSE_LOGIN_DIALOG, OPEN_REGIST_DIALOG, OPEN_FORGOT_DIALOG, DO_LOGIN, DO_REGIST, DO_FORGOT, LOGIN_DATA_CHANGE, REQUEST} from '../constants'
+import {OPEN_LOGIN_DIALOG, CLOSE_LOGIN_DIALOG, OPEN_REGIST_DIALOG, OPEN_FORGOT_DIALOG, DO_LOGIN, DO_REGIST, DO_FORGOT, LOGIN_DATA_CHANGE, REGIST_DIALOG_1, REQUEST} from '../constants'
 
 
 export const openLoginDialog = createAction(OPEN_LOGIN_DIALOG)
@@ -10,6 +10,7 @@ export const doLogin = createAction(DO_LOGIN, REQUEST)
 export const doRegist = createAction(DO_REGIST, REQUEST)
 export const doForgot = createAction(DO_FORGOT, REQUEST)
 export const loginDataChange = createAction(LOGIN_DATA_CHANGE)
+export const registNext = createAction(REGIST_DIALOG_1)
 
 
 

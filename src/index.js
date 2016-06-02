@@ -1,5 +1,5 @@
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory, hashHistory, Redirect } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
@@ -15,18 +15,15 @@ import Document from './components/Document'
 import configure from './store'
 
 const store = configure()
-const history = syncHistoryWithStore(browserHistory, store)
+const history = syncHistoryWithStore(hashHistory, store)
 
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
-                <IndexRoute component={Editor}>
-                    <IndexRoute component={Import} />
-                </IndexRoute>
+                <IndexRoute component={Editor}></IndexRoute>
                 <Route path="/editor" component={Editor}>
-                    <IndexRoute component={Import} />
-                    <Route path="/editor/import" component={Import}>
+                    <Route name="import" path="/editor/import" component={Import}>
                     </Route>
                     <Route path="/editor/common" component={Common}>
                         <IndexRoute component={CommonItem} />
@@ -39,6 +36,7 @@ ReactDOM.render(
                 <Route path="/document" component={Document}>
                 </Route>
             </Route>
+            <Redirect from="/" to="import" />
         </Router>
     </Provider>,
     document.getElementById('root')

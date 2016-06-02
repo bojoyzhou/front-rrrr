@@ -28,11 +28,11 @@ module.exports = {
             test: /\.css$/,
             include: /src/,
             loader: 'style!css'
-            // loaders: [
-            //     'style-loader',
-            //     'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-            //     'postcss-loader'
-            // ]
+                // loaders: [
+                //     'style-loader',
+                //     'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+                //     'postcss-loader'
+                // ]
         }, {
             test: /\.css$/,
             exclude: /src/,
@@ -59,6 +59,11 @@ module.exports = {
     ],
     plugins: [
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     }
+        // }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
@@ -69,13 +74,13 @@ module.exports = {
         contentBase: './src',
         hot: true,
         proxy: {
-            '/api/*':{
+            '/api/*': {
                 target: 'http://www.8zcloud.com'
             },
-            '/upload/*':{
+            '/upload/*': {
                 target: 'http://imgs.8zcloud.com'
             },
-            '/getfiles*':{
+            '/getfiles*': {
                 target: 'http://imgs.8zcloud.com'
             }
             // '/api/collectpager': {

@@ -8,10 +8,14 @@ import style from './style.css'
 class Import extends Component {
     handleChange(e) {
         const {actions} = this.props
-        actions.changeImportUrl({
-            url: e.target.value,
+        this.url = e.target.value
+    }
+    handleClick(e) {
+        const {actions} = this.props
+        actions.importContent({
+            url: this.url,
             hook: (action) => {
-                actions.insertEditor(action.payload)
+                actions.insertEditor(action.payload.content)
             }
         })
     }
@@ -21,11 +25,11 @@ class Import extends Component {
         return (
             <div className="container-import">
                 <div className="panel-import box">
-                    <input onChange={this.handleChange.bind(this)} value={importUrl} type="url" placeholder="输入要导入的文章URL" />
-                    <button className="btn-primary">导入</button>
+                    <input onChange={this.handleChange.bind(this)} type="url" placeholder="输入要导入的文章URL" />
+                    <button onClick={this.handleClick.bind(this)} className="btn-primary">导入</button>
                 </div>
                 <div className="panel-posts">
-                    <div className="box">
+                    <div className="panel-scroll box">
                         <div className="panel-title">
                             备选文章
                         </div>

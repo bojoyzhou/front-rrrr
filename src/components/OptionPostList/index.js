@@ -16,7 +16,12 @@ class OptionPostList extends Component {
     }
     handleClick(docid){
         let { actions } = this.props
-        actions.getPostDetail(docid)
+        actions.getPostDetail({
+            docid,
+            hook: (action) => {
+                actions.insertEditor(action.payload.content)
+            }
+        })
     }
     render() {
         let { posts } = this.props
