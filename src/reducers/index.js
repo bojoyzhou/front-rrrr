@@ -6,6 +6,7 @@ import commonStyle from './commonStyle'
 import selectPic from './selectPic'
 import login from './login'
 import textArea from './textArea'
+import prompt from './prompt'
 
 export default combineReducers({
     routing,
@@ -14,4 +15,5 @@ export default combineReducers({
     selectPic,
     login,
     textArea,
+    prompt,
 })

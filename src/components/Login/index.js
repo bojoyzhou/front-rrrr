@@ -20,8 +20,8 @@ class Login extends Component {
         actions.loginDataChange({name, value})
     }
     doLogin() {
-        const {actions} = this.props
-        actions.doLogin()
+        const {actions, data} = this.props
+        this.checkData('doLogin', data, actions.showPrompt) && actions.doLogin()
     }
     doRegist() {
         const {actions, step} = this.props
@@ -34,6 +34,23 @@ class Login extends Component {
     close() {
         const {actions} = this.props
         actions.closeLoginDialog()
+    }
+    checkData(type, {username, email, password, repassword, vcode}, showPrompt) {
+        switch(type){
+            case 'doLogin':
+                if(email == ''){
+                    showPrompt('邮箱不能为空')
+                    return false
+                }else if(password == ''){
+                    showPrompt('密码不能为空')
+                    return false
+                }else if(vcode.length !== 4){
+                    showPrompt('验证码不正确')
+                    return false
+                }
+                return true
+        }
+        return true
     }
     render() {
         const { isOpened, status, data, step } = this.props
@@ -55,7 +72,7 @@ class Login extends Component {
                                     return (
                                         <div className="mask-title clear">
                                             <h4>注册</h4>
-                                            <span>已有账号，<a onClick={this.handleLogin.bind(this)} href="#">直接登录</a></span>
+                                            <span>已有账号，<a onClick={this.handleLogin.bind(this)}>直接登录</a></span>
                                             <a onClick={this.close.bind(this)} href="javascript:;" className="close">&times;</a>
                                         </div>
                                     )
@@ -65,7 +82,7 @@ class Login extends Component {
 
                         <div className="mask-body clear">
                             <div className="form login-form" style={{ display: status == LOGIN_DIALOG ? "block" : "none"}}>
-                                <label className="username">
+                                <label className="email">
                                     <input type="text" onChange={(e) => this.handleChange('email', e.target.value)} value={data.email} placeholder="请输入您的用户名" />
                                 </label>
                                 <label className="password">

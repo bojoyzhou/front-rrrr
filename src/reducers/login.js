@@ -26,6 +26,8 @@ import {
     LOGIN_DATA_CHANGE
 } from '../constants'
 
+import actions from '../actions'
+
 /**
  * 定义默认的state
  *
@@ -72,16 +74,13 @@ export default createReducer({
         })
     },
     [DO_LOGIN]: {
-        preload: (action, state) => ({
-            url: '/api/login',
-            dataType: 'json',
-            type: 'POST',
-            data: {
-                email: state.data.email,
-                pwd2: state.data.password,
-                vcode: state.data.vcode
+        preload: (action, state, dispatch) => {
+            console.log(state.data)
+            dispatch(actions.showPrompt(123123123))
+            return {
+                ajax: false
             }
-        }),
+        },
         success: (result, state) => {
             console.log(result)
             return state
