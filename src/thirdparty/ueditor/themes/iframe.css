@@ -7,3 +7,6 @@ body{
 img{
     max-width: 100%;
 }
+.active{
+    border: #fe9a5f dashed 1px!important;
+}

@@ -10,6 +10,8 @@ export const createReducer = (options, initialState) => {
             actionOptions[type] = item
         }else if(item.preload && item.success){
             actionOptions[type] = wrapperAction(type, item);
+        }else{
+            actionOptions[type] = item
         }
     }
     return handleActions(actionOptions, initialState)
@@ -26,10 +28,12 @@ function wrapperAction(type, item){
             const dispatch = action.dispatch
             let ajaxOption = item.preload(action, state)
             ajaxOption.success = (result) => {
-                let payload = item.success(result, state)
                 if(action.payload && action.payload.hook){
-                    payload.hook = action.payload.hook
+                    if(action.payload.hook(result) === false){
+                        return
+                    }
                 }
+                let payload = item.success(result, state, action)
                 dispatch({
                     type,
                     payload,

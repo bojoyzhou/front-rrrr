@@ -21,21 +21,41 @@ class Login extends Component {
     }
     doLogin() {
         const {actions, data} = this.props
-        this.checkData('doLogin', data, actions.showPrompt) && actions.doLogin()
+        this.checkData('doLogin', data, actions.showPrompt, () => {
+            actions.doLogin({
+                hook: (result) => {
+                    if(result.ret_code !== 0){
+                        actions.showPrompt(result.ret_desc)
+                        return false
+                    }
+                }
+            })
+        })
     }
     doRegist() {
-        const {actions, step} = this.props
+        const {actions, step, data} = this.props
         if(step == REGIST_DIALOG_1){
-            actions.registNext()
+            this.checkData('doRegistPre', data, actions.showPrompt, () => {
+                actions.registNext()
+            })
         }else if(step == REGIST_DIALOG_2){
-            actions.doRegist()
+            this.checkData('doRegist', data, actions.showPrompt, () => {
+                actions.doRegist({
+                    hook: (result) => {
+                        if(result.ret_code !== 0){
+                            actions.showPrompt(result.ret_desc)
+                            return false
+                        }
+                    }
+                })
+            })
         }
     }
     close() {
         const {actions} = this.props
         actions.closeLoginDialog()
     }
-    checkData(type, {username, email, password, repassword, vcode}, showPrompt) {
+    checkData(type, {username, email, password, repassword, vcode}, showPrompt, cb) {
         switch(type){
             case 'doLogin':
                 if(email == ''){
@@ -46,14 +66,51 @@ class Login extends Component {
                     return false
                 }else if(vcode.length !== 4){
                     showPrompt('验证码不正确')
+                }
+                return cb()
+            case 'doRegistPre':
+                if(email == ''){
+                    showPrompt('邮箱不能为空')
+                    return false
+                }else if(vcode.length !== 4){
+                    showPrompt('验证码不正确')
+                }
+                return this.checkVcode(vcode, cb, showPrompt)
+            case 'doRegist':
+                if(username == ''){
+                    showPrompt('昵称不能为空')
+                    return false
+                }else if(password == ''){
+                    showPrompt('密码不能为空')
+                    return false
+                }else if(password !== repassword){
+                    showPrompt('两次密码不一致')
                     return false
                 }
-                return true
+                return cb()
         }
         return true
     }
+    checkVcode(vcode, cb, showPrompt) {
+        const {actions} = this.props
+        actions.checkVcode({
+            vcode,
+            hook: (result) => {
+                if(result.result){
+                    cb()
+                }else{
+                    showPrompt('验证码不正确')
+                }
+                return false
+            }
+        })
+    }
+    changeVcode() {
+        const {actions} = this.props
+        actions.changeVcode()
+    }
     render() {
-        const { isOpened, status, data, step } = this.props
+        const { isOpened, status, data, step, codelink } = this.props
         return (
             <div className="container-login" style={{ display: isOpened ? "block" : "none"}}>
                 <div className="mask">
@@ -90,7 +147,7 @@ class Login extends Component {
                                 </label>
                                 <label className="vcode">
                                     <input type="text" onChange={(e) => this.handleChange('vcode', e.target.value)} value={data.vcode} placeholder="请输入验证码" />
-                                    <img className="vcode-img" src="http://www.8zcloud.com/api/vcode" alt=""/>
+                                    <img className="vcode-img" onClick={this.changeVcode.bind(this)} src={codelink} alt=""/>
                                 </label>
                             </div>
                             <div className="form regist-form" style={{ display: status == REGIST_DIALOG ? "block" : "none"}}>
@@ -100,7 +157,7 @@ class Login extends Component {
                                     </label>
                                     <label className="vcode">
                                         <input type="text" onChange={(e) => this.handleChange('vcode', e.target.value)} value={data.vcode} placeholder="请输入验证码" />
-                                        <img className="vcode-img" src="http://www.8zcloud.com/api/vcode" alt=""/>
+                                        <img className="vcode-img" onClick={this.changeVcode.bind(this)} src={codelink} alt=""/>
                                     </label>
                                 </div>
                                 <div className="step-2" style={{ display: step == REGIST_DIALOG_2 ? "block" : "none"}}>
@@ -150,6 +207,7 @@ function mapStateToProps(state) {
         isOpened: state.login.isOpened,
         status: state.login.status,
         step: state.login.step,
+        codelink: state.login.codelink,
         data: state.login.data
     }
 }

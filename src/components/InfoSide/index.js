@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 import FileUpload from 'react-fileupload'
+import Qrcode from '../Qrcode'
 
 import style from './style.css'
 
@@ -14,7 +15,16 @@ class InfoSide extends Component {
     }
     saveContent() {
         const {actions} = this.props
-        actions.saveContent()
+        actions.saveContent({
+            hook: (result) => {
+                if(result.ret_code == 0){
+                    actions.preView(result.docid)
+                }else{
+                    actions.showPrompt(result.ret_desc)
+                }
+                return false;
+            }
+        })
     }
     render() {
         const actions = this.props.actions
@@ -37,34 +47,37 @@ class InfoSide extends Component {
         const {title, author, summary, cover} = this.props
         const handleChange = this.handleChange.bind(this)
         return (
-            <div className="container-info-side">
-                <div className="right-container">
-                <h4>标题</h4>
-                <div className="group">
-                    <textarea onChange={ (e) => handleChange('title', e.target.value)} value={title} cols="30" rows="10"></textarea>
-                </div>
+            <div>
+                <div className="container-info-side">
+                    <div className="right-container">
+                        <h4>标题</h4>
+                        <div className="group">
+                            <textarea onChange={ (e) => handleChange('title', e.target.value)} value={title} cols="30" rows="10"></textarea>
+                        </div>
 
-                <h4>作者</h4>
-                <div className="group">
-                    <textarea onChange={ (e) => handleChange('author', e.target.value)} value={author} className="author" cols="30" rows="1"></textarea>
-                </div>
+                        <h4>作者</h4>
+                        <div className="group">
+                            <textarea onChange={ (e) => handleChange('author', e.target.value)} value={author} className="author" cols="30" rows="1"></textarea>
+                        </div>
 
-                <h4>摘要</h4>
-                <div className="group">
-                    <textarea onChange={ (e) => handleChange('summary', e.target.value)} value={summary} cols="30" rows="10"></textarea>
-                </div>
+                        <h4>摘要</h4>
+                        <div className="group">
+                            <textarea onChange={ (e) => handleChange('summary', e.target.value)} value={summary} cols="30" rows="10"></textarea>
+                        </div>
 
-                <h4>封面</h4>
-                <div className="group">
-                    <div className="img_fluid add clear">
-                        <img src={cover ? cover : require("./img/img_add.png")} alt="" />
-                        <FileUpload className="img-file" options={options}></FileUpload>
+                        <h4>封面</h4>
+                        <div className="group">
+                            <div className="img_fluid add clear">
+                                <img src={cover ? cover : require("./img/img_add.png")} alt="" />
+                                <FileUpload className="img-file" options={options}></FileUpload>
+                            </div>
+                        </div>
+                        <div className="footer">
+                            <a onClick={this.saveContent.bind(this)} href="javascript:;" className="btn">完成</a>
+                        </div>
                     </div>
                 </div>
-                <div className="footer">
-                    <a onClick={this.saveContent.bind(this)} href="javascript:;" className="btn">完成</a>
-                </div>
-            </div>
+                <Qrcode></Qrcode>
             </div>
         )
     }

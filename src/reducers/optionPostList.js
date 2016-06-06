@@ -21,16 +21,16 @@ const initialState = {
 export default createReducer({
     [ GET_OPTION_POST_LIST ]: {
         preload: (action) => ({
-            url: '/api/collectpager?uid=2',
+            url: '/api/collectpager',
             dataType: 'json'
         }),
         success: (result, state) => (assign(state, {
-            posts: result.list
+            posts: result.list || []
         }))
     },
     [ GET_POST_DETAIL ]: {
         preload: (action) => ({
-            url: '/api/collectsingle?uid=2',
+            url: '/api/collectsingle',
             data: {
                 docid: action.payload.docid
             },

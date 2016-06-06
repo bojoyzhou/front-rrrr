@@ -3,6 +3,7 @@ var webpack = require('webpack')
 var path = require('path')
 
 module.exports = {
+    debug: process.env.NODE_ENV !== 'production',
     context: path.join(__dirname, './src'),
     entry: {
         jsx: './index.js',
@@ -27,16 +28,12 @@ module.exports = {
         }, {
             test: /\.css$/,
             include: /src/,
-            loader: 'style!css'
+            loader: 'style!css!autoprefixer'
                 // loaders: [
                 //     'style-loader',
                 //     'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
                 //     'postcss-loader'
                 // ]
-        }, {
-            test: /\.css$/,
-            exclude: /src/,
-            loader: 'style!css'
         }, {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,

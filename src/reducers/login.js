@@ -23,11 +23,12 @@ import {
     FORGOT_DIALOG,
     REGIST_DIALOG_1,
     REGIST_DIALOG_2,
-    LOGIN_DATA_CHANGE
+    LOGIN_DATA_CHANGE,
+    CHECK_VCODE,
+    CHANGE_VCODE
 } from '../constants'
 
 import actions from '../actions'
-
 /**
  * 定义默认的state
  *
@@ -41,11 +42,21 @@ const initialState = {
         email: '',
         password: '',
         repassword: '',
-        vcode: ''
-    }
+        vcode: '',
+        uid: ''
+    },
+    codelink: refresh()
+}
+
+function refresh(){
+    const codelink = '/api/vcode'
+    return codelink + '?t=' + Date.now()
 }
 
 export default createReducer({
+    [CHANGE_VCODE]: (state, action) => (assign(state, {
+        codelink: refresh(),
+    })),
     [OPEN_LOGIN_DIALOG]: (state, action) => (assign(state, {
         isOpened: true,
         status: LOGIN_DIALOG
@@ -75,16 +86,20 @@ export default createReducer({
     },
     [DO_LOGIN]: {
         preload: (action, state, dispatch) => {
-            console.log(state.data)
-            dispatch(actions.showPrompt(123123123))
             return {
-                ajax: false
+                url: '/api/login',
+                data: {
+                    pwd: state.data.password,
+                    email: state.data.email,
+                    vcode: state.data.vcode
+                },
+                dataType: 'json',
+                type: 'POST'
             }
         },
-        success: (result, state) => {
-            console.log(result)
-            return state
-        }
+        success: (result, state) => (assign(state, {
+            isOpened: false
+        }))
     },
     [DO_REGIST]: {
         preload: (action, state) => ({
@@ -100,8 +115,11 @@ export default createReducer({
             }
         }),
         success: (result, state) => {
-            console.log(result)
-            return state
+            return assign(state, {
+                data: assign(state.data, {
+                    uid: result.uid
+                })
+            })
         }
     },
     [DO_FORGOT]: {
@@ -112,5 +130,15 @@ export default createReducer({
         success: (result, state) => ({
             posts: result.list
         })
+    },
+    [CHECK_VCODE]: {
+        preload: (action, state) => ({
+            url: 'api/checkvcode',
+            data: {
+                vcode: action.payload.vcode
+            },
+            dataType: 'json'
+        }),
+        success: (result, state) => (state)
     },
 }, initialState)

@@ -12,7 +12,7 @@ import { SHOW_PROMPT, HIDE_PROMPT } from '../constants'
  *
 */
 const initialState = {
-    show: true,
+    show: false,
     message: '默认消息'
 }
 

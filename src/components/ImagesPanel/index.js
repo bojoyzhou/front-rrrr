@@ -55,7 +55,7 @@ class ImagesPanel extends Component {
                             </div>
                         </div>
                         <div className="mask-footer">
-                            <div className="mask-info"><span className="num-pic">16</span>张图片已经被选中</div>
+                            <div className="mask-info"><span className="num-pic">{selectPics.filter((pic) => pic.picked).length}</span>张图片已经被选中</div>
                             <div className="mask-btn">
                                 <button onClick={this.handleCancel.bind(this)} className="btn cancel">取消</button>
                                 <button onClick={this.handleConfirm.bind(this)} className="btn confirm">确定</button>

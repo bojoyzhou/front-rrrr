@@ -28,7 +28,7 @@ class Images extends Component {
                         <button onClick={this.handleAddPic.bind(this)} className="btn-primary">添加图片</button>
                     </div>
                     <div className="panel-posts-body">
-                        <PicList pics={pics}></PicList>
+                        <PicList></PicList>
                     </div>
                 </div>
                 <ImagesPanel></ImagesPanel>
