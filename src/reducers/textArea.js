@@ -50,11 +50,13 @@ const initialState = {
 export default createReducer({
     [ SAVE_CONTENT ]: {
         preload: (action, state) => {
-            const data = assign(state, {
-                uid: 2,
+            const data = {
+                content: state.content,
+                title: state.title,
+                author: state.author,
+                summary: state.summary,
                 pics: state.cover,
-                ue: ''
-            })
+            }
             return {
                 url: '/api/userwordssave',
                 data,

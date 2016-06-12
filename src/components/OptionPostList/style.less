@@ -1,0 +1,56 @@
+@import '../../style.less';
+.container-option-post-list li.list-group-posts {
+	padding-left: 15px;
+	transition: .2s;
+	border-bottom: @S_BORDER dashed 1px;
+	background-color: @BG_BOX;
+	list-style: none;
+}
+.container-option-post-list li.list-group-posts:hover{
+	background-color: @BG_LIST_ACTIVE;
+}
+.container-option-post-list li.list-group-posts:active{
+	background-color: @BG_LIST_ACTIVE;
+}
+.container-option-post-list .posts-item-head {
+	position: relative;
+}
+.container-option-post-list .posts-item-title {
+	line-height: 46px;
+}
+.container-option-post-list .posts-item .close {
+	position: absolute;
+	right: 20px;
+	top: 12px;
+}
+.container-option-post-list .posts-item-body {
+	color: @FC_SUMARY;
+	cursor: default;
+}
+.container-option-post-list .posts-item-foot {
+	margin-top: 24px;
+	font-size: 12px;
+	position: relative;
+	padding-bottom: 12px;
+	text-align: center;
+	color: @FC_SUMARY;
+}
+.container-option-post-list span.author {
+	position: absolute;
+	left: 0;
+}
+.container-option-post-list span.date {
+	margin-left: -48px;
+}
+.container-option-post-list span.link {
+	position: absolute;
+	right: 24px;
+}
+.container-option-post-list .link a:focus, .link a:visited {
+	color: @FC_SUMARY;
+	text-decoration: none;
+}
+.container-option-post-list .post-ul{
+	margin: 0;
+	padding: 0
+}

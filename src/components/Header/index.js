@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import style from './style.css'
+import style from './style.less'
 
 class Header extends Component {
     render() {
@@ -19,31 +19,13 @@ class Header extends Component {
                         </Link>
                     </li>
                     <li className="nav-item nav-item-doc">
-                        <Link className="nav-link" to="/editor">
+                        <a className="nav-link" href="/content/index">
                             <div className="icon"></div>
                             <div className="desc">
                                 <i></i>
                                 <span>内容库</span>
                             </div>
-                        </Link>
-                    </li>
-                    <li className="nav-item nav-item-style">
-                        <Link className="nav-link" to="/editor">
-                            <div className="icon"></div>
-                            <div className="desc">
-                                <i></i>
-                                <span>样式中心</span>
-                            </div>
-                        </Link>
-                    </li>
-                    <li className="nav-item nav-item-data">
-                        <Link className="nav-link" to="/editor">
-                            <div className="icon"></div>
-                            <div className="desc">
-                                <i></i>
-                                <span>数据报表</span>
-                            </div>
-                        </Link>
+                        </a>
                     </li>
                     <li className="nav-item nav-item-user">
                         <Link className="nav-link" to="/editor">

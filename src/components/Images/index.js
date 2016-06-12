@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 
-import style from './style.css'
+import style from './style.less'
 
 import PicList from '../PicList'
 import ImagesPanel from '../ImagesPanel'

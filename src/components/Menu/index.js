@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
-import style from './style.css'
+import style from './style.less'
 
 class Menu extends Component {
     render() {
@@ -53,10 +53,10 @@ class Menu extends Component {
                     </Link>
                 </li>
                 <li className="menu-item">
-                    <Link className="menu-item-link" to="/document">
+                    <a className="menu-item-link" href="/content/index">
                         <i className="pre-icon pre-doc"></i>
                         我的内容
-                    </Link>
+                    </a>
                 </li>
             </ul>
         )

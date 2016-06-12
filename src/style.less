@@ -1,0 +1,70 @@
+// 内容区域背景
+@BG_CONTENT: #FAFAFA;
+// 内容区域背景
+@BG_BOX: #FFFFFF;
+// 顶部导航背景
+@BG_TOP_NAV: #333333;
+// 侧栏菜单背景
+@BG_SIDE_MENU: #666666;
+// 侧栏菜单激活时背景
+@BG_SIDE_MENU_ACTIVE: #404040;
+// 列表选中状态背景
+@BG_LIST_ACTIVE: #F5F5F5;
+// 滚动条背景
+@BG_SLIDE_BAR: #E6E6E6;
+// 功能区字色
+@FC_FUNC: #FFFFFF;
+// 标题字色
+@FC_TITLE: #2B2B2B;
+// 内容字色
+@FC_CONTENT: #646464;
+// 摘要字色
+@FC_SUMARY: #999999;
+//表单label颜色
+@FC_LABEL: #404040;
+// 边框颜色
+@S_BORDER: #E6E6E6;
+// 点缀色
+@S_ORNAMENT: #FA9B5B;
+// 滚动条颜色
+@S_SLIDE_BAR: #999999;
+@BTN_BG: #FFF;
+@BTN_COLOR: #999999;
+@BTN_BORDER: #E6E6E6;
+@BTN_PRI_BG: #FA9B5B;
+@BTN_PRI_COLOR: #FFFFFF;
+@BTN_PRI_BORDER: #FA9B5B;
+@BTN_COM_BG: #FFF;
+@BTN_COM_COLOR: #FA9B5B;
+@BTN_COM_BORDER: #FA9B5B;
+
+.FUNC_BORDER() {
+    border: @S_BORDER solid 1px;
+}
+.FUNC_BOX() {
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2);
+}
+.FUNC_BTN() {
+    background: @BTN_BG;
+    color: @BTN_COLOR;
+    border: @BTN_BORDER solid 1px;
+    border-radius: 5px;
+    text-align: center;
+    outline: none;
+}
+.FUNC_PRI_BTN() {
+    background: @BTN_PRI_BG;
+    color: @BTN_PRI_COLOR;
+    border: @BTN_PRI_BORDER solid 1px;
+    border-radius: 5px;
+    text-align: center;
+    outline: none;
+}
+.FUNC_COM_BTN() {
+    background: @BTN_COM_BG;
+    color: @BTN_COM_COLOR;
+    border: @BTN_COM_BORDER solid 1px;
+    border-radius: 5px;
+    text-align: center;
+    outline: none;
+}

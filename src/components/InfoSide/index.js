@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute } from 'react-router'
 import FileUpload from 'react-fileupload'
 import Qrcode from '../Qrcode'
 
-import style from './style.css'
+import style from './style.less'
 
 class InfoSide extends Component {
     handleChange (name, value){
@@ -15,14 +15,22 @@ class InfoSide extends Component {
     }
     saveContent() {
         const {actions} = this.props
+        const that = this
         actions.saveContent({
             hook: (result) => {
                 if(result.ret_code == 0){
                     actions.preView(result.docid)
+                }else if(result.ret_code == 3){
+                    actions.openLoginDialog({
+                        hook: (result) => {
+                            console.log(result)
+                            that.saveContent()
+                        }
+                    })
                 }else{
                     actions.showPrompt(result.ret_desc)
                 }
-                return false;
+                return false
             }
         })
     }

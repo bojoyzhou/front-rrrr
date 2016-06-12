@@ -38,7 +38,10 @@
   },
   "dependencies": {
     "ajax": "github:opudalo/ajax",
+    "autoprefixer-loader": "^3.2.0",
     "classnames": "^2.2.5",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "react-fileupload": "^2.0.2",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",

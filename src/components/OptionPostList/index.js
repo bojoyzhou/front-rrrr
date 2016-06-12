@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import actions from '../../actions'
-import style from './style.css'
+import style from './style.less'
 
 class OptionPostList extends Component {
     constructor(props, context) {

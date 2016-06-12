@@ -1,0 +1,221 @@
+font.js: * @command fontsize
+font.js: * editor.execCommand( 'fontsize', '14px' );
+font.js: * @command fontsize
+font.js: * editor.queryCommandValue( 'fontsize' );
+font.js:            'fontsize': 'font-size',
+font.js:            'fontsize': 'font-size',
+font.js:        'fontsize': [10, 11, 12, 14, 16, 18, 20, 24, 36]
+basestyle.js:     * @command bold
+basestyle.js:     * editor.execCommand( 'bold' );
+basestyle.js:     * editor.execCommand( 'bold' );
+basestyle.js:            'bold':['strong','b'],
+customstyle.js:        {tag:'h1',name:'tc', style:'font-size:32px;font-weight:bold;border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:center;margin:0 0 20px 0;'},
+customstyle.js:        {tag:'h1',name:'tl', style:'font-size:32px;font-weight:bold;border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:left;margin:0 0 10px 0;'},
+customstyle.js:        {tag:'span',name:'im', style:'font-size:16px;font-style:italic;font-weight:bold;line-height:18px;'},
+customstyle.js:        {tag:'span',name:'hi', style:'font-size:16px;font-style:italic;font-weight:bold;color:rgb(51, 153, 204);line-height:18px;'}
+font.js: * @command forecolor
+font.js: * editor.execCommand( 'forecolor', '#000' );
+font.js: * @command forecolor
+font.js: * editor.queryCommandValue( 'forecolor' );
+font.js:            'forecolor': 'color',
+font.js:            'forecolor': 'color',
+font.js: * @command backcolor
+font.js: * editor.execCommand( 'backcolor', '#000' );
+font.js: * @command backcolor
+font.js: * editor.queryCommandValue( 'backcolor' );
+font.js:            'backcolor': 'background-color',
+font.js:            'backcolor': 'background-color',
+font.js:                        if(cmdName == 'backcolor' && domUtils.getComputedStyle(span,'background-color').toLowerCase() === value){
+autotypeset.js:            blockquote:1,center:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,
+blockquote.js: * @command blockquote
+blockquote.js: * editor.execCommand( 'blockquote' );
+blockquote.js: * @command blockquote
+blockquote.js: * editor.execCommand( 'blockquote',{
+blockquote.js:UE.plugins['blockquote'] = function(){
+blockquote.js:        return domUtils.filterNodeList(editor.selection.getStartElementPath(),'blockquote');
+blockquote.js:    me.commands['blockquote'] = {
+blockquote.js:                blockquote = dtd.blockquote,
+blockquote.js:                        obj = domUtils.findParentByTagName(endBlock,'blockquote');
+blockquote.js:                    var blockquotes = domUtils.getElementsByTagName(this.document,'blockquote');
+blockquote.js:                    for(var i=0,bi;bi=blockquotes[i++];){
+blockquote.js:                    if ( !blockquote[node.tagName] ) {
+blockquote.js:                        if ( !blockquote[node.tagName] ) {
+blockquote.js:                node = range.document.createElement( 'blockquote' );
+blockquote.js:                var childs = domUtils.getElementsByTagName(node,'blockquote');
+enterkey.js:                        var h = domUtils.findParentByTagName(start, [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6','blockquote','caption','table'], true);
+enterkey.js:                    start = domUtils.findParentByTagName(range.startContainer, ['ol','ul','p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6','blockquote','caption'], true);
+horizontal.js: * @command horizontal
+horizontal.js: * editor.execCommand( 'horizontal' );
+horizontal.js:UE.plugins['horizontal'] = function(){
+horizontal.js:    me.commands['horizontal'] = {
+formatmatch.js:                me.execCommand('removeformat');
+removeformat.js: * @command removeformat
+removeformat.js: * editor.execCommand( 'removeformat', 'strong','color','width' );
+removeformat.js:UE.plugins['removeformat'] = function(){
+removeformat.js:    me.commands['removeformat'] = {
+formatmatch.js: * @command formatmatch
+formatmatch.js: * editor.execCommand( 'formatmatch' );
+formatmatch.js:UE.plugins['formatmatch'] = function(){
+formatmatch.js:    me.commands['formatmatch'] = {
+autolink.js:                            me.undoManger && me.undoManger.save();
+autolink.js:                            me.undoManger && me.undoManger.save();
+enterkey.js:///import plugins/undo.js
+enterkey.js:                    if (me.undoManger && doSave) {
+enterkey.js:                        me.undoManger.save();
+enterkey.js:                                if (me.undoManger) {
+enterkey.js:                                    me.undoManger.save();
+enterkey.js:                                if (me.undoManger) {
+enterkey.js:                                    me.undoManger.save();
+formatmatch.js:        me.undoManger && me.undoManger.save();
+formatmatch.js:        me.undoManger && me.undoManger.save();
+insertcode.js:        undo:1,
+list.js:            me.undoManger && me.undoManger.save();
+list.js:                        me.undoManger && me.undoManger.save();
+paste.js:///import plugins/undo.js
+paste.js:            if (!range.collapsed && me.undoManger) {
+paste.js:                me.undoManger.save();
+source.js:                    me.undoManger && me.undoManger.save(true);
+source.js:                    me.undoManger && me.undoManger.save(true);
+undo.js: * undo redo
+undo.js: * @command undo
+undo.js: * editor.execCommand( 'undo' );
+undo.js:UE.plugins['undo'] = function () {
+undo.js:        this.undo = function () {
+undo.js:            //处理undo后空格不展位的问题
+undo.js:            //跟新undo/redo状态
+undo.js:    me.undoManger = new UndoManager();
+undo.js:    me.undoManger.editor = me;
+undo.js:        this.undoManger.save();
+undo.js:        this.undoManger.save.apply(this.undoManger,args);
+undo.js:            this.undoManger.reset();
+undo.js:    me.commands['redo'] = me.commands['undo'] = {
+undo.js:            this.undoManger[cmdName]();
+undo.js:            return this.undoManger['has' + (cmdName.toLowerCase() == 'undo' ? 'Undo' : 'Redo')] ? 0 : -1;
+undo.js:        "Undo":"ctrl+90", //undo
+undo.js:                me.undoManger.save(false,true);
+undo.js:            if (me.undoManger.list.length == 0) {
+undo.js:                me.undoManger.save(true);
+undo.js:                cont.undoManger.save(false,true);
+undo.js:                this.undoManger.save(false,true);
+undo.js:    //扩展实例，添加关闭和开启命令undo
+insertcode.js:        redo:1,
+undo.js: * undo redo
+undo.js: * @command redo
+undo.js: * editor.execCommand( 'redo' );
+undo.js:        this.redo = function () {
+undo.js:            //跟新undo/redo状态
+undo.js:    me.commands['redo'] = me.commands['undo'] = {
+undo.js:        "Redo":"ctrl+89" //redo
+contextmenu.js:                            label:lang.justifyleft,
+contextmenu.js:                            label:lang.justifycenter,
+contextmenu.js:                            label:lang.justifyright,
+contextmenu.js:                    icon:'justifyjustify',
+contextmenu.js:                            label:lang.justifyjustify,
+contextmenu.js:                                case "justifyjustify":
+lineheight.js:UE.plugins['lineheight'] = function(){
+lineheight.js:    me.setOpt({'lineheight':['1', '1.5','1.75','2', '3', '4', '5']});
+lineheight.js:     * @command lineheight
+lineheight.js:     * editor.execCommand( 'lineheight', 1.5);
+lineheight.js:     * @command lineheight
+lineheight.js:     * editor.queryCommandValue( 'lineheight' );
+lineheight.js:    me.commands['lineheight'] =  {
+list.js:        'insertorderedlist':{
+list.js:        'OL':listToArray(me.options.insertorderedlist),
+list.js:        if(!me.options.insertorderedlist.hasOwnProperty(s) && !me.options.insertunorderedlist.hasOwnProperty(s)){
+list.js:                    var list = UE.uNode.createElement(me.options.insertorderedlist.hasOwnProperty(type) ? 'ol' : 'ul');
+list.js:                    me.execCommand('insertorderedlist');
+list.js:     * @command insertorderedlist
+list.js:     * editor.execCommand( 'insertorderedlist','decimal');
+list.js:     * @command insertorderedlist
+list.js:     * editor.queryCommandState( 'insertorderedlist' );
+list.js:     * @command insertorderedlist
+list.js:     * editor.queryCommandValue( 'insertorderedlist' );
+list.js:     * 无序列表，与“insertorderedlist”命令互斥
+list.js:    me.commands['insertorderedlist'] =
+list.js:                    style = command.toLowerCase() == 'insertorderedlist' ? 'decimal' : 'disc';
+list.js:                    tag = command.toLowerCase() == 'insertorderedlist' ? 'ol' : 'ul',
+list.js:                        var nodeStyle = getStyle(startParent) || domUtils.getComputedStyle(startParent, 'list-style-type') || (command.toLowerCase() == 'insertorderedlist' ? 'decimal' : 'disc');
+list.js:                var tag = command.toLowerCase() == 'insertorderedlist' ? 'ol' : 'ul';
+list.js:                var tag = command.toLowerCase() == 'insertorderedlist' ? 'ol' : 'ul';
+autotypeset.js:        indent: false,                  // 行首缩进
+autotypeset.js:        indentValue : '2em',            //行首缩进的大小
+autotypeset.js:                if(opt.indent){
+autotypeset.js:                    ci.style.textIndent = opt.indentValue;
+indent.js: * @command indent
+indent.js: * editor.execCommand( 'indent' );
+indent.js:UE.commands['indent'] = {
+indent.js:         var me = this,value = me.queryCommandState("indent") ? "0em" : (me.options.indentValue || '2em');
+indent.js:         me.execCommand('Paragraph','p',{style:'text-indent:'+ value});
+source.js:                tabMode: "indent",
+autotypeset.js: * 对当前编辑器的内容执行自动排版， 排版的行为根据config配置文件里的“autotypeset”选项进行控制。
+autotypeset.js: * @command autotypeset
+autotypeset.js: * editor.execCommand( 'autotypeset' );
+autotypeset.js:UE.plugins['autotypeset'] = function(){
+autotypeset.js:    this.setOpt({'autotypeset': {
+autotypeset.js:        opt = me.options.autotypeset,
+autotypeset.js:    //升级了版本，但配置项目里没有autotypeset
+autotypeset.js:        var cookieOpt = me.getPreferences('autotypeset');
+autotypeset.js:        utils.extend(me.options.autotypeset, cookieOpt);
+autotypeset.js:    me.commands['autotypeset'] = {
+autofloat.js:            me.addListener('sourcemodechanged', function (t, enabled){
+autoheight.js:        if (!me.queryCommandState || me.queryCommandState && me.queryCommandState('source') != 1) {
+catchremoteimage.js:                            if (oldSrc == cj.source && cj.state == "SUCCESS") {  //抓取失败时不做替换处理
+insertcode.js:        source:1,
+paragraph.js:        doParagraph = function(range,style,attrs,sourceCmdName){
+paragraph.js:                        if(sourceCmdName && sourceCmdName == 'customstyle' && attrs.style){
+paragraph.js:                        if(!(sourceCmdName && sourceCmdName == 'customstyle')){
+paragraph.js:                            if(sourceCmdName && sourceCmdName == 'customstyle' && attrs.style){
+paragraph.js:        execCommand : function( cmdName, style,attrs,sourceCmdName ) {
+paragraph.js:            range = doParagraph(range,style,attrs,sourceCmdName);
+section.js:                execCommand: function (cmd, sourceSection, targetSection, isAfter) {
+section.js:                    if(!sourceSection || !targetSection || targetSection.level == -1) return;
+section.js:                    if(!targetAddress || !target || isContainsAddress(sourceSection.startAddress, sourceSection.endAddress, targetAddress)) return;
+section.js:                    var startNode = getNodeFromAddress(sourceSection.startAddress, me.body),
+section.js:                        endNode = getNodeFromAddress(sourceSection.endAddress, me.body),
+source.js:    var sourceEditors = {
+source.js:    UE.plugins['source'] = function (){
+source.js:        var sourceMode = false;
+source.js:        var sourceEditor;
+source.js:        opt.sourceEditor = browser.ie  ? 'textarea' : (opt.sourceEditor || 'codemirror');
+source.js:            sourceEditorFirst:false
+source.js:            return sourceEditors[opt.sourceEditor == 'codemirror' && window.CodeMirror ? 'codemirror' : 'textarea'](me, holder);
+source.js:         * @command source
+source.js:         * editor.execCommand( 'source');
+source.js:         * @command source
+source.js:         * editor.queryCommandState( 'source' );
+source.js:        me.commands['source'] = {
+source.js:                sourceMode = !sourceMode;
+source.js:                if (sourceMode) {
+source.js:                    sourceEditor = createSourceEditor(me.iframe.parentNode);
+source.js:                    sourceEditor.setContent(content);
+source.js:                        sourceEditor.setContent(html);
+source.js:                        sourceEditor.select();
+source.js:                                sourceEditor.getCodeMirror().refresh()
+source.js:                        return sourceEditor.getContent() || '<p>' + (browser.ie ? '' : '<br/>')+'</p>';
+source.js:                    var cont = sourceEditor.getContent() || '<p>' + (browser.ie ? '' : '<br/>')+'</p>';
+source.js:                    sourceEditor.dispose();
+source.js:                    sourceEditor = null;
+source.js:                this.fireEvent('sourcemodechanged', sourceMode);
+source.js:                return sourceMode|0;
+source.js:            if (sourceMode) {
+source.js:                    'source' : 1,
+source.js:        if(opt.sourceEditor == "codemirror"){
+source.js:                    if(opt.sourceEditorFirst){
+source.js:                            me.execCommand("source");
+table.core.js:        insertRow:function (rowIndex, sourceCell) {
+table.core.js:                isInsertTitle = typeof sourceCell == 'string' && sourceCell.toUpperCase() == 'TH';
+table.core.js:                    cell = this.cloneCell(sourceCell, true);
+table.core.js:                        cell = this.cloneCell(sourceCell, true);
+table.core.js:        insertCol:function (colIndex, sourceCell, defaultValue) {
+table.core.js:                isInsertTitleCol = typeof sourceCell == 'string' && sourceCell.toUpperCase() == 'TH';
+table.core.js:                    cell = this.cloneCell(sourceCell, true); //tableRow.insertCell(colIndex == 0 ? colIndex : tableRow.cells.length);
+table.core.js:                        cell = this.cloneCell(sourceCell, true);//tableRow.insertCell(cellInfo.cellIndex);
+video.js:                    '<source src="' + url + '" type="video/' + ext + '" /></video>';
+webapp.js://        if ( cmdName == 'aftergetcontent' && me.queryCommandState( 'source' ) ){
+autotypeset.js:            if(opt.imageBlockLine && ci.tagName.toLowerCase() == 'img' && !ci.getAttribute('emotion')){
+insertcode.js:        searchreplace:1,
+searchreplace.js:///commandsDialog  dialogs\searchreplace
+searchreplace.js:UE.plugin.register('searchreplace',function(){
+searchreplace.js:        span.innerHTML = '$$ueditor_searchreplace_key$$';
+searchreplace.js:        var currentIndex = startBlockNode[browser.ie ? 'innerText' : 'textContent'].indexOf('$$ueditor_searchreplace_key$$');
+searchreplace.js:            'searchreplace':{

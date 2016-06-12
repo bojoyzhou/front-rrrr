@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
 import actions from '../../actions'
-import style from './style.css'
+import style from './style.less'
 
 class CommonItem extends Component {
     fetchData(){

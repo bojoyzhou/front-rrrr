@@ -1,0 +1,65 @@
+@import '../../style.less';
+
+.container-info-side {
+    position: absolute;
+    right: 0;
+    top: 60px;
+    z-index: 8888;
+    bottom: 0;
+    background-color: @BG_CONTENT;
+    padding: 0 20px;
+    .FUNC_BOX();
+
+    h4 {
+        padding-top: 30px;
+        padding-bottom: 15px;
+        color: @FC_LABEL;
+    }
+    textarea {
+        resize: none;
+        padding: 10px;
+        box-sizing: border-box;
+        .FUNC_BORDER()
+    }
+    .footer {
+        position: absolute;
+        width: 100%;
+        bottom: 100px;
+
+        a.btn {
+            display: block;
+            width: 96px;
+            line-height: 36px;
+            margin: 0 auto;
+            .FUNC_COM_BTN();
+        }
+    }
+    .img_fluid.add {
+        height: 100px;
+        position: relative;
+
+        img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            max-width: 100%;
+        }
+        .img-file {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+
+            input {
+                display: block !important;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+    }
+}

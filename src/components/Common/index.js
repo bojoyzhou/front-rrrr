@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import style from './style.css'
+import style from './style.less'
 
 class Common extends Component {
     render() {

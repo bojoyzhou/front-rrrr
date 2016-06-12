@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 
-import style from './style.css'
+import style from './style.less'
 import { LOGIN_DIALOG, REGIST_DIALOG, FORGOT_DIALOG, REGIST_DIALOG_1, REGIST_DIALOG_2 } from '../../constants'
 
 class Login extends Component {

@@ -1,13 +1,27 @@
-var rucksack = require('rucksack-css')
 var webpack = require('webpack')
 var path = require('path')
-
+var plugins =[
+        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+            }
+        })
+    ];
+if (process.env.NODE_ENV === 'production') {
+    plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }))
+}
 module.exports = {
     debug: process.env.NODE_ENV !== 'production',
     context: path.join(__dirname, './src'),
     entry: {
         jsx: './index.js',
-        html: './index.html',
+        html: './edit.html',
         vendor: [
             'react',
             'react-dom',
@@ -29,11 +43,10 @@ module.exports = {
             test: /\.css$/,
             include: /src/,
             loader: 'style!css!autoprefixer'
-                // loaders: [
-                //     'style-loader',
-                //     'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-                //     'postcss-loader'
-                // ]
+        }, {
+            test: /\.less$/,
+            include: /src/,
+            loader: 'style!css!autoprefixer!less'
         }, {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
@@ -49,24 +62,7 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
-    postcss: [
-        rucksack({
-            autoprefixer: true
-        })
-    ],
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     }
-        // }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
-            }
-        })
-    ],
+    plugins: plugins,
     devServer: {
         contentBase: './src',
         hot: true,

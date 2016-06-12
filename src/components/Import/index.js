@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import OptionPostList from '../OptionPostList'
-import style from './style.css'
+import style from './style.less'
 
 
 class Import extends Component {

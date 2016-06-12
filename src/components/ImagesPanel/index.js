@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import FileUpload from 'react-fileupload'
 
 import ImageFluid from '../ImageFluid'
-import style from './style.css'
+import style from './style.less'
 
 class ImagesPanel extends Component {
     handleCancel() {
@@ -22,6 +22,7 @@ class ImagesPanel extends Component {
             wrapperDisplay : 'inline-block',
             multiple: true,
             dataType : 'json',
+            accept: 'image/*',
             fileFieldName : 'filedName',
             beforeUpload: function(files){
                 for (var i = files.length - 1; i >= 0; i--) {

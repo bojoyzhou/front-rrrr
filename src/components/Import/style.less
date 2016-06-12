@@ -1,0 +1,57 @@
+@import '../../style.less';
+
+.container-import {
+	float: left;
+	height: 100%;
+	.box{
+		.FUNC_BOX()
+	}
+
+	.panel-import {
+		width: 386px;
+		background-color: #fff;
+		padding-top: 51px;
+		box-sizing: border-box;
+		padding-left: 15px;
+		height: 169px;
+	}
+	.panel-import input {
+		width: 350px;
+		height: 34px;
+		padding-left: 8px;
+	}
+	button{
+		margin-top: 22px;
+		font-size: 14px;
+		width: 81px;
+		line-height: 30px;
+		.FUNC_COM_BTN();
+	}
+	.panel-posts {
+		box-sizing: border-box;
+		margin-top: -169px;
+		width: 386px;
+		padding-top: 185px;
+		height: 100%;
+		font-size: 14px;
+	}
+	.panel-scroll {
+		height: 100%;
+		overflow: auto;
+	}
+	.panel-title {
+		background-color: @BG_BOX;
+		border-bottom: @S_BORDER solid 1px;
+		padding-left: 15px;
+		line-height: 54px;
+		color: @S_ORNAMENT;
+	}
+	.panel-posts-body {
+		height: 100%;
+		padding-top: 55px;
+		overflow: auto;
+		margin-top: -55px;
+		box-sizing: border-box;
+		background-color: @BG_BOX;
+	}
+}

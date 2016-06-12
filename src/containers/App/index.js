@@ -4,14 +4,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 
-import style from './style.css'
+import style from './style.less'
 
 import Header from '../../components/Header'
 import Editor from '../../components/Editor'
 import Login from '../../components/Login'
 import InfoSide from '../../components/InfoSide'
 import Prompt from '../../components/Prompt'
-import DevTools from '../DevTools';
 
 class App extends Component {
     render() {
@@ -22,7 +21,6 @@ class App extends Component {
                 <Login></Login>
                 <InfoSide></InfoSide>
                 <Prompt></Prompt>
-                <DevTools></DevTools>
             </div>
         )
     }
