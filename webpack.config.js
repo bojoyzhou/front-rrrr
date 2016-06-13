@@ -41,7 +41,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, './static'),
-        filename: 'bundle-[hash].js',
+        filename: 'bundle.js',
     },
     module: {
         loaders: [{

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
+import { VelocityTransitionGroup } from 'velocity-react'
 
 import style from './style.less'
 import { LOGIN_DIALOG, REGIST_DIALOG, FORGOT_DIALOG, REGIST_DIALOG_1, REGIST_DIALOG_2 } from '../../constants'
 
-class Login extends Component {
+class ComLogin extends Component {
     handleRegist() {
         const {actions} = this.props
         actions.openRegistDialog()
@@ -113,7 +114,7 @@ class Login extends Component {
         const { isOpened, status, data, step, codelink } = this.props
         const className = isOpened ? "container-login open" : "container-login close"
         return (
-            <div className={className}>
+            <div className="container-login">
                 <div className="mask">
                     <div className={"mask-panel " + status.toLowerCase()}>
                         {
@@ -222,4 +223,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Login)
+)(ComLogin)

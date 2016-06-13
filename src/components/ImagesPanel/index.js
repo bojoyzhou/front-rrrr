@@ -34,8 +34,9 @@ class ImagesPanel extends Component {
             }
         }
         const { selectPics, isActived } = this.props
+        const className = isActived ? "container-images-panel open" : "container-images-panel close"
         return (
-            <div className="container-images-panel" style={{display: isActived ? "block" : "none"}}>
+            <div className={className}>
                 <div className="mask">
                     <div className="mask-panel">
                         <div className="mask-title">

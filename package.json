@@ -44,11 +44,13 @@
     "classnames": "^2.2.5",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "react-color": "^2.2.0",
     "react-fileupload": "^2.0.2",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-thunk": "^2.1.0",
-    "url-loader": "^0.5.7"
+    "url-loader": "^0.5.7",
+    "velocity-react": "^1.1.5"
   }
 }

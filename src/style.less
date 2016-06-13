@@ -68,3 +68,36 @@
     text-align: center;
     outline: none;
 }
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        display: block;
+        visibility: visible;
+    }
+    99% {
+        opacity: 0;
+        display: block;
+        visibility: visible;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+        visibility: hidden;
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        display: none;
+        visibility: hidden;
+    }
+    1% {
+        display: block;
+        visibility: visible;
+    }
+    100% {
+        opacity: 1;
+        display: block;
+        visibility: visible;
+    }
+}

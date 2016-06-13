@@ -149,7 +149,7 @@ export default createReducer({
             dataType: 'json'
         }),
         success: (result, state) => (assign(state, {
-            username: result.uInfo.uname
+            username: result.uInfo && result.uInfo.uname
         }))
     },
 }, initialState)
