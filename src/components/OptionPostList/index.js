@@ -19,7 +19,7 @@ class OptionPostList extends Component {
         actions.getPostDetail({
             docid,
             hook: (action) => {
-                actions.insertEditor(action.payload.content)
+                actions.insertEditor(result.data.content)
             }
         })
     }

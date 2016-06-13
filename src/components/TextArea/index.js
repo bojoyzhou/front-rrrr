@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-
+import { history } from '../../utils'
 import edui from './edui.css'
 import style from './style.css'
 import { DELETE_LINE, NEWLINE_PRE, NEWLINE_AFT, ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, } from '../../constants'
@@ -71,7 +71,10 @@ class TextArea extends Component {
                 show = true
             }else{
                 elem = e.target
-                show = elem.tagName.toUpperCase() == 'IMG'
+                if(elem.tagName.toUpperCase() == 'IMG'){
+                    show = true
+                    history.push('/editor/images');
+                }
             }
             if(show){
                 actions.showTools({
@@ -85,6 +88,10 @@ class TextArea extends Component {
                 actions.hideTools()
             }
         }, false)
+        setTimeout(() => {
+            const html = ue.execCommand('getlocaldata')
+            actions.insertEditor(html)
+        })
     }
     render() {
         const {offset, showTips, menuType} = this.props

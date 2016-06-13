@@ -22,6 +22,8 @@ import {
         ALIGN_LEFT,
         ALIGN_CENTER,
         ALIGN_RIGHT,
+        SHOW_SIDE,
+        HIDE_SIDE
     } from '../constants'
 
 /**
@@ -44,7 +46,10 @@ const initialState = {
     },
     elem: null,
     menuType: 'SECTION',
-    rawUrl: ''
+    rawUrl: '',
+    width: '',
+    height: '',
+    showSide: true
 }
 
 export default createReducer({
@@ -87,6 +92,12 @@ export default createReducer({
     [ CLOSE_PRE_VIEW ]: (state, action) => (assign(state, {
         preview: '',
         rawUrl: ''
+    })),
+    [ SHOW_SIDE ]: (state, action) => (assign(state, {
+        showSide: true
+    })),
+    [ HIDE_SIDE ]: (state, action) => (assign(state, {
+        showSide: false
     })),
     [ SELECT_COVER ]: (state, action) => (assign(state, {
         cover: makeHost(action.payload)

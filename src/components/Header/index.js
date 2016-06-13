@@ -3,8 +3,12 @@ import { Link } from 'react-router'
 import style from './style.less'
 
 class Header extends Component {
+    componentDidMount() {
+         const { actions } = this.props
+         actions.getUserName()
+    }
     render() {
-        const { actions } = this.props
+        const { actions, username } = this.props
         return (
             <nav className="nav">
                 <div className="nav-logo">logo</div>
@@ -27,18 +31,27 @@ class Header extends Component {
                             </div>
                         </a>
                     </li>
-                    <li className="nav-item nav-item-user">
+                    <li className="nav-item nav-item-manage">
+                        <a href="/"></a>
                         <Link className="nav-link" to="/editor">
                             <div className="icon"></div>
                             <div className="desc">
                                 <i></i>
-                                <span>个人中心</span>
+                                <span>管理中心</span>
                             </div>
                         </Link>
                     </li>
                 </ul>
                 <div className="right">
-                    <a onClick={() => actions.openLoginDialog()} className="login" href="javascript:;">登录</a> |
+                {
+                    (() => {
+                        if (username) {
+                            return (<span>欢迎<a className="username">{username}</a></span>)
+                        }else{
+                            return (<a onClick={() => actions.openLoginDialog()} className="login" href="javascript:;">登录</a>)
+                        }
+                    })()
+                } |
                     <a className="home" href="">home</a>
                 </div>
             </nav>
@@ -49,7 +62,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
-    return { }
+    return {
+        username: state.login.username
+    }
 }
 
 function mapDispatchToProps(dispatch) {

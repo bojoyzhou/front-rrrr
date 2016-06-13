@@ -14,8 +14,8 @@ class Import extends Component {
         const {actions} = this.props
         actions.importContent({
             url: this.url,
-            hook: (action) => {
-                actions.insertEditor(action.payload.content)
+            hook: (result) => {
+                actions.insertEditor(result.data.content)
             }
         })
     }

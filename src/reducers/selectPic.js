@@ -1,5 +1,5 @@
 import { createReducer, assign } from './createReducer'
-
+import ajax from 'ajax'
 /**
  * 导入当前reduce的常量
  *
@@ -92,6 +92,13 @@ export default createReducer({
         })
     },
     [ DELETE_PIC ]: (state, action) => {
+        ajax({
+            url: '/api/userpicsdel',
+            data: {
+                id: action.payload
+            },
+            type:'POST'
+        })
         return assign(state, {
             pics: state.pics.filter((pic, idx) => {
                 return pic.id !== action.payload

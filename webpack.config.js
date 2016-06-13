@@ -1,20 +1,28 @@
 var webpack = require('webpack')
 var path = require('path')
-var plugins =[
-        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
-            }
-        })
-    ];
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var plugins = [
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+    new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+        }
+    })
+];
 if (process.env.NODE_ENV === 'production') {
     plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
-        }))
+        })
+    )
+    plugins.push(
+        new HtmlWebpackPlugin({
+            template: 'edit.html',
+            filename: './static/edit.html'
+        })
+    )
 }
 module.exports = {
     debug: process.env.NODE_ENV !== 'production',
@@ -33,7 +41,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, './static'),
-        filename: 'bundle.js',
+        filename: 'bundle-[hash].js',
     },
     module: {
         loaders: [{

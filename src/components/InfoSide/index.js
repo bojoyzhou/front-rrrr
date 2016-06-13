@@ -34,6 +34,32 @@ class InfoSide extends Component {
             }
         })
     }
+    updateDimensions() {
+        const {actions} = this.props
+        const width = document.body.offsetWidth
+        if(width > 1550){
+            actions.showSide()
+        }else{
+            actions.hideSide()
+        }
+    }
+    componentWillMount() {
+        this.updateDimensions();
+    }
+    componentDidMount() {
+        window.addEventListener("resize", this.updateDimensions.bind(this));
+    }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateDimensions.bind(this));
+    }
+    handleClick(){
+        const {actions, showSide} = this.props
+        if(showSide){
+            actions.hideSide()
+        }else{
+            actions.showSide()
+        }
+    }
     render() {
         const actions = this.props.actions
         const options = {
@@ -52,11 +78,18 @@ class InfoSide extends Component {
                 actions.selectCover(result.data.url)
             }
         }
-        const {title, author, summary, cover} = this.props
+        const {title, author, summary, cover, showSide} = this.props
         const handleChange = this.handleChange.bind(this)
         return (
-            <div>
+            <div className={showSide ? 'show-side' : 'hide-side'}>
+                <div className="black">
+                    <div className="publish" onClick={this.handleClick.bind(this)}>
+                        <div className="icon"></div>
+                        发<br/>布
+                    </div>
+                </div>
                 <div className="container-info-side">
+                    <div className="fold"  onClick={this.handleClick.bind(this)}>&gt;&gt;</div>
                     <div className="right-container">
                         <h4>标题</h4>
                         <div className="group">
@@ -100,6 +133,7 @@ function mapStateToProps(state) {
         author: state.textArea.author,
         summary: state.textArea.summary,
         cover: state.textArea.cover,
+        showSide: state.textArea.showSide
     }
 }
 
@@ -113,14 +147,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(InfoSide)
-
-
-
-/** WEBPACK FOOTER **
- ** ./components/InfoSide/index.js
- **/
-
-
-/** WEBPACK FOOTER **
- ** ./components/InfoSide/index.js
- **/

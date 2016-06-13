@@ -25,7 +25,8 @@ import {
     REGIST_DIALOG_2,
     LOGIN_DATA_CHANGE,
     CHECK_VCODE,
-    CHANGE_VCODE
+    CHANGE_VCODE,
+    GET_USER_NAME
 } from '../constants'
 
 import actions from '../actions'
@@ -45,6 +46,7 @@ const initialState = {
         vcode: '',
         uid: ''
     },
+    username: '',
     codelink: refresh()
 }
 
@@ -140,5 +142,14 @@ export default createReducer({
             dataType: 'json'
         }),
         success: (result, state) => (state)
+    },
+    [GET_USER_NAME]: {
+        preload: (action, state) => ({
+            url: 'api/getcurrentuser',
+            dataType: 'json'
+        }),
+        success: (result, state) => (assign(state, {
+            username: result.uInfo.uname
+        }))
     },
 }, initialState)
