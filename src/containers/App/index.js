@@ -15,11 +15,11 @@ import Prompt from '../../components/Prompt'
 class App extends Component {
     render() {
         return (
-            <div>
+            <div data-reactroot>
                 <Header></Header>
                 {this.props.children}
-                <Login></Login>
                 <InfoSide></InfoSide>
+                <Login></Login>
                 <Prompt></Prompt>
             </div>
         )

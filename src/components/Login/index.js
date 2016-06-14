@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 import { VelocityComponent } from 'velocity-react'
+import velocityUi from '../../utils/velocity.ui.js'
 import style from './style.less'
 import { LOGIN_DIALOG, REGIST_DIALOG, FORGOT_DIALOG, REGIST_DIALOG_1, REGIST_DIALOG_2 } from '../../constants'
 
@@ -111,13 +112,12 @@ class Login extends Component {
     }
     render() {
         const { isOpened, status, data, step, codelink } = this.props
-        const className = isOpened ? "container-login open" : "container-login close"
-        const animation = "fade" + (isOpened ? "In" : "Out")
-        console.log(animation)
+        const display = isOpened ? "block" : "none"
+        const animation = isOpened ? "transition.bounceDownIn" : "transition.flipBounceYOut"
         return (
-            <VelocityComponent key="Fade" animation={animation}>
-                <div className="container-login">
-                    <div className="mask">
+            <div className="container-login" style={{ display }}>
+                <div className="mask">
+                    <VelocityComponent animation={animation}>
                         <div className={"mask-panel " + status.toLowerCase()}>
                             {
                                 (function(){
@@ -197,9 +197,9 @@ class Login extends Component {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </VelocityComponent>
                 </div>
-            </VelocityComponent>
+            </div>
         )
     }
 }
