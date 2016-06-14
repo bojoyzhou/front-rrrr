@@ -26,7 +26,8 @@ import {
     LOGIN_DATA_CHANGE,
     CHECK_VCODE,
     CHANGE_VCODE,
-    GET_USER_NAME
+    GET_USER_NAME,
+    HIDE_LOGIN_DIALOG
 } from '../constants'
 
 import actions from '../actions'
@@ -36,6 +37,7 @@ import actions from '../actions'
  */
 const initialState = {
     isOpened: false,
+    display: 'none',
     status: LOGIN_DIALOG,
     step: REGIST_DIALOG_1,
     data: {
@@ -61,18 +63,24 @@ export default createReducer({
     })),
     [OPEN_LOGIN_DIALOG]: (state, action) => (assign(state, {
         isOpened: true,
+        display: 'block',
         status: LOGIN_DIALOG
     })),
     [CLOSE_LOGIN_DIALOG]: (state, action) => (assign(state, {
         isOpened: false
     })),
+    [HIDE_LOGIN_DIALOG]: (state, action) => (assign(state, {
+        display: 'none'
+    })),
     [OPEN_REGIST_DIALOG]: (state, action) => (assign(state, {
         isOpened: true,
+        display: 'block',
         status: REGIST_DIALOG,
         step: REGIST_DIALOG_1
     })),
     [OPEN_FORGOT_DIALOG]: (state, action) => (assign(state, {
         isOpened: true,
+        display: 'block',
         status: FORGOT_DIALOG
     })),
     [LOGIN_DATA_CHANGE]: (state, action) => (assign(state, {
@@ -100,7 +108,8 @@ export default createReducer({
             }
         },
         success: (result, state) => (assign(state, {
-            isOpened: false
+            isOpened: false,
+            username: result.uInfo.uname
         }))
     },
     [DO_REGIST]: {

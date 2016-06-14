@@ -28,6 +28,8 @@ class Login extends Component {
                     if(result.ret_code !== 0){
                         actions.showPrompt(result.ret_desc)
                         return false
+                    }else{
+                        this.hide()
                     }
                 }
             })
@@ -110,14 +112,20 @@ class Login extends Component {
         const {actions} = this.props
         actions.changeVcode()
     }
+    hide() {
+        const {isOpened, display, actions} = this.props
+        console.log(isOpened, display)
+        if(!isOpened && display == 'block'){
+            actions.hideLoginPanelDelay()
+        }
+    }
     render() {
-        const { isOpened, status, data, step, codelink } = this.props
-        const display = isOpened ? "block" : "none"
+        const { isOpened, display, status, data, step, codelink } = this.props
         const animation = isOpened ? "transition.bounceDownIn" : "transition.flipBounceYOut"
         return (
             <div className="container-login" style={{ display }}>
                 <div className="mask">
-                    <VelocityComponent animation={animation}>
+                    <VelocityComponent animation={animation} complete={this.hide.bind(this)}>
                         <div className={"mask-panel " + status.toLowerCase()}>
                             {
                                 (function(){
@@ -210,6 +218,7 @@ import actions from '../../actions'
 function mapStateToProps(state) {
     return {
         isOpened: state.login.isOpened,
+        display: state.login.display,
         status: state.login.status,
         step: state.login.step,
         codelink: state.login.codelink,

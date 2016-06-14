@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 import OptionPostList from '../OptionPostList'
 import style from './style.less'
 
+import { VelocityComponent } from 'velocity-react'
+import velocityUi from '../../utils/velocity.ui.js'
 
 class Import extends Component {
     handleChange(e) {
@@ -23,6 +25,7 @@ class Import extends Component {
         const {importUrl} = this.props
          // defaultValue="http://news.163.com/16/0524/09/BNQQJG51000156PO.html"
         return (
+            <VelocityComponent runOnMount={true} animation="fadeIn">
             <div className="container-import">
                 <div className="panel-import box">
                     <input onChange={this.handleChange.bind(this)} type="url" placeholder="输入要导入的文章URL" />
@@ -39,6 +42,7 @@ class Import extends Component {
                     </div>
                 </div>
             </div>
+            </VelocityComponent>
         )
     }
 }

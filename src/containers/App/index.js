@@ -11,6 +11,7 @@ import Editor from '../../components/Editor'
 import Login from '../../components/Login'
 import InfoSide from '../../components/InfoSide'
 import Prompt from '../../components/Prompt'
+import DevTools from '../DevTools'
 
 class App extends Component {
     render() {

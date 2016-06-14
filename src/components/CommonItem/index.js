@@ -6,6 +6,8 @@ import { Link } from 'react-router'
 import actions from '../../actions'
 import style from './style.less'
 
+import { VelocityTransitionGroup } from 'velocity-react'
+import velocityUi from '../../utils/velocity.ui.js'
 class CommonItem extends Component {
     fetchData(){
         let stype = this.props.params.id || 0
@@ -28,16 +30,15 @@ class CommonItem extends Component {
     }
     render() {
         const { styleHtml } = this.props
+        const rows = styleHtml.map((style, idx) => {
+            return (
+                <section onClick={() => this.handleClick(idx)} key={idx} dangerouslySetInnerHTML={{__html:style}}></section>
+            )
+        })
         return (
-            <div className="container-common-item box">
-                {
-                    styleHtml.map((style, idx) => {
-                        return (
-                            <section onClick={() => this.handleClick(idx)} key={idx} dangerouslySetInnerHTML={{__html:style}}></section>
-                        )
-                    })
-                }
-            </div>
+            <VelocityTransitionGroup component="div" className="container-common-item box" runOnMount={true} enter={{animation: "transition.fadeIn"}} leave={{animation: "transition.fadeOut"}}>
+            {rows}
+            </VelocityTransitionGroup>
         )
     }
 }

@@ -16,33 +16,25 @@
         display: none;
     }
 }
-.black {
-    width: 10px;
+.publish {
+    width: 36px;
     position: absolute;
+    top: 50%;
+    color: @FC_FUNC;
+    margin-left: -50px;
     background-color: @BG_TOP_NAV;
-    height: 100%;
-    right: 0;
-    top: 0;
+    font-size: 18px;
+    text-align: center;
+    height: 83px;
+    cursor: pointer;
+    margin-top: -44px;
 
-    .publish {
+    .icon {
+        background-image: url(./img/publish.png);
         width: 36px;
-        position: absolute;
-        top: 50%;
-        color: @FC_FUNC;
-        margin-left: -36px;
-        background-color: @BG_TOP_NAV;
-        font-size: 18px;
-        text-align: center;
-        height: 83px;
-        cursor: pointer;
-
-        .icon {
-            background-image: url(./img/publish.png);
-            width: 36px;
-            height: 36px;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+        height: 36px;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 }
 .container-info-side {
@@ -59,12 +51,16 @@
         top: 50%;
         margin-left: -45px;
         background-color: @BG_BOX;
-        .FUNC_BORDER();
         border-right: none;
         line-height: 55px;
         width: 25px;
-        margin-top: -28px;
+        height: 83px;
+        margin-top: -44px;
         text-align: center;
+        cursor: pointer;
+        line-height: 83px;
+        .FUNC_BORDER();
+        border-right: none;
     }
     h4 {
         padding-top: 30px;

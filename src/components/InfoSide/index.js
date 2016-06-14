@@ -5,6 +5,9 @@ import Qrcode from '../Qrcode'
 
 import style from './style.less'
 
+import { VelocityComponent, velocityHelpers } from 'velocity-react'
+import velocityUi from '../../utils/velocity.ui.js'
+
 class InfoSide extends Component {
     handleChange (name, value){
         const {actions} = this.props
@@ -80,16 +83,28 @@ class InfoSide extends Component {
         }
         const {title, author, summary, cover, showSide} = this.props
         const handleChange = this.handleChange.bind(this)
+        const In = {
+            translateX: 0,
+            backgroundColor: "#fff"
+        }
+        const Out = {
+            translateX: 271,
+            backgroundColor: "#333"
+        }
+        // const animation = showSide ? "transition.slideRightIn" : "transition.slideRightOut"
+        const animation = showSide ? In : Out
         return (
-            <div className={showSide ? 'show-side' : 'hide-side'}>
-                <div className="black">
-                    <div className="publish" onClick={this.handleClick.bind(this)}>
-                        <div className="icon"></div>
-                        发<br/>布
-                    </div>
-                </div>
+            <VelocityComponent animation={animation}>
                 <div className="container-info-side">
-                    <div className="fold"  onClick={this.handleClick.bind(this)}>&gt;&gt;</div>
+                    {showSide?
+                        <div className="fold"  onClick={this.handleClick.bind(this)}>&gt;&gt;</div>
+                    :
+                        <div className="publish" onClick={this.handleClick.bind(this)}>
+                            <div className="icon"></div>
+                            发<br/>布
+                        </div>
+                    }
+
                     <div className="right-container">
                         <h4>标题</h4>
                         <div className="group">
@@ -117,9 +132,9 @@ class InfoSide extends Component {
                             <a onClick={this.saveContent.bind(this)} href="javascript:;" className="btn">完成</a>
                         </div>
                     </div>
+                    <Qrcode></Qrcode>
                 </div>
-                <Qrcode></Qrcode>
-            </div>
+            </VelocityComponent>
         )
     }
 }

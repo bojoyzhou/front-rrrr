@@ -12,7 +12,8 @@ import {
         CHECK_VCODE,
         REQUEST,
         CHANGE_VCODE,
-        GET_USER_NAME
+        GET_USER_NAME,
+        HIDE_LOGIN_DIALOG
     } from '../constants'
 
 
@@ -27,4 +28,5 @@ export const loginDataChange = createAction(LOGIN_DATA_CHANGE)
 export const registNext = createAction(REGIST_DIALOG_1)
 export const checkVcode = createAction(CHECK_VCODE, REQUEST)
 export const changeVcode = createAction(CHANGE_VCODE)
+export const hideLoginPanelDelay = createAction(HIDE_LOGIN_DIALOG)
 export const getUserName = createAction(GET_USER_NAME, REQUEST)

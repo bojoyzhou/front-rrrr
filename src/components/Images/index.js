@@ -6,6 +6,8 @@ import style from './style.less'
 import PicList from '../PicList'
 import ImagesPanel from '../ImagesPanel'
 
+import { VelocityComponent } from 'velocity-react'
+import velocityUi from '../../utils/velocity.ui.js'
 class Images extends Component {
     handleAddPic(){
         const actions = this.props.actions
@@ -20,6 +22,7 @@ class Images extends Component {
     render() {
         const {pics, addingPic} = this.props
         return (
+            <VelocityComponent runOnMount={true} animation="fadeIn">
             <div className="container-images">
                 <div className="panel-posts box">
                     <div className="panel-title">
@@ -33,6 +36,7 @@ class Images extends Component {
                 </div>
                 <ImagesPanel></ImagesPanel>
             </div>
+            </VelocityComponent>
         )
     }
 }
