@@ -63,11 +63,11 @@ class ImagesPanel extends Component {
             multiple: true,
             dataType : 'json',
             accept: 'image/*',
-            fileFieldName : 'filedName',
+            fileFieldName : 'file',
             beforeUpload: function(files){
-                for (var i = files.length - 1; i >= 0; i--) {
-                    files[i].filedName = 'file'
-                }
+                // for (var i = files.length - 1; i >= 0; i--) {
+                //     files[i].filedName = 'file'
+                // }
             },
             uploadSuccess: function(result){
                 actions.selectPic(result.data)

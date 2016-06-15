@@ -26,7 +26,6 @@ class InfoSide extends Component {
                 }else if(result.ret_code == 3){
                     actions.openLoginDialog({
                         hook: (result) => {
-                            console.log(result)
                             that.saveContent()
                         }
                     })

@@ -51,7 +51,6 @@ export default createReducer({
             dataType: 'json'
         }),
         success: (result, state) => {
-            console.log(result)
             return assign(state, {
                 content: result.result.content.map((item) => {
                     if(item.text){
@@ -61,7 +60,6 @@ export default createReducer({
                     }
                 }).join('')
             })
-            // return state
         }
     }
 

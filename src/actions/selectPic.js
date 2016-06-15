@@ -10,6 +10,5 @@ export const getUserPics = createAction(GET_USER_PICS, REQUEST)
 export const deletePic = createAction(DELETE_PIC)
 export const switchLocal = createAction(SWITCH_LOCAL)
 export const switchNetwork = createAction(SWITCH_NET)
-export const searchNetwork = createAction(SEARCH_ON_NET)
-
+export const searchNetwork = createAction(SEARCH_ON_NET, REQUEST)
 

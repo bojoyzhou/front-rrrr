@@ -17,7 +17,14 @@ class Import extends Component {
         actions.importContent({
             url: this.url,
             hook: (result) => {
-                actions.insertEditor(result.data.content)
+                const content = result.result.content.map((item) => {
+                    if(item.text){
+                        return '<p>' + item.text + '</p>'
+                    }else if(item.img){
+                        return '<p><img src="'+ item.img +'"></p>'
+                    }
+                }).join('')
+                actions.insertEditor(content)
             }
         })
     }

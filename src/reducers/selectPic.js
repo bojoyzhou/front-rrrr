@@ -28,6 +28,7 @@ const initialState = {
     ],
     type: 'local',
     netPics: [],
+    keyword: '',
     pn: 1,
     rn: 20
 }
@@ -64,18 +65,30 @@ export default createReducer({
     })),
     [ SEARCH_ON_NET ]: {
         preload: (action, state) => {
+            const keyword = action.payload && action.payload.keyword || state.keyword
             return {
                 url:'/api/image-search',
                 data: {
-                    keyword: action.payload
+                    keyword: keyword,
+                    pn: state.pn,
+                    rn: state.rn
                 },
-                type: 'POST',
+                type: 'GET',
                 dataType:'json'
             }
         },
-        success: (result, state) => {
-            debugger
-            return state
+        success: (result, state, action) => {
+            const keyword = action.payload && action.payload.keyword || state.keyword
+            const pics = result.result.map((pic) => ({
+                id: makeId(),
+                picked: false,
+                ...pic
+            }))
+            return assign(state, {
+                netPics: [...state.netPics, ...pics],
+                keyword: keyword,
+                pn: state.pn + 1
+            })
         }
     },
     [ SELECT_PICS_CANCEL ]: (state, action) => (assign(state, {
@@ -83,11 +96,33 @@ export default createReducer({
     })),
     [ SELECT_PICS_CONFIRM ]: {
         preload: (action, state) => {
-            const checked = state.selectPics.filter((pic) => pic.picked)
+            let pics
+            if(state.type == 'local') {
+                pics = state.selectPics
+            }else{
+                pics = state.netPics
+            }
+            const checked = pics.filter((pic) => {
+                if(!pic.picked){
+                    return false
+                }
+                for(let i in state.pics){
+                    let p = state.pics[i];
+                    if(p.id == pic.id){
+                        return false
+                    }
+                }
+                return true
+            })
             const data = checked.map((pic) => ({
                 img: pic.url,
                 img_100: pic.thumb
             }))
+            if(!data.length){
+                return assign(state, {
+                    isActived: false
+                })
+            }
             return {
                 url:'/api/userpicssave',
                 data: {
@@ -98,7 +133,24 @@ export default createReducer({
             }
         },
         success: (result, state) => {
-            const checked = state.selectPics.filter((pic) => pic.picked)
+            let pics
+            if(state.type == 'local') {
+                pics = state.selectPics
+            }else{
+                pics = state.netPics
+            }
+            const checked = pics.filter((pic) => {
+                if(!pic.picked){
+                    return false
+                }
+                for(let i in state.pics){
+                    let p = state.pics[i];
+                    if(p.id == pic.id){
+                        return false
+                    }
+                }
+                return true
+            })
             return assign(state, {
                 isActived: false,
                 pics: [
@@ -109,12 +161,23 @@ export default createReducer({
         }
     },
     [ PICK_PIC ]: (state, action) => {
-        const pid = action.payload
+        let pid
+        if(action.payload.type == 'net'){
+            pid = action.payload.id
+            const netPics = state.netPics.map((pic) => {
+                return pic.id == pid ? assign(pic, { picked: !pic.picked }) : pic
+            })
+            return assign(state, {
+                netPics
+            })
+        }
+
+        pid = action.payload
         const selectPics = state.selectPics.map((pic) => {
             return pic.id == pid ? assign(pic, { picked: !pic.picked }) : pic
         })
         return assign(state, {
-            selectPics: selectPics
+            selectPics
         })
     },
     [ DELETE_PIC ]: (state, action) => {

@@ -17,7 +17,7 @@ class Menu extends Component {
                     </Link>
                 </li>
                 <li className="menu-item">
-                    <Link className={ pathname == "/editor/common" ? "menu-item-link active" : "menu-item-link"} to="/editor/common">
+                    <Link className={ pathname == "/editor/common" ? "menu-item-link active" : "menu-item-link"} to="/editor/common/0">
                         <i className="pre-icon pre-edit"></i>
                         常用
                         <i className="after-icon arrow arrow-up"></i>
@@ -53,7 +53,7 @@ class Menu extends Component {
                     </Link>
                 </li>
                 <li className="menu-item">
-                    <a className="menu-item-link" href="/content/index">
+                    <a className="menu-item-link" href="/userchannel/index">
                         <i className="pre-icon pre-doc"></i>
                         我的内容
                     </a>

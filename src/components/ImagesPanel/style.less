@@ -58,6 +58,22 @@
             text-align: center;
             vertical-align: middle;
             position: relative;
+
+            &.active .checked {
+                display: block;
+                position: absolute;
+                width: 15px;
+                height: 10px;
+                border-left: @S_ORNAMENT solid 1px;
+                border-bottom: @S_ORNAMENT solid 1px;
+                transform: rotate(-45deg);
+                right: 15px;
+                bottom: 15px;
+            }
+            img {
+                max-width: 100px;
+                max-height: 100px;
+            }
         }
         .img_fluid:hover:after, .img_fluid.active:after {
             content: '';
@@ -71,18 +87,6 @@
         }
         .img_fluid .checked {
             display: none;
-
-            &.active .checked {
-                display: block;
-                position: absolute;
-                width: 15px;
-                height: 10px;
-                border-left: @S_ORNAMENT solid 1px;
-                border-bottom: @S_ORNAMENT solid 1px;
-                transform: rotate(-45deg);
-                right: 15px;
-                bottom: 15px;
-            }
         }
         .add {
             float: left;

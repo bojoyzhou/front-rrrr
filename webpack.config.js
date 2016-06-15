@@ -17,12 +17,12 @@ if (process.env.NODE_ENV === 'production') {
             }
         })
     )
-    plugins.push(
-        new HtmlWebpackPlugin({
-            template: 'edit.html',
-            filename: './static/edit.html'
-        })
-    )
+    // plugins.push(
+    //     new HtmlWebpackPlugin({
+    //         template: 'edit.html',
+    //         filename: './static/edit.html'
+    //     })
+    // )
 }
 module.exports = {
     debug: process.env.NODE_ENV !== 'production',

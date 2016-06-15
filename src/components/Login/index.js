@@ -114,18 +114,22 @@ class Login extends Component {
     }
     hide() {
         const {isOpened, display, actions} = this.props
-        console.log(isOpened, display)
         if(!isOpened && display == 'block'){
             actions.hideLoginPanelDelay()
         }
     }
+    keydown(e) {
+        if(e.keyCode == 13){
+            this.doLogin()
+        }
+    }
     render() {
         const { isOpened, display, status, data, step, codelink } = this.props
-        const animation = isOpened ? "transition.bounceDownIn" : "transition.flipBounceYOut"
+        const animation = isOpened ? "transition.bounceDownIn" : "transition.shrinkOut"
         return (
-            <div className="container-login" style={{ display }}>
+            <div onKeyDown={this.keydown.bind(this)} className="container-login" style={{ display }}>
                 <div className="mask">
-                    <VelocityComponent animation={animation} complete={this.hide.bind(this)}>
+                    <VelocityComponent animation={animation} complete={this.hide.bind(this)} duration={200}>
                         <div className={"mask-panel " + status.toLowerCase()}>
                             {
                                 (function(){
