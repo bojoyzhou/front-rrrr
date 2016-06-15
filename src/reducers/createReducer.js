@@ -27,6 +27,9 @@ function wrapperAction(type, item){
         if(action.status == REQUEST || !action.status){
             const dispatch = action.dispatch
             let ajaxOption = item.preload(action, state)
+            // if(ajaxOption.url[0] == '/'){
+            //     ajaxOption.url = 'http://www.8zcloud.com' + ajaxOption.url
+            // }
             ajaxOption.success = (result) => {
                 if(action.payload && action.payload.hook){
                     if(action.payload.hook(result) === false){

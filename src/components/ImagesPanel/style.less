@@ -17,7 +17,32 @@
         background-color: rgba(0, 0, 0, 0.4);
         z-index: 99999;
 
+        .tabs {
+            position: relative;
+            z-index: 2;
+
+            a {
+                padding: 10px 25px;
+                margin: 1px;
+                z-index: 3;
+                display: block;
+                float: left;
+                color: #999;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+                &.active {
+                    margin: 0;
+                    border: #fe9a5f solid 1px;
+                    border-bottom: #fff solid 1px;
+                    background: #fff;
+                }
+            }
+        }
         .tabs-content {
+            position: relative;
+            z-index: 1;
             border: @S_ORNAMENT solid 1px;
             height: 435px;
             padding: 15px;
@@ -90,23 +115,6 @@
                     top: 0;
                     left: 0
                 }
-            }
-        }
-        .tabs a {
-            padding: 10px 25px;
-            border: #fff solid 1px;
-            border-bottom: #fe9a5f solid 1px;
-            z-index: 3;
-            display: block;
-            float: left;
-            color: #999;
-
-            &:first-child {
-                margin-left: 0;
-            }
-            &:hover, &.active {
-                border: #fe9a5f solid 1px;
-                border-bottom: #fff solid 1px;    /* border-right: #fff solid 1px; */
             }
         }
         span.num-pic {

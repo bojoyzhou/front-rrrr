@@ -76,7 +76,7 @@ module.exports = {
         hot: true,
         proxy: {
             '/api/*': {
-                target: 'http://www.8zcloud.com'
+                target: 'http://www.8zcloud.com:88'
             },
             '/upload/*': {
                 target: 'http://imgs.8zcloud.com'

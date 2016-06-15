@@ -1,0 +1,34 @@
+@import '../../style.less';
+
+.container-net-image {
+    .wrapper {
+        position: relative;
+        &.form{
+            height: 50px;
+        }
+    }
+    input {
+        display: block;
+        width: 100%;
+        height: 30px;
+        padding-left: 15px;
+        position: absolute;
+        box-sizing: border-box;
+    }
+    .icon.search {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        right: 0;
+        background-image: url(./img/search.png);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .loadmore {
+        text-align: center;
+        .btn {
+            &.btn-more {
+            }
+        }
+    }
+}

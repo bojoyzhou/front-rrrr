@@ -4,7 +4,7 @@ import ajax from 'ajax'
  * 导入当前reduce的常量
  *
  */
-import { GET_USER_PICS, SELECT_PIC, SELECT_PICS_CANCEL, SELECT_PICS_CONFIRM, SELECT_PICS_OPEN, PICK_PIC, DELETE_PIC } from '../constants'
+import { GET_USER_PICS, SELECT_PIC, SELECT_PICS_CANCEL, SELECT_PICS_CONFIRM, SELECT_PICS_OPEN, PICK_PIC, DELETE_PIC, SWITCH_LOCAL, SWITCH_NET, SEARCH_ON_NET } from '../constants'
 
 /**
  * 定义默认的state
@@ -25,7 +25,11 @@ const initialState = {
         //     url: makeHost("/upload/img/2016_05_30/124049696.png"),
         //     thumb: makeHost("/upload/img/2016_05_30/124049696_100_0.png")
         // }
-    ]
+    ],
+    type: 'local',
+    netPics: [],
+    pn: 1,
+    rn: 20
 }
 
 export default createReducer({
@@ -52,6 +56,28 @@ export default createReducer({
     [ SELECT_PICS_OPEN ]: (state, action) => (assign(state, {
         isActived: true
     })),
+    [ SWITCH_LOCAL ]: (state, action) => (assign(state, {
+        type: 'local'
+    })),
+    [ SWITCH_NET ]: (state, action) => (assign(state, {
+        type: 'network'
+    })),
+    [ SEARCH_ON_NET ]: {
+        preload: (action, state) => {
+            return {
+                url:'/api/image-search',
+                data: {
+                    keyword: action.payload
+                },
+                type: 'POST',
+                dataType:'json'
+            }
+        },
+        success: (result, state) => {
+            debugger
+            return state
+        }
+    },
     [ SELECT_PICS_CANCEL ]: (state, action) => (assign(state, {
         isActived: false
     })),

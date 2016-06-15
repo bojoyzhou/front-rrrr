@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import FileUpload from 'react-fileupload'
 
 import ImageFluid from '../ImageFluid'
+import NetImage from '../NetImage'
 import style from './style.less'
 
 class ImagesPanel extends Component {
@@ -14,7 +15,46 @@ class ImagesPanel extends Component {
         const actions = this.props.actions
         actions.selectPicConfirm()
     }
+    switchTo(type) {
+        const actions = this.props.actions
+        if(type == 'local'){
+            actions.switchLocal()
+        }else if(type == 'network'){
+            actions.switchNetwork()
+        }
+    }
     render() {
+        const { selectPics, isActived, type } = this.props
+        const className = isActived ? "container-images-panel open" : "container-images-panel close"
+        return (
+            <div className={className}>
+                <div className="mask">
+                    <div className="mask-panel">
+                        <div className="mask-title">
+                            <h4>图片上传</h4>
+                        </div>
+                        <div className="mask-body">
+                            <div className="tabs clear">
+                                <a className={ type == "local" ? "active" : ""} onClick={() => {this.switchTo('local')}} href="javascript:;">本地上传</a>
+                                <a className={ type == "network" ? "active" : ""} onClick={() => {this.switchTo('network')}} href="javascript:;">网络图片上传</a>
+                            </div>
+                            <div className="tabs-content">
+                                { type == "local" ? this.local() : this.network() }
+                            </div>
+                        </div>
+                        <div className="mask-footer">
+                            <div className="mask-info"><span className="num-pic">{selectPics.filter((pic) => pic.picked).length}</span>张图片已经被选中</div>
+                            <div className="mask-btn">
+                                <button onClick={this.handleCancel.bind(this)} className="btn cancel">取消</button>
+                                <button onClick={this.handleConfirm.bind(this)} className="btn confirm">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    local() {
         const actions = this.props.actions
         const options = {
             baseUrl : 'http://imgs.8zcloud.com/getfiles.php?thumb=100_0',
@@ -33,39 +73,18 @@ class ImagesPanel extends Component {
                 actions.selectPic(result.data)
             }
         }
-        const { selectPics, isActived } = this.props
-        const className = isActived ? "container-images-panel open" : "container-images-panel close"
         return (
-            <div className={className}>
-                <div className="mask">
-                    <div className="mask-panel">
-                        <div className="mask-title">
-                            <h4>图片上传</h4>
-                        </div>
-                        <div className="mask-body">
-                            <div className="tabs clear">
-                                <a className="active" href="#">本地上传</a>
-                                <a href="#">网络图片上传</a>
-                            </div>
-                            <div className="tabs-content">
-                                <ImageFluid>
-                                    <div className="add">
-                                        <img src={require("./img/img_add.png")} alt="" />
-                                        <FileUpload className="img-file" options={options}></FileUpload>
-                                    </div>
-                                </ImageFluid>
-                            </div>
-                        </div>
-                        <div className="mask-footer">
-                            <div className="mask-info"><span className="num-pic">{selectPics.filter((pic) => pic.picked).length}</span>张图片已经被选中</div>
-                            <div className="mask-btn">
-                                <button onClick={this.handleCancel.bind(this)} className="btn cancel">取消</button>
-                                <button onClick={this.handleConfirm.bind(this)} className="btn confirm">确定</button>
-                            </div>
-                        </div>
-                    </div>
+            <ImageFluid>
+                <div className="add">
+                    <img src={require("./img/img_add.png")} alt="" />
+                    <FileUpload className="img-file" options={options}></FileUpload>
                 </div>
-            </div>
+            </ImageFluid>
+        )
+    }
+    network() {
+        return (
+            <NetImage />
         )
     }
 }
@@ -75,7 +94,8 @@ import actions from '../../actions'
 function mapStateToProps(state) {
     return {
         isActived: state.selectPic.isActived,
-        selectPics: state.selectPic.selectPics
+        selectPics: state.selectPic.selectPics,
+        type: state.selectPic.type
     }
 }
 

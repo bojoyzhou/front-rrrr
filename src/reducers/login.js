@@ -144,7 +144,7 @@ export default createReducer({
     },
     [CHECK_VCODE]: {
         preload: (action, state) => ({
-            url: 'api/checkvcode',
+            url: '/api/checkvcode',
             data: {
                 vcode: action.payload.vcode
             },
@@ -154,7 +154,7 @@ export default createReducer({
     },
     [GET_USER_NAME]: {
         preload: (action, state) => ({
-            url: 'api/getcurrentuser',
+            url: '/api/getcurrentuser',
             dataType: 'json'
         }),
         success: (result, state) => (assign(state, {
