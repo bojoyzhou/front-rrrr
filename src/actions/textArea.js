@@ -5,6 +5,7 @@ import {
         EDIT_INIT,
         SELECT_COVER,
         SAVE_CONTENT,
+        TEMP_SAVE,
         CHANGE_SIDEINFO,
         PRE_VIEW,
         CLOSE_PRE_VIEW,
@@ -27,6 +28,7 @@ export const getContent = createAction(EDIT_VALUE)
 export const initEditor = createAction(EDIT_INIT, RAW)
 export const selectCover = createAction(SELECT_COVER)
 export const saveContent = createAction(SAVE_CONTENT, REQUEST)
+export const tempSave = createAction(TEMP_SAVE, REQUEST)
 export const changeSideInfo = createAction(CHANGE_SIDEINFO)
 export const preView = createAction(PRE_VIEW, REQUEST)
 export const closePreView = createAction(CLOSE_PRE_VIEW, REQUEST)

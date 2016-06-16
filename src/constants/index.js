@@ -57,6 +57,7 @@ export const HIDE_SIDE = 'HIDE_SIDE'
 
 export const SELECT_COVER = 'SELECT_COVER'
 export const SAVE_CONTENT = 'SAVE_CONTENT'
+export const TEMP_SAVE = 'TEMP_SAVE'
 export const CHANGE_SIDEINFO = 'CHANGE_SIDEINFO'
 
 export const SHOW_PROMPT = 'SHOW_PROMPT'

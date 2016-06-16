@@ -78,14 +78,20 @@ export default createReducer({
             }
         },
         success: (result, state, action) => {
-            const keyword = action.payload && action.payload.keyword || state.keyword
+            let keyword = action.payload && action.payload.keyword
+            let netPics
+            if(keyword && keyword != state.keyword){
+                netPics = []
+            }else{
+                netPics = state.netPics
+            }
             const pics = result.result.map((pic) => ({
                 id: makeId(),
                 picked: false,
                 ...pic
             }))
             return assign(state, {
-                netPics: [...state.netPics, ...pics],
+                netPics: [...netPics, ...pics],
                 keyword: keyword,
                 pn: state.pn + 1
             })

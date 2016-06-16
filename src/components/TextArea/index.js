@@ -9,6 +9,7 @@ class TextArea extends Component {
     componentDidMount(){
         const ue = UE.getEditor('editor')
         const { actions } = this.props
+        this.ue = ue
         actions.initEditor({
             ue,
             ready: () => this.ueReady(ue)
@@ -93,12 +94,25 @@ class TextArea extends Component {
             actions.insertEditor(html)
         })
     }
+    deleteContent() {
+        this.ue.execCommand('cleardoc')
+    }
+    preview() {
+        const { actions } = this.props
+        actions.tempSave()
+    }
     render() {
         const {offset, showTips, menuType} = this.props
         const show = showTips ? 'block' : 'none'
         return (
             <div className="container-textarea">
-                <script id="editor" type="text/plain" width="500"></script>
+                <div>
+                    <script id="editor" type="text/plain" width="500"></script>
+                    <ul className="float-bar">
+                        <li onClick={this.preview.bind(this)} className="float-item preview"></li>
+                        <li onClick={this.deleteContent.bind(this)} className="float-item delete"></li>
+                    </ul>
+                </div>
                 <div ref="tips" className="tips" style={{ display: show, ...offset }}>
                     <div className="tips-btn" onClick={() => { this.handleCommand(DELETE_LINE) } }>删除</div>
                     <div className="tips-btn" style={{ display: menuType == 'SECTION' ? 'block' : 'none' }} onClick={() => { this.handleCommand(NEWLINE_PRE) } }>前空行</div>

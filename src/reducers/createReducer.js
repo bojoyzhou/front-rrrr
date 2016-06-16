@@ -49,9 +49,9 @@ function wrapperAction(type, item){
             ajax(ajaxOption)
             return state
         }else if(action.status == REQUEST_SUCC){
-            if (typeof action.payload.hook === 'function') {
+            if (typeof action.payload.complete === 'function') {
                 setTimeout(() => {
-                    action.payload.hook(action)
+                    action.payload.complete(action)
                 })
             }
             return action.payload

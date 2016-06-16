@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { Link } from 'react-router'
 import style from './style.less'
 
+import { VelocityTransitionGroup } from 'velocity-react'
+import velocityUi from '../../utils/velocity.ui.js'
 class NetImage extends Component {
     handleSelectPic(id) {
         const actions = this.props.actions
@@ -22,33 +25,44 @@ class NetImage extends Component {
         const keyword = this.refs.keyword.value
         actions.searchNetwork()
     }
+    componentDidUpdate() {
+        const { netPics } = this.props
+        if(netPics.length == 20) {
+            const node = ReactDOM.findDOMNode(this.refs.panel)
+            node.scrollTop = 0
+        }
+    }
     render() {
-        const { netPics, children } = this.props
+        const { netPics } = this.props
+        const list = this.list()
         return (
             <div className="container-net-image">
                 <div className="wrapper form">
                     <input ref="keyword" onKeyDown={(e) => {this.down(e)}} type="text"/>
                     <i className="icon search"></i>
                 </div>
-                <div className="wrapper stage">
-                    <div className="clear">
-                    {
-                        netPics.map((pic, idx) => {
-                            return (
-                                <div onClick={ () => this.handleSelectPic(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
-                                    <img src={pic.thumb} alt="" />
-                                    <span className="checked"></span>
-                                </div>
-                            )
-                        })
-                    }
-                    </div>
+                <div className="wrapper stage" ref="panel">
+                    <VelocityTransitionGroup component="div" className="clear" enter={{animation: "transition.fadeIn"}} leave={{animation: "transition.fadeOut"}}>
+                        {list}
+                    </VelocityTransitionGroup>
                     <div className="loadmore">
                         <button onClick={ () => this.loadmore() } className="btn btn-more">加载更多</button>
                     </div>
                 </div>
             </div>
         )
+    }
+    list() {
+        const { netPics } = this.props
+        return netPics.map((pic, idx) => {
+            return (
+                <div onClick={ () => this.handleSelectPic(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
+                    <img src={pic.thumb} alt="" />
+                    <span className="checked"></span>
+                </div>
+            )
+        })
+
     }
 }
 

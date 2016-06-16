@@ -11,6 +11,7 @@ import Editor from '../../components/Editor'
 import Login from '../../components/Login'
 import InfoSide from '../../components/InfoSide'
 import Prompt from '../../components/Prompt'
+import Qrcode from '../../components/Qrcode'
 import DevTools from '../DevTools'
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
                 <Header></Header>
                 {this.props.children}
                 <InfoSide></InfoSide>
+                <Qrcode></Qrcode>
                 <Login></Login>
                 <Prompt></Prompt>
             </div>

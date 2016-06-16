@@ -17,15 +17,26 @@ class InfoSide extends Component {
         })
     }
     saveContent() {
-        const {actions} = this.props
+        const {actions, title, author, summary, cover, ue} = this.props
         const that = this
+        if(!title){
+            return actions.showPrompt('标题不能为空')
+        }else if(!author){
+            return actions.showPrompt('作者不能为空')
+        }else if(!summary){
+            return actions.showPrompt('简介不能为空')
+        }else if(!cover){
+            return actions.showPrompt('请上传一张封面')
+        }else if(!ue.getContent()){
+            return actions.showPrompt('您没有编辑的内容')
+        }
         actions.saveContent({
             hook: (result) => {
                 if(result.ret_code == 0){
                     actions.preView(result.docid)
                 }else if(result.ret_code == 3){
                     actions.openLoginDialog({
-                        hook: (result) => {
+                        complete: (result) => {
                             that.saveContent()
                         }
                     })
@@ -70,12 +81,7 @@ class InfoSide extends Component {
             wrapperDisplay : 'inline-block',
             multiple: true,
             dataType : 'json',
-            fileFieldName : 'filedName',
-            beforeUpload: function(files){
-                for (var i = files.length - 1; i >= 0; i--) {
-                    files[i].filedName = 'file'
-                }
-            },
+            fileFieldName : 'file',
             uploadSuccess: function(result){
                 actions.selectCover(result.data.url)
             }
@@ -131,7 +137,6 @@ class InfoSide extends Component {
                             <a onClick={this.saveContent.bind(this)} href="javascript:;" className="btn">完成</a>
                         </div>
                     </div>
-                    <Qrcode></Qrcode>
                 </div>
             </VelocityComponent>
         )
@@ -147,7 +152,8 @@ function mapStateToProps(state) {
         author: state.textArea.author,
         summary: state.textArea.summary,
         cover: state.textArea.cover,
-        showSide: state.textArea.showSide
+        showSide: state.textArea.showSide,
+        ue: state.textArea.ue,
     }
 }
 

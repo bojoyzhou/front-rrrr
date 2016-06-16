@@ -11,6 +11,7 @@ import {
         EDIT_INSERT,
         SELECT_COVER,
         SAVE_CONTENT,
+        TEMP_SAVE,
         CHANGE_SIDEINFO,
         PRE_VIEW,
         CLOSE_PRE_VIEW,
@@ -56,7 +57,7 @@ export default createReducer({
     [ SAVE_CONTENT ]: {
         preload: (action, state) => {
             const data = {
-                content: state.content,
+                content: state.ue.getContent(),
                 title: state.title,
                 author: state.author,
                 summary: state.summary,
@@ -73,22 +74,44 @@ export default createReducer({
             id: result.docid
         }))
     },
-    [ PRE_VIEW ]: {
+    [ TEMP_SAVE ]: {
         preload: (action, state) => {
+            const data = {
+                content: state.ue.getContent(),
+            }
             return {
-                url: '/api/qrcode',
-                data:{
-                    qr: makePost(action.payload)
-                },
+                url: '/api/preview',
+                data,
                 type: 'POST',
                 dataType: 'json'
             }
         },
-        success: (result, state, action) => (assign(state, {
-            preview: result.url,
-            rawUrl: makePost(action.payload)
+        success: (result, state) => (assign(state, {
+            preview: 'http://s.jiathis.com/qrcode.php?url='+encodeURIComponent(result.url),
+            rawUrl: result.url
         }))
     },
+    [ PRE_VIEW ]: (state, action) => (assign(state, {
+        preview: 'http://s.jiathis.com/qrcode.php?url='+encodeURIComponent(makePost(action.payload)),
+        rawUrl: makePost(action.payload)
+    })),
+    // [ PRE_VIEW ]: {
+    //     preload: (action, state) => {
+    //         debugger
+    //         return {
+    //             url: '/api/qrcode',
+    //             data:{
+    //                 qr: makePost(action.payload)
+    //             },
+    //             type: 'POST',
+    //             dataType: 'json'
+    //         }
+    //     },
+    //     success: (result, state, action) => (assign(state, {
+    //         preview: result.url,
+    //         rawUrl: makePost(action.payload)
+    //     }))
+    // },
     [ CLOSE_PRE_VIEW ]: (state, action) => (assign(state, {
         preview: '',
         rawUrl: ''
@@ -171,5 +194,5 @@ function makeHost(url){
 }
 
 function makePost(docid){
-    return 'http://www.8zcloud.com/doc/' + docid
+    return 'http://www.8zcloud.com/userwords/single?docid=' + docid
 }
