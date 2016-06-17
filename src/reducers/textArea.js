@@ -61,10 +61,15 @@ export default createReducer({
                 title: state.title,
                 author: state.author,
                 summary: state.summary,
-                pics: state.cover,
+                docid: state.id,
+                pics: [state.cover],
+            }
+            let url = '/api/userwordssave'
+            if(state.id){
+                url = '/userwords/modify'
             }
             return {
-                url: '/api/userwordssave',
+                url,
                 data,
                 type: 'POST',
                 dataType: 'json'
@@ -95,23 +100,6 @@ export default createReducer({
         preview: 'http://s.jiathis.com/qrcode.php?url='+encodeURIComponent(makePost(action.payload)),
         rawUrl: makePost(action.payload)
     })),
-    // [ PRE_VIEW ]: {
-    //     preload: (action, state) => {
-    //         debugger
-    //         return {
-    //             url: '/api/qrcode',
-    //             data:{
-    //                 qr: makePost(action.payload)
-    //             },
-    //             type: 'POST',
-    //             dataType: 'json'
-    //         }
-    //     },
-    //     success: (result, state, action) => (assign(state, {
-    //         preview: result.url,
-    //         rawUrl: makePost(action.payload)
-    //     }))
-    // },
     [ CLOSE_PRE_VIEW ]: (state, action) => (assign(state, {
         preview: '',
         rawUrl: ''

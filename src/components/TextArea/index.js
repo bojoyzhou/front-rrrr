@@ -3,12 +3,14 @@ import { Link } from 'react-router'
 import { history } from '../../utils'
 import edui from './edui.css'
 import style from './style.css'
+import { getParams } from '../../utils'
 import { DELETE_LINE, NEWLINE_PRE, NEWLINE_AFT, ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, } from '../../constants'
+import ajax from 'ajax'
 
 class TextArea extends Component {
     componentDidMount(){
         const ue = UE.getEditor('editor')
-        const { actions } = this.props
+        const { actions, pathname } = this.props
         this.ue = ue
         actions.initEditor({
             ue,
@@ -64,7 +66,7 @@ class TextArea extends Component {
         }
     }
     ueReady(ue) {
-        const { actions } = this.props
+        const { actions, pathname } = this.props
         ue.document.addEventListener('click', (e) => {
             let elem = e.target.closest('.RankEditor')
             let show = false
@@ -89,10 +91,42 @@ class TextArea extends Component {
                 actions.hideTools()
             }
         }, false)
-        setTimeout(() => {
-            const html = ue.execCommand('getlocaldata')
-            actions.insertEditor(html)
-        })
+        const docid = getParams('docid', pathname)
+        if(docid){
+            ajax({
+                url: '/userwords/getone',
+                type: 'GET',
+                data:{
+                    docid
+                },
+                success: (result) => {
+                    actions.insertEditor(result.data.content)
+                    const arr = ['title', 'author', 'summary']
+                    arr.map(function(name){
+                        const value = result.data[name]
+                        actions.changeSideInfo({
+                            name,
+                            value
+                        })
+                    })
+                    const cover = result.data.pics[0]
+                    actions.changeSideInfo({
+                        name: 'cover',
+                        value: cover
+                    })
+                    actions.changeSideInfo({
+                        name: 'id',
+                        value: docid
+                    })
+                },
+                dataType:'json'
+            })
+        }else{
+            setTimeout(() => {
+                const html = ue.execCommand('getlocaldata')
+                actions.insertEditor(html)
+            })
+        }
     }
     deleteContent() {
         this.ue.execCommand('cleardoc')
@@ -131,6 +165,7 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
+        pathname: state.routing.locationBeforeTransitions.pathname,
         offset: state.textArea.offset,
         showTips: state.textArea.showTips,
         elem: state.textArea.elem,
