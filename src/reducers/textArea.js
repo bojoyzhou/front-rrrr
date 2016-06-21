@@ -92,12 +92,12 @@ export default createReducer({
             }
         },
         success: (result, state) => (assign(state, {
-            preview: 'http://s.jiathis.com/qrcode.php?url='+encodeURIComponent(result.url),
+            preview: '/it/qrcode?string='+encodeURIComponent(result.url),
             rawUrl: result.url
         }))
     },
     [ PRE_VIEW ]: (state, action) => (assign(state, {
-        preview: 'http://s.jiathis.com/qrcode.php?url='+encodeURIComponent(makePost(action.payload)),
+        preview: '/it/qrcode?string='+encodeURIComponent(makePost(action.payload)),
         rawUrl: makePost(action.payload)
     })),
     [ CLOSE_PRE_VIEW ]: (state, action) => (assign(state, {

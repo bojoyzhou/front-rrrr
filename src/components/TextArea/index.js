@@ -68,7 +68,7 @@ class TextArea extends Component {
     ueReady(ue) {
         const { actions, pathname } = this.props
         ue.document.addEventListener('click', (e) => {
-            let elem = e.target.closest('.RankEditor')
+            let elem = e.target.closest('.RankEditor') || e.target.closest('.bazaEditor')
             let show = false
             if(elem){
                 show = true
