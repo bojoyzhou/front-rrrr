@@ -11,7 +11,7 @@ class Header extends Component {
         const { actions, username } = this.props
         return (
             <nav className="nav">
-                <div className="nav-logo">logo</div>
+                <a href="/" className="logo"><div className="ir"></div><div className="text">八爪云内容服务平台<br/><span>www.i8za.com</span></div></a>
                 <ul className="nav-ul clear">
                     <li className="nav-item nav-item-editor nav-active">
                         <Link className="nav-link" to="/editor">
@@ -33,13 +33,13 @@ class Header extends Component {
                     </li>
                     <li className="nav-item nav-item-manage">
                         <a href="/"></a>
-                        <Link className="nav-link" to="/editor">
+                        <a className="nav-link" href="/usergrabwords/index">
                             <div className="icon"></div>
                             <div className="desc">
                                 <i></i>
                                 <span>管理中心</span>
                             </div>
-                        </Link>
+                        </a>
                     </li>
                 </ul>
                 <div className="right">
@@ -52,7 +52,7 @@ class Header extends Component {
                         }
                     })()
                 } |
-                    <a className="home" href="">home</a>
+                    <a className="home" href="/">home</a>
                 </div>
             </nav>
         )

@@ -87,6 +87,9 @@ module.exports = {
             '/userwords/*': {
                 target: 'http://www.8zcloud.com:88'
             },
+            '/it/*': {
+                target: 'http://www.8zcloud.com:88'
+            },
             '/upload/*': {
                 target: 'http://imgs.8zcloud.com'
             },

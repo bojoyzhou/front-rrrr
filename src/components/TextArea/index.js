@@ -10,7 +10,7 @@ import ajax from 'ajax'
 class TextArea extends Component {
     componentDidMount(){
         const ue = UE.getEditor('editor')
-        const { actions, pathname } = this.props
+        const { actions } = this.props
         this.ue = ue
         actions.initEditor({
             ue,
@@ -66,7 +66,7 @@ class TextArea extends Component {
         }
     }
     ueReady(ue) {
-        const { actions, pathname } = this.props
+        const { actions, query } = this.props
         ue.document.addEventListener('click', (e) => {
             let elem = e.target.closest('.RankEditor') || e.target.closest('.bazaEditor')
             let show = false
@@ -91,13 +91,14 @@ class TextArea extends Component {
                 actions.hideTools()
             }
         }, false)
-        const docid = getParams('docid', pathname)
+        const {docid, type} = query
         if(docid){
             ajax({
-                url: '/userwords/getone',
+                url: '/api/getwordsingle',
                 type: 'GET',
                 data:{
-                    docid
+                    docid,
+                    type
                 },
                 success: (result) => {
                     actions.insertEditor(result.data.content)
@@ -109,7 +110,7 @@ class TextArea extends Component {
                             value
                         })
                     })
-                    const cover = result.data.pics[0]
+                    const cover = result.data.pics && result.data.pics[0]
                     actions.changeSideInfo({
                         name: 'cover',
                         value: cover
@@ -165,7 +166,7 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
-        pathname: state.routing.locationBeforeTransitions.pathname,
+        query: state.routing.locationBeforeTransitions.query,
         offset: state.textArea.offset,
         showTips: state.textArea.showTips,
         elem: state.textArea.elem,

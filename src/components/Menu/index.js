@@ -11,54 +11,28 @@ class Menu extends Component {
         return (
             <ul className="menu">
                 <li className="menu-item">
-                    <Link className={ pathname == "/editor/import" ? "menu-item-link active" : "menu-item-link"} to="/editor/import">
-                        <i className="pre-icon pre-import"></i>
-                        导入内容
+                    <Link className={ pathname == "/editor/import" ? "menu-link active" : "menu-link"} to="/editor/import">
+                        <i className="icon ico-import"></i>导入
                     </Link>
                 </li>
                 <li className="menu-item">
-                    <Link className={ pathname == "/editor/common" ? "menu-item-link active" : "menu-item-link"} to="/editor/common/0">
-                        <i className="pre-icon pre-edit"></i>
-                        常用
-                        <i className="after-icon arrow arrow-up"></i>
+                    <Link className={ pathname == "/editor/common" ? "menu-link active" : "menu-link"} to="/editor/common/0">
+                        <i className="icon ico-pen"></i>常用
                     </Link>
+                    <ul className="sub-menu">
+                        <li className="sub-menu-item"><Link activeClassName="active" className="sub-menu-link" to="/editor/common/1">标题</Link></li>
+                        <li className="sub-menu-item"><Link activeClassName="active" className="sub-menu-link" to="/editor/common/2">正文</Link></li>
+                        <li className="sub-menu-item"><Link activeClassName="active" className="sub-menu-link" to="/editor/common/3">图文</Link></li>
+                        <li className="sub-menu-item"><Link activeClassName="active" className="sub-menu-link" to="/editor/common/4">关注</Link></li>
+                        <li className="sub-menu-item"><Link activeClassName="active" className="sub-menu-link" to="/editor/common/5">分隔</Link></li>
+                        <li className="sub-menu-item"><Link activeClassName="active" className="sub-menu-link" to="/editor/common/6">插件</Link></li>
+                        <li className="sub-menu-item"><Link activeClassName="active" className="sub-menu-link" to="/editor/common/7">其他</Link></li>
+                    </ul>
                 </li>
-                <ul className="sub-menu">
-                    <li className="sub-menu-item">
-                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/1">标题</Link>
-                    </li>
-                    <li className="sub-menu-item">
-                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/2">正文</Link>
-                    </li>
-                    <li className="sub-menu-item">
-                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/3">图文</Link>
-                    </li>
-                    <li className="sub-menu-item">
-                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/4">关注</Link>
-                    </li>
-                    <li className="sub-menu-item">
-                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/5">分隔</Link>
-                    </li>
-                    <li className="sub-menu-item">
-                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/6">插件</Link>
-                    </li>
-                    <li className="sub-menu-item">
-                        <Link activeClassName="active" className="sub-menu-item-link" to="/editor/common/7">其他</Link>
-                    </li>
-                </ul>
-                <li className="menu-item">
-                    <Link className={ pathname == "/editor/images" ? "menu-item-link active" : "menu-item-link"} to="/editor/images">
-                        <i className="pre-icon pre-img"></i>
-                        我的图库
-                    </Link>
-                </li>
-                <li className="menu-item">
-                    <a className="menu-item-link" href="/userchannel/index">
-                        <i className="pre-icon pre-doc"></i>
-                        我的内容
-                    </a>
-                </li>
+                <li className="menu-item"><Link className={ pathname == "/editor/images" ? "menu-link active" : "menu-link"} to="/editor/images"><i className="icon ico-img"></i>我的图库</Link></li>
+                <li className="menu-item"><a href="/userchannel/index" className="menu-link"><i className="icon ico-file"></i>我的内容</a></li>
             </ul>
+
         )
     }
 }

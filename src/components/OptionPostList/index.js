@@ -18,7 +18,7 @@ class OptionPostList extends Component {
         let { actions } = this.props
         actions.getPostDetail({
             docid,
-            hook: (action) => {
+            hook: (result) => {
                 actions.insertEditor(result.data.content)
             }
         })

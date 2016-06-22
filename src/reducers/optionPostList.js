@@ -30,8 +30,9 @@ export default createReducer({
     },
     [ GET_POST_DETAIL ]: {
         preload: (action) => ({
-            url: '/api/collectsingle',
+            url: '/api/getwordsingle',
             data: {
+                type:'pub',
                 docid: action.payload.docid
             },
             dataType: 'json'
