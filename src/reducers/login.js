@@ -49,6 +49,7 @@ const initialState = {
         uid: ''
     },
     username: '',
+    isLogin: '',
     codelink: refresh()
 }
 
@@ -109,7 +110,8 @@ export default createReducer({
         },
         success: (result, state) => (assign(state, {
             isOpened: false,
-            username: result.uInfo.uname
+            username: result.uInfo.uname,
+            isLogin: !!result.uInfo.uname
         }))
     },
     [DO_REGIST]: {
@@ -158,7 +160,8 @@ export default createReducer({
             dataType: 'json'
         }),
         success: (result, state) => (assign(state, {
-            username: result.uInfo && result.uInfo.uname
+            username: result.uInfo && result.uInfo.uname,
+            isLogin: result.uInfo && true || false
         }))
     },
 }, initialState)

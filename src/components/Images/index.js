@@ -10,14 +10,23 @@ import { VelocityComponent } from 'velocity-react'
 import velocityUi from '../../utils/velocity.ui.js'
 class Images extends Component {
     handleAddPic(){
-        const actions = this.props.actions
-        actions.selectPicOpen()
+        const {isLogin, actions} = this.props
+        if(isLogin){
+            actions.selectPicOpen()
+        }else{
+            actions.openLoginDialog()
+        }
     }
     fetchData() {
-        this.props.actions.getUserPics()
+        const {isLogin, actions} = this.props
+        console.log(isLogin)
+        if(isLogin){
+            actions.getUserPics()
+        }
     }
     componentDidMount() {
-         this.fetchData()
+        console.log('componentDidMount')
+        this.fetchData()
     }
     render() {
         const {pics, addingPic} = this.props
@@ -47,7 +56,8 @@ import actions from '../../actions'
 function mapStateToProps(state) {
     return {
         pics: state.selectPic.pics,
-        addingPic: false
+        addingPic: false,
+        isLogin: state.login.isLogin
     }
 }
 

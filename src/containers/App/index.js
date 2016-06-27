@@ -12,6 +12,7 @@ import Login from '../../components/Login'
 import InfoSide from '../../components/InfoSide'
 import Prompt from '../../components/Prompt'
 import Qrcode from '../../components/Qrcode'
+import Loading from '../../components/Loading'
 import DevTools from '../DevTools'
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
                 <Qrcode></Qrcode>
                 <Login></Login>
                 <Prompt></Prompt>
+                <Loading></Loading>
             </div>
         )
     }

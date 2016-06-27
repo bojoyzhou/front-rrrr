@@ -62,3 +62,6 @@ export const CHANGE_SIDEINFO = 'CHANGE_SIDEINFO'
 
 export const SHOW_PROMPT = 'SHOW_PROMPT'
 export const HIDE_PROMPT = 'HIDE_PROMPT'
+
+export const SHOW_LOADING = 'SHOW_LOADING'
+export const HIDE_LOADING = 'HIDE_LOADING'

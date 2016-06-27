@@ -5,9 +5,9 @@ import style from './style.less'
 class PicList extends Component {
     handleClick(idx) {
         const { pics, actions } = this.props
-        const url = pics[idx].url
+        const {url, thumb} = pics[idx]
         const genHtml = () => {
-            return '<img src="' + url.replace(/[^\w\/\.\:]/g, '') + '" alt="" />'
+            return '<img src="' + url + '" onerror="' + thumb + '" alt="" />'
         }
         actions.insertEditor(genHtml())
     }

@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions'
 import ajax from 'ajax'
-import { REQUEST, REQUEST_SUCC, REQUEST_ERROR, REQUEST_LOADING } from '../constants'
+import { REQUEST, REQUEST_SUCC, REQUEST_ERROR, REQUEST_LOADING, HIDE_LOADING, SHOW_LOADING } from '../constants'
 
 export const createReducer = (options, initialState) => {
     let actionOptions = { };
@@ -21,7 +21,7 @@ export const assign = (target, dest) => {
     let obj = Object.assign({}, target)
     return Object.assign(obj, dest)
 }
-
+var counter = 0;
 function wrapperAction(type, item){
     return (state, action) => {
         if(action.status == REQUEST || !action.status){
@@ -30,22 +30,31 @@ function wrapperAction(type, item){
             if(!ajaxOption.url){
                 return ajaxOption
             }
-            // if(ajaxOption.url[0] == '/'){
-            //     ajaxOption.url = 'http://www.8zcloud.com' + ajaxOption.url
-            // }
             ajaxOption.success = (result) => {
+                setTimeout(() => {
+                    dispatch({
+                        type: HIDE_LOADING
+                    })
+                })
                 if(action.payload && action.payload.hook){
                     if(action.payload.hook(result) === false){
                         return
                     }
                 }
                 let payload = item.success(result, state, action)
-                dispatch({
+                counter--
+                counter == 0 && dispatch({
                     type,
                     payload,
                     status: REQUEST_SUCC
                 })
             }
+            setTimeout(() => {
+                counter ++;
+                dispatch({
+                    type: SHOW_LOADING
+                })
+            })
             ajax(ajaxOption)
             return state
         }else if(action.status == REQUEST_SUCC){

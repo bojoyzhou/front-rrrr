@@ -14,11 +14,14 @@ class NetImage extends Component {
         })
     }
     down(e){
-        const actions = this.props.actions
         if(e.keyCode == 13){
-            const keyword = e.target.value
-            actions.searchNetwork({ keyword })
+            this.search()
         }
+    }
+    search(){
+        const actions = this.props.actions
+        const keyword = this.refs.keyword.value
+        actions.searchNetwork({ keyword })
     }
     loadmore(){
         const actions = this.props.actions
@@ -39,7 +42,7 @@ class NetImage extends Component {
             <div className="container-net-image">
                 <div className="wrapper form">
                     <input ref="keyword" onKeyDown={(e) => {this.down(e)}} type="text"/>
-                    <i className="icon search"></i>
+                    <i onClick={() => {this.search()}} className="icon search"></i>
                 </div>
                 <div className="wrapper stage" ref="panel">
                     <VelocityTransitionGroup component="div" className="clear" enter={{animation: "transition.fadeIn"}} leave={{animation: "transition.fadeOut"}}>

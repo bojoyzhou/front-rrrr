@@ -73,20 +73,34 @@ class InfoSide extends Component {
             actions.showSide()
         }
     }
+    checkLogin(e){
+        const {isLogin, actions} = this.props
+        if(!isLogin){
+            actions.openLoginDialog()
+            e.stopPropagation()
+            return false
+        }
+    }
     render() {
         const actions = this.props.actions
+        const {title, author, summary, cover, showSide, isLogin} = this.props
         const options = {
             baseUrl : 'http://imgs.8zcloud.com/getfiles.php?thumb=100_0',
             chooseAndUpload : true,
-            wrapperDisplay : 'inline-block',
+            wrapperDisplay : 'block',
             multiple: true,
             dataType : 'json',
             fileFieldName : 'file',
+            beforeChoose: function(){
+                if(!isLogin){
+                    actions.openLoginDialog()
+                    return false
+                }
+            },
             uploadSuccess: function(result){
                 actions.selectCover(result.data.url)
             }
         }
-        const {title, author, summary, cover, showSide} = this.props
         const handleChange = this.handleChange.bind(this)
         const In = {
             translateX: 0,
@@ -96,7 +110,6 @@ class InfoSide extends Component {
             translateX: 271,
             backgroundColor: "#333"
         }
-        // const animation = showSide ? "transition.slideRightIn" : "transition.slideRightOut"
         const animation = showSide ? In : Out
         return (
             <VelocityComponent animation={animation}>
@@ -128,7 +141,7 @@ class InfoSide extends Component {
 
                         <h4>封面</h4>
                         <div className="group">
-                            <div className="img_fluid add clear">
+                            <div className="img_fluid add clear" onClick={(e) => {this.checkLogin(e)}}>
                                 <img src={cover ? cover : require("./img/img_add.png")} alt="" />
                                 <FileUpload className="img-file" options={options}></FileUpload>
                             </div>
@@ -154,6 +167,7 @@ function mapStateToProps(state) {
         cover: state.textArea.cover,
         showSide: state.textArea.showSide,
         ue: state.textArea.ue,
+        isLogin: state.login.isLogin
     }
 }
 
