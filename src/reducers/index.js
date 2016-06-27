@@ -8,6 +8,7 @@ import login from './login'
 import textArea from './textArea'
 import prompt from './prompt'
 import loading from './loading'
+import alert from './alert'
 
 export default combineReducers({
     routing,
@@ -18,4 +19,5 @@ export default combineReducers({
     textArea,
     prompt,
     loading,
+    alert,
 })

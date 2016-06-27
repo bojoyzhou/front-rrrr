@@ -24,7 +24,8 @@ import {
         ALIGN_CENTER,
         ALIGN_RIGHT,
         SHOW_SIDE,
-        HIDE_SIDE
+        HIDE_SIDE,
+        CLEAR_EDITOR
     } from '../constants'
 
 /**
@@ -95,6 +96,12 @@ export default createReducer({
             preview: '/it/qrcode?string='+encodeURIComponent(result.url),
             rawUrl: result.url
         }))
+    },
+    [ CLEAR_EDITOR ]: (state, action) => {
+        state.ue.execCommand('cleardoc')
+        return assign(state, {
+            content: ''
+        })
     },
     [ PRE_VIEW ]: (state, action) => (assign(state, {
         preview: '/it/qrcode?string='+encodeURIComponent(makePost(action.payload)),

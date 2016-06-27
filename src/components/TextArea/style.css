@@ -26,6 +26,7 @@ div#editor {
     z-index: 9999
 }
 .container-textarea .tips-btn {
+    cursor: pointer;
     float: left;
 }
 .container-textarea .tips-btn {

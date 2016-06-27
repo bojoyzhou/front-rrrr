@@ -5,6 +5,7 @@ import * as login from './login'
 import * as textArea from './textArea'
 import * as prompt from './prompt'
 import * as loading from './loading'
+import * as alert from './alert'
 export default {
     ...getOptionPostList,
     ...getCommonStyle,
@@ -12,5 +13,6 @@ export default {
     ...login,
     ...textArea,
     ...prompt,
-    ...loading
+    ...loading,
+    ...alert
 }

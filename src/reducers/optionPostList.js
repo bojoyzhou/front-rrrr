@@ -15,7 +15,8 @@ import { GET_OPTION_POST_LIST, GET_POST_DETAIL, IMPORT_CONTENT } from '../consta
 const initialState = {
     importUrl: '',
     content: '',
-    posts: []
+    posts: [],
+    showAlert: false
 }
 
 export default createReducer({
@@ -59,7 +60,8 @@ export default createReducer({
                     }else if(item.img){
                         return '<p><img src="'+ item.img +'"></p>'
                     }
-                }).join('')
+                }).join(''),
+                showAlert: true
             })
         }
     }

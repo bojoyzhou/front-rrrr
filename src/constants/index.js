@@ -41,6 +41,7 @@ export const GET_USER_NAME = 'GET_USER_NAME'
 
 export const EDIT_INSERT = 'EDIT_INSERT'
 export const EDIT_VALUE = 'EDIT_VALUE'
+export const CLEAR_EDITOR = 'CLEAR_EDITOR'
 export const EDIT_INIT = 'EDIT_INIT'
 export const PRE_VIEW = 'PRE_VIEW'
 export const CLOSE_PRE_VIEW = 'CLOSE_PRE_VIEW'
@@ -65,3 +66,6 @@ export const HIDE_PROMPT = 'HIDE_PROMPT'
 
 export const SHOW_LOADING = 'SHOW_LOADING'
 export const HIDE_LOADING = 'HIDE_LOADING'
+
+export const SHOW_ALERT = 'SHOW_ALERT'
+export const HIDE_ALERT = 'HIDE_ALERT'

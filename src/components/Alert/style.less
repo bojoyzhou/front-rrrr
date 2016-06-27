@@ -1,0 +1,71 @@
+@import '../../style.less';
+.mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    text-align: center;
+
+    .mask-panel {
+        text-align: left;
+        max-width: 500px;
+        min-width: 225px;
+        margin: 0 auto;
+        margin-top: 200px;
+        border-radius: 5px;
+        background: #fff;
+
+        .mask-title {
+            height: 44px;
+            line-height: 44px;
+            background-color: #fe9a5f;
+            color: #fff;
+            padding-left: 15px;
+            box-sizing: border-box;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+
+            h4 {
+                font-weight: normal;
+            }
+            a.close {
+                cursor: pointer;
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                text-align: center;
+                line-height: 24px;
+                top: 11px;
+                border-radius: 50%;
+                right: 10px;
+                color: #fff;
+                transition: .3s;
+                -webkit-user-select: none;
+
+                &:hover {
+                    background: @MODAL_CLOSE_BG_HOVER;
+                }
+            }
+            &:after {
+                display: table;
+                content: " ";
+                clear: both;
+            }
+        }
+        .mask-body {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .mask-footer {
+            text-align: center;
+            padding: 10px 0;
+
+            .btn + .btn {
+                margin-left: 20px;
+            }
+        }
+    }
+}

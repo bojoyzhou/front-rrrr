@@ -19,10 +19,11 @@ class TextArea extends Component {
     }
     handleCommand(type){
         const { actions } = this.props
+        const elem = this.elem
         if(type == DELETE_LINE){
             actions.deleteLine({
                 hook: (state) => {
-                    state.elem.parentNode.removeChild(state.elem)
+                    elem.parentNode.removeChild(elem)
                     setTimeout(actions.hideTools)
                 }
             })
@@ -30,18 +31,18 @@ class TextArea extends Component {
             actions.newLinePre({
                 hook: (state) => {
                     const br = document.createElement('br')
-                    state.elem.parentNode.insertBefore(br, state.elem)
+                    elem.parentNode.insertBefore(br, elem)
                 }
             })
         }else if(type == NEWLINE_AFT){
             actions.newLineAft({
                 hook: (state) => {
                     const br = document.createElement('br')
-                    const parent = state.elem.parentNode
-                    if(parent.lastChild == state.elem){
+                    const parent = elem.parentNode
+                    if(parent.lastChild == elem){
                         parent.appendChild(br)
                     }else{
-                        parent.insertBefore(br, state.elem.nextSibling)
+                        parent.insertBefore(br, elem.nextSibling)
                     }
                 }
             })
@@ -66,7 +67,11 @@ class TextArea extends Component {
         }
     }
     ueReady(ue) {
+        var that = this
         const { actions, query } = this.props
+        document.body.addEventListener('click', (e) => {
+            actions.hideTools()
+        })
         ue.document.addEventListener('click', (e) => {
             let elem = e.target.closest('.RankEditor') || e.target.closest('.bazaEditor')
             let show = false
@@ -80,6 +85,7 @@ class TextArea extends Component {
                 }
             }
             if(show){
+                that.elem = elem
                 actions.showTools({
                     offset: {
                         left: editor.offsetLeft + 20,
@@ -130,7 +136,8 @@ class TextArea extends Component {
         }
     }
     deleteContent() {
-        this.ue.execCommand('cleardoc')
+        const { actions } = this.props
+        actions.clearEditor()
     }
     preview() {
         const { actions } = this.props

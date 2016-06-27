@@ -21,7 +21,8 @@ import {
         RAW,
         RESIZE,
         SHOW_SIDE,
-        HIDE_SIDE
+        HIDE_SIDE,
+        CLEAR_EDITOR
     } from '../constants'
 export const insertEditor = createAction(EDIT_INSERT)
 export const getContent = createAction(EDIT_VALUE)
@@ -42,4 +43,5 @@ export const imgAlignCenter = createAction(ALIGN_CENTER)
 export const imgAlignRight = createAction(ALIGN_RIGHT)
 export const showSide = createAction(SHOW_SIDE)
 export const hideSide = createAction(HIDE_SIDE)
+export const clearEditor = createAction(CLEAR_EDITOR)
 

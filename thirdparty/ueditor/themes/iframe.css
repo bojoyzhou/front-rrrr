@@ -6,4 +6,8 @@ body{
 }
 img{
     max-width: 100%;
+    cursor: pointer;
+}
+.bazaEditor{
+    cursor: pointer;
 }
