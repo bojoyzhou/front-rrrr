@@ -145,7 +145,7 @@ export default createReducer({
             }else{
                 pics = state.netPics
             }
-            const checked = pics.filter((pic) => {
+            let checked = pics.filter((pic) => {
                 if(!pic.picked){
                     return false
                 }
@@ -156,6 +156,10 @@ export default createReducer({
                     }
                 }
                 return true
+            })
+            checked = checked.map((pic, i) => {
+                pic.id = result.list[i]
+                return pic
             })
             return assign(state, {
                 isActived: false,
