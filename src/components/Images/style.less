@@ -3,6 +3,8 @@
 .container-images {
     float: left;
     height: 100%;
+    position: relative;
+    z-index: 2;
 
     .panel-images {
         width: 386px;
@@ -32,6 +34,8 @@
         height: 100%;
         font-size: 14px;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
         .FUNC_BOX();
     }
     .panel-title {
@@ -44,25 +48,19 @@
         position: relative;
     }
     .panel-posts-body {
-        height: 100%;
         box-sizing: border-box;
         padding-bottom: 60px;
         padding-top: 55px;
         margin-top: -55px;
         z-index: 1;
         position: relative;
+        background-color: @BG_BOX;
+        overflow: auto;
+        flex: 1;
     }
     .container-pic-list {
         height: 100%;
         overflow: auto;
-    }
-    .panel-posts-body {
-        height: 100%;
-        background-color: @BG_BOX;
-        overflow: hidden;
-    }
-    .panel-title {
-        position: relative;
     }
     .panel-title span {
         color: @FC_TITLE;

@@ -17,65 +17,60 @@ class OptionPostList extends Component {
     }
     handleClick(docid){
         let { actions } = this.props
-        debugger
-        actions.getPostDetail({
-            docid,
-            hook: (result) => {
-                actions.insertEditor(result.data.content)
-            }
+        this.setState({
+            show: true
         })
-    }
-    handleClick(e) {
-        const {actions} = this.props
         this.confirmCall = () => {
             actions.getPostDetail({
                 docid,
                 hook: (result) => {
-                    actions.clearEditor()
+                    actions.clearEditor(result.data.content)
                     actions.insertEditor(result.data.content)
                 }
             })
         }
-        this.props.showAlert = true;
     }
     confirm(){
-        return this.confirmCall()
+        this.confirmCall && this.confirmCall()
+        this.setState({
+            show: false
+        })
     }
     cancel(){
-
+        this.setState({
+            show: false
+        })
     }
     render() {
         let { posts } = this.props
         const handleClick = this.handleClick.bind(this)
+        const alert = {
+            title: '提示信息',
+            desc: '您确认清除正在编辑的信息吗',
+            confirm: this.confirm.bind(this),
+            cancel: this.cancel.bind(this)
+        }
         return (
             <ul className="container-option-post-list">
                 {
                     posts.map(function (post, idx){
                         return (
-                            <li onClick={() => handleClick(post.docid)} key={idx} className="list-group-posts" data-id="1">
+                            <li key={idx} className="list-group-posts" data-id="1">
                                 <div className="posts-item">
-                                    <div className="posts-item-head">
+                                    <div onClick={() => handleClick(post.docid)} className="posts-item-head">
                                         <div className="posts-item-title">{post.title}</div>
                                     </div>
-                                    <div className="posts-item-body">{post.summary}</div>
+                                    <div onClick={() => handleClick(post.docid)} className="posts-item-body">{post.summary}</div>
                                     <div className="posts-item-foot">
-                                        <span className="author">{post.author}</span>
                                         <span className="date">{post.sendtime}</span>
-                                        <span className="link"><a href="1">查看原文</a></span>
+                                        <span className="link"><a target="_blank" href={'/content/single?docid=' + post.docid}>查看原文</a></span>
                                     </div>
                                 </div>
                             </li>
                         )
                     })
                 }
-
-                <Alert
-                    show = {this.props.showAlert}
-                    title="信息提示"
-                    info="你确认清空当前正在编辑的内容吗？"
-                    confirm={this.confirm.bind(this)}
-                    cancel={this.cancel.bind(this)}
-                />
+                { this.state && this.state.show ? (<Alert {...alert}></Alert>) : undefined}
             </ul>
         )
     }

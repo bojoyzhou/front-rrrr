@@ -19,31 +19,31 @@ class Images extends Component {
     }
     fetchData() {
         const {isLogin, actions} = this.props
-        console.log(isLogin)
-        if(isLogin){
+        if(isLogin !== false){
             actions.getUserPics()
         }
     }
     componentDidMount() {
-        console.log('componentDidMount')
         this.fetchData()
     }
     render() {
-        const {pics, addingPic} = this.props
+        const {pics, addingPic, isActived} = this.props
         return (
             <VelocityComponent runOnMount={true} animation="fadeIn">
-            <div className="container-images">
-                <div className="panel-posts box">
-                    <div className="panel-title">
-                        我的图库
-                        <span>{pics.length}/30</span>
-                        <button onClick={this.handleAddPic.bind(this)} className="btn-primary">添加图片</button>
-                    </div>
-                    <div className="panel-posts-body">
-                        <PicList></PicList>
+            <div style={{height: '100%'}}>
+                <div className="container-images">
+                    <div className="panel-posts box">
+                        <div className="panel-title">
+                            我的图库
+                            <span>{pics.length}/30</span>
+                            <button onClick={this.handleAddPic.bind(this)} className="btn-primary">添加图片</button>
+                        </div>
+                        <div className="panel-posts-body">
+                            <PicList></PicList>
+                        </div>
                     </div>
                 </div>
-                <ImagesPanel></ImagesPanel>
+                {isActived ? <ImagesPanel></ImagesPanel> : undefined}
             </div>
             </VelocityComponent>
         )
@@ -55,6 +55,7 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
+        isActived: state.selectPic.isActived,
         pics: state.selectPic.pics,
         addingPic: false,
         isLogin: state.login.isLogin

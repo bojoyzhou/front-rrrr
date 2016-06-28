@@ -43,15 +43,7 @@ class Header extends Component {
                     </li>
                 </ul>
                 <div className="right">
-                {
-                    (() => {
-                        if (username) {
-                            return (<span>欢迎<a className="username">{username}</a></span>)
-                        }else{
-                            return (<a onClick={() => actions.openLoginDialog()} className="login" href="javascript:;">登录</a>)
-                        }
-                    })()
-                } |
+                { username ? <span>欢迎<a className="username">{username}</a></span> : <a onClick={() => actions.openLoginDialog()} className="login" href="javascript:;">登录</a>} |
                     <a className="home" href="/">home</a>
                 </div>
             </nav>

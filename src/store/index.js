@@ -15,10 +15,12 @@ const enhancer = compose(
         )
     )
 )
-
+var _store = null
 export default function configure(initialState) {
-    const store = createStore(rootReducer, enhancer, applyMiddleware(thunk), initialState);
-
+    if(_store){
+        return _store
+    }
+    const store = createStore(rootReducer, enhancer, applyMiddleware(thunk), applyMiddleware(middleware.logger), initialState);
     if (module.hot) {
         module.hot.accept('../reducers', () => {
             const nextReducer = require('../reducers')
@@ -26,5 +28,5 @@ export default function configure(initialState) {
         })
     }
 
-    return store
+    return _store = store
 }

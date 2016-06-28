@@ -15,6 +15,10 @@ class Import extends Component {
     }
     handleClick(e) {
         const {actions} = this.props
+
+        this.setState({
+            show: true
+        })
         this.confirmCall = () => {
             actions.importContent({
                 url: this.url,
@@ -31,22 +35,26 @@ class Import extends Component {
                 }
             })
         }
-        this.setState({
-            showAlert: true
-        })
-    }
-    getInitialState() {
-        return {
-            showAlert: false
-        }
     }
     confirm(){
-        return this.confirmCall()
+        this.confirmCall && this.confirmCall()
+        this.setState({
+            show: false
+        })
     }
-    cancel(){}
+    cancel(){
+        this.setState({
+            show: false
+        })
+    }
     render() {
         const {importUrl} = this.props
-        const {showAlert} = this.state
+        const alert = {
+            title: '提示信息',
+            desc: '您确认清除正在编辑的信息吗',
+            confirm: this.confirm.bind(this),
+            cancel: this.cancel.bind(this)
+        }
         return (
             <VelocityComponent runOnMount={true} animation="fadeIn">
                 <div className="container-import">
@@ -64,14 +72,7 @@ class Import extends Component {
                             </div>
                         </div>
                     </div>
-
-                    <Alert
-                        show={showAlert}
-                        title="信息提示"
-                        info="你确认清空当前正在编辑的内容吗？"
-                        confirm={this.confirm.bind(this)}
-                        cancel={this.cancel.bind(this)}
-                    />
+                    { this.state && this.state.show ? (<Alert {...alert}></Alert>) : undefined}
                 </div>
             </VelocityComponent>
         )
@@ -83,7 +84,8 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
-        importUrl: state.optionPostList.importUrl
+        importUrl: state.optionPostList.importUrl,
+        showAlert: state.optionPostList.importUrl,
     }
 }
 

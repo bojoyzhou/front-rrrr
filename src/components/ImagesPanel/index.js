@@ -7,7 +7,7 @@ import NetImage from '../NetImage'
 import style from './style.less'
 
 class ImagesPanel extends Component {
-    handleCancel() {
+    handleCancel() {console.log(Date.now())
         const actions = this.props.actions
         actions.selectPicCancel()
     }
@@ -24,10 +24,9 @@ class ImagesPanel extends Component {
         }
     }
     render() {
-        const { selectPics, isActived, type } = this.props
-        const className = isActived ? "container-images-panel open" : "container-images-panel close"
+        const { selectPics, type } = this.props
         return (
-            <div className={className}>
+            <div className="container-images-panel open">
                 <div className="mask">
                     <div className="mask-panel">
                         <div className="mask-title">
@@ -93,7 +92,6 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
-        isActived: state.selectPic.isActived,
         selectPics: state.selectPic.selectPics,
         type: state.selectPic.type
     }

@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 import ajax from 'ajax'
 import { REQUEST, REQUEST_SUCC, REQUEST_ERROR, REQUEST_LOADING, HIDE_LOADING, SHOW_LOADING } from '../constants'
 
+import store from '../store'
 export const createReducer = (options, initialState) => {
     let actionOptions = { };
     for(const type in options){
@@ -31,7 +32,8 @@ function wrapperAction(type, item){
                 return ajaxOption
             }
             ajaxOption.success = (result) => {
-                setTimeout(() => {
+                counter--
+                counter == 0 && setTimeout(() => {
                     dispatch({
                         type: HIDE_LOADING
                     })
@@ -42,8 +44,7 @@ function wrapperAction(type, item){
                     }
                 }
                 let payload = item.success(result, state, action)
-                counter--
-                counter == 0 && dispatch({
+                dispatch({
                     type,
                     payload,
                     status: REQUEST_SUCC

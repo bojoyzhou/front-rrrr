@@ -1,6 +1,6 @@
 @import '../../style.less';
 .container-option-post-list li.list-group-posts {
-	padding-left: 15px;
+	padding: 15px;
 	transition: .2s;
 	border-bottom: @S_BORDER dashed 1px;
 	background-color: @BG_BOX;
@@ -17,6 +17,7 @@
 }
 .container-option-post-list .posts-item-title {
 	line-height: 46px;
+	cursor: pointer;
 }
 .container-option-post-list .posts-item .close {
 	position: absolute;
@@ -25,7 +26,7 @@
 }
 .container-option-post-list .posts-item-body {
 	color: @FC_SUMARY;
-	cursor: default;
+	cursor: pointer;
 }
 .container-option-post-list .posts-item-foot {
 	margin-top: 24px;
@@ -40,7 +41,7 @@
 	left: 0;
 }
 .container-option-post-list span.date {
-	margin-left: -48px;
+	float: left;
 }
 .container-option-post-list span.link {
 	position: absolute;

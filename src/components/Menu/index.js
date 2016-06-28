@@ -30,7 +30,7 @@ class Menu extends Component {
                     </ul>
                 </li>
                 <li className="menu-item"><Link className={ pathname == "/editor/images" ? "menu-link active" : "menu-link"} to="/editor/images"><i className="icon ico-img"></i>我的图库</Link></li>
-                <li className="menu-item"><a href="/userchannel/index" className="menu-link"><i className="icon ico-file"></i>我的内容</a></li>
+                <li className="menu-item"><a href="/usergrabwords/index" className="menu-link"><i className="icon ico-file"></i>我的内容</a></li>
             </ul>
 
         )

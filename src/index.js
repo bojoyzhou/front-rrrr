@@ -13,7 +13,6 @@ import Import from './components/Import'
 import Common from './components/Common'
 import CommonItem from './components/CommonItem'
 import Images from './components/Images'
-import Document from './components/Document'
 import configure from './store'
 
 const store = configure()
@@ -33,8 +32,6 @@ ReactDOM.render(
                     </Route>
                     <Route path="/editor/images" component={Images}>
                     </Route>
-                </Route>
-                <Route path="/document" component={Document}>
                 </Route>
             </Route>
         </Router>

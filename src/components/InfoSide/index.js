@@ -124,27 +124,27 @@ class InfoSide extends Component {
                     }
 
                     <div className="right-container">
-                        <h4>标题</h4>
-                        <div className="group">
-                            <textarea onChange={ (e) => handleChange('title', e.target.value)} value={title} cols="30" rows="10"></textarea>
+                        <div className="group clear">
+                            <h4>标题</h4>
+                            <input onChange={ (e) => handleChange('title', e.target.value)} value={title} />
                         </div>
 
-                        <h4>作者</h4>
-                        <div className="group">
-                            <textarea onChange={ (e) => handleChange('author', e.target.value)} value={author} className="author" cols="30" rows="1"></textarea>
-                        </div>
-
-                        <h4>摘要</h4>
-                        <div className="group">
-                            <textarea onChange={ (e) => handleChange('summary', e.target.value)} value={summary} cols="30" rows="10"></textarea>
+                        <div className="group clear">
+                            <h4>作者</h4>
+                            <input onChange={ (e) => handleChange('author', e.target.value)} value={author} className="author" />
                         </div>
 
                         <h4>封面</h4>
-                        <div className="group">
+                        <div className="group clear">
                             <div className="img_fluid add clear" onClick={(e) => {this.checkLogin(e)}}>
                                 <img src={cover ? cover : require("./img/img_add.png")} alt="" />
                                 <FileUpload className="img-file" options={options}></FileUpload>
                             </div>
+                        </div>
+
+                        <h4>摘要</h4>
+                        <div className="group clear">
+                            <textarea onChange={ (e) => handleChange('summary', e.target.value)} value={summary} cols="30" rows="10"></textarea>
                         </div>
                         <div className="footer">
                             <a onClick={this.saveContent.bind(this)} href="javascript:;" className="btn">完成</a>

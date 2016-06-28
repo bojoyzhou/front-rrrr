@@ -7,7 +7,7 @@ class PicList extends Component {
         const { pics, actions } = this.props
         const {url, thumb} = pics[idx]
         const genHtml = () => {
-            return '<img src="' + url + '" onerror="' + thumb + '" alt="" />'
+            return '<img src="' + url + '" onerror="this.src=\'' + thumb + '\'" alt="" />'
         }
         actions.insertEditor(genHtml())
     }

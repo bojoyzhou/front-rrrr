@@ -3,10 +3,11 @@
 .container-import {
 	float: left;
 	height: 100%;
-	.box{
+	position: relative;
+	z-index: 2;
+	.box {
 		.FUNC_BOX()
 	}
-
 	.panel-import {
 		width: 386px;
 		background-color: #fff;
@@ -20,7 +21,7 @@
 		height: 34px;
 		padding-left: 8px;
 	}
-	button{
+	button {
 		margin-top: 22px;
 		font-size: 14px;
 		width: 81px;
@@ -29,15 +30,18 @@
 	}
 	.panel-posts {
 		box-sizing: border-box;
-		margin-top: -169px;
 		width: 386px;
-		padding-top: 185px;
+		padding-top: 255px;
 		height: 100%;
 		font-size: 14px;
+		position: absolute;
+		top: -60px;
 	}
 	.panel-scroll {
 		height: 100%;
 		overflow: auto;
+		display: flex;
+		flex-direction: column;
 	}
 	.panel-title {
 		background-color: @BG_BOX;
@@ -47,10 +51,8 @@
 		color: @S_ORNAMENT;
 	}
 	.panel-posts-body {
-		height: 100%;
-		padding-top: 55px;
+		flex: 1;
 		overflow: auto;
-		margin-top: -55px;
 		box-sizing: border-box;
 		background-color: @BG_BOX;
 	}

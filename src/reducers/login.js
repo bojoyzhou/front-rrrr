@@ -49,7 +49,7 @@ const initialState = {
         uid: ''
     },
     username: '',
-    isLogin: '',
+    isLogin: null,
     codelink: refresh()
 }
 
@@ -161,7 +161,7 @@ export default createReducer({
         }),
         success: (result, state) => (assign(state, {
             username: result.uInfo && result.uInfo.uname,
-            isLogin: result.uInfo && true || false
+            isLogin: !!result.uInfo
         }))
     },
 }, initialState)

@@ -7,6 +7,7 @@ import { VelocityTransitionGroup } from 'velocity-react'
 import velocityUi from '../../utils/velocity.ui.js'
 class NetImage extends Component {
     handleSelectPic(id) {
+        this.flag = true
         const actions = this.props.actions
         actions.pickPic({
             id,
@@ -29,6 +30,10 @@ class NetImage extends Component {
         actions.searchNetwork()
     }
     componentDidUpdate() {
+        if(this.flag){
+            this.flag = false
+            return
+        }
         const { netPics } = this.props
         if(netPics.length == 20) {
             const node = ReactDOM.findDOMNode(this.refs.panel)
@@ -37,7 +42,7 @@ class NetImage extends Component {
     }
     render() {
         const { netPics } = this.props
-        const list = this.list()
+        // const list = this.list()
         return (
             <div className="container-net-image">
                 <div className="wrapper form">
@@ -46,7 +51,16 @@ class NetImage extends Component {
                 </div>
                 <div className="wrapper stage" ref="panel">
                     <VelocityTransitionGroup component="div" className="clear" enter={{animation: "transition.fadeIn"}} leave={{animation: "transition.fadeOut"}}>
-                        {list}
+                        {
+                            netPics.map((pic, idx) => {
+                                return (
+                                    <div onClick={ () => this.handleSelectPic(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
+                                        <img src={pic.thumb} alt="" />
+                                        <span className="checked"></span>
+                                    </div>
+                                )
+                            })
+                        }
                     </VelocityTransitionGroup>
                     <div className="loadmore">
                         <button onClick={ () => this.loadmore() } className="btn btn-more">加载更多</button>

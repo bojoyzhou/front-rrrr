@@ -6,6 +6,7 @@
     position: absolute;
     right: 0;
     max-width: 800px;
+    z-index: 1;
 }
 div#editor {
     position: absolute;

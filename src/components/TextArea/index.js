@@ -9,13 +9,16 @@ import ajax from 'ajax'
 
 class TextArea extends Component {
     componentDidMount(){
-        const ue = UE.getEditor('editor')
-        const { actions } = this.props
-        this.ue = ue
-        actions.initEditor({
-            ue,
-            ready: () => this.ueReady(ue)
-        })
+        var that = this
+        setTimeout(() => {
+            const ue = UE.getEditor('editor')
+            const { actions } = that.props
+            that.ue = ue
+            actions.initEditor({
+                ue,
+                ready: () => that.ueReady(ue)
+            })
+        }, 300)
     }
     handleCommand(type){
         const { actions } = this.props
@@ -120,10 +123,6 @@ class TextArea extends Component {
                     actions.changeSideInfo({
                         name: 'cover',
                         value: cover
-                    })
-                    actions.changeSideInfo({
-                        name: 'id',
-                        value: docid
                     })
                 },
                 dataType:'json'

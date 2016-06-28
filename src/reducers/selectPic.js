@@ -97,7 +97,7 @@ export default createReducer({
             })
         }
     },
-    [ SELECT_PICS_CANCEL ]: (state, action) => (assign(state, {
+    [ SELECT_PICS_CANCEL ]: (state, action) => (console.log(Date.now()),assign(state, {
         isActived: false
     })),
     [ SELECT_PICS_CONFIRM ]: {
