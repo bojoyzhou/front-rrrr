@@ -187,6 +187,10 @@ class Login extends Component {
                                             <input type="password" onChange={(e) => this.handleChange('repassword', e.target.value)} value={data.repassword} placeholder="请再次输入您的密码" />
                                         </label>
                                     </div>
+                                    <label>
+                                        <input type="checkbox" />
+                                        我同意<a className="link" target="_blank" href="/service.html">《服务协议》</a>
+                                    </label>
                                 </div>
                                 <div className="form-tail" style={{ display: status == LOGIN_DIALOG ? "block" : "none"}}>
                                     <label for="remember">

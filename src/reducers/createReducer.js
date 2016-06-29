@@ -33,6 +33,7 @@ function wrapperAction(type, item){
             }
             ajaxOption.success = (result) => {
                 counter--
+                console.log(counter)
                 counter == 0 && setTimeout(() => {
                     dispatch({
                         type: HIDE_LOADING
@@ -50,8 +51,8 @@ function wrapperAction(type, item){
                     status: REQUEST_SUCC
                 })
             }
+            counter ++;
             setTimeout(() => {
-                counter ++;
                 dispatch({
                     type: SHOW_LOADING
                 })

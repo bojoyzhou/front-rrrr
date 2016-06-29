@@ -11,7 +11,9 @@ class Header extends Component {
         const { actions, username } = this.props
         return (
             <nav className="nav">
-                <a href="/" className="logo"><div className="ir"></div><div className="text">八爪云内容服务平台<br/><span>www.i8za.com</span></div></a>
+                <a href="/" className="logoall">
+                    <img src={require("./img/logo_all.png")} />
+                </a>
                 <ul className="nav-ul clear">
                     <li className="nav-item nav-item-editor nav-active">
                         <Link className="nav-link" to="/editor">
