@@ -1,80 +1,50 @@
-
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import OptionPostList from '../OptionPostList'
-import Alert from '../Alert'
 import style from './style.less'
 
-import { VelocityComponent } from 'velocity-react'
-import velocityUi from '../../utils/velocity.ui.js'
-
 class Import extends Component {
-    handleChange(e) {
-        const {actions} = this.props
-        this.url = e.target.value
-    }
-    handleClick(e) {
-        const {actions} = this.props
+    constructor(props, context){
+        super(props, context)
+        this.handleClick = this.handleClick.bind(this)
+        this.importById = this.importById.bind(this)
 
-        this.setState({
-            show: true
-        })
-        this.confirmCall = () => {
-            actions.importContent({
-                url: this.url,
-                hook: (result) => {
-                    const content = result.result.content.map((item) => {
-                        if(item.text){
-                            return '<p>' + item.text + '</p>'
-                        }else if(item.img){
-                            return '<p><img src="'+ item.img +'"></p>'
-                        }
-                    }).join('')
-                    actions.clearEditor()
-                    actions.insertEditor(content)
-                }
-            })
-        }
     }
-    confirm(){
-        this.confirmCall && this.confirmCall()
-        this.setState({
-            show: false
-        })
+    handleClick() {
+        const url = this.refs.url.value
+        this.importByUrl(url)
     }
-    cancel(){
-        this.setState({
-            show: false
-        })
+    importById(docid) {
+        const {actions} = this.props
+        actions.getPostById(docid)
+    }
+    importByUrl(url) {
+        const {actions} = this.props
+        actions.getPostByUrl(url)
+    }
+    componentDidMount() {
+        const {actions} = this.props
+        actions.loadPosts()
     }
     render() {
-        const {importUrl} = this.props
-        const alert = {
-            title: '提示信息',
-            desc: '您确认清除正在编辑的信息吗',
-            confirm: this.confirm.bind(this),
-            cancel: this.cancel.bind(this)
-        }
+        const {postslist, postsisFetching} = this.props
         return (
-            <VelocityComponent runOnMount={true} animation="fadeIn">
-                <div className="container-import">
-                    <div className="panel-import box">
-                        <input onChange={this.handleChange.bind(this)} type="url" placeholder="输入要导入的文章URL" />
-                        <button onClick={this.handleClick.bind(this)} className="btn-primary">导入</button>
-                    </div>
-                    <div className="panel-posts">
-                        <div className="panel-scroll box">
-                            <div className="panel-title">
-                                备选文章
-                            </div>
-                            <div className="panel-posts-body">
-                                <OptionPostList></OptionPostList>
-                            </div>
+            <div className="container-import">
+                <div className="panel-import box">
+                    <input ref="url" type="url" placeholder="输入要导入的文章URL" />
+                    <button onClick={this.handleClick} className="btn-primary">导入</button>
+                </div>
+                <div className="panel-posts">
+                    <div className="panel-scroll box">
+                        <div className="panel-title">
+                            备选文章
+                        </div>
+                        <div className="panel-posts-body">
+                            <OptionPostList import={ this.importById } posts={ postslist } isFetching={ postsisFetching }></OptionPostList>
                         </div>
                     </div>
-                    { this.state && this.state.show ? (<Alert {...alert}></Alert>) : undefined}
                 </div>
-            </VelocityComponent>
+            </div>
         )
     }
 }
@@ -84,8 +54,8 @@ import { connect } from 'react-redux'
 import actions from '../../actions'
 function mapStateToProps(state) {
     return {
-        importUrl: state.optionPostList.importUrl,
-        showAlert: state.optionPostList.importUrl,
+        postslist: state.posts.list,
+        postsisFetching: state.posts.isFetching
     }
 }
 

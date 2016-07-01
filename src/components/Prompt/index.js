@@ -22,23 +22,4 @@ class Prompt extends Component {
     }
 }
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import actions from '../../actions'
-function mapStateToProps(state) {
-    return {
-        show: state.prompt.show,
-        message: state.prompt.message
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Prompt)
+export default Prompt

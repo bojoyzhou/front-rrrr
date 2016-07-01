@@ -25,22 +25,4 @@ class Loading extends Component {
     }
 }
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import actions from '../../actions'
-function mapStateToProps(state) {
-    return {
-        show: state.loading.show
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Loading)
+export default Loading

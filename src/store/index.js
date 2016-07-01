@@ -15,18 +15,38 @@ const enhancer = compose(
         )
     )
 )
-var _store = null
-export default function configure(initialState) {
-    if(_store){
-        return _store
+const createStoreWithMiddleware = applyMiddleware(middleware.logger, thunk)(createStore)
+
+const observeStore = store => {
+    return (select, onchange) => {
+        let currentState = null
+        const handleChange = () => {
+            let nextState = select(store.getState())
+            if (currentState !== nextState) {
+                onchange(currentState)
+            }
+        }
+        const unsubscribe = store.subscribe(handleChange)
+        handleChange()
+        return unsubscribe
     }
-    const store = createStore(rootReducer, enhancer, applyMiddleware(thunk), applyMiddleware(middleware.logger), initialState);
+}
+let _observe = null
+export default function configure(initialState) {
+    const store = createStoreWithMiddleware(rootReducer, enhancer, initialState);
     if (module.hot) {
         module.hot.accept('../reducers', () => {
             const nextReducer = require('../reducers')
             store.replaceReducer(nextReducer)
         })
     }
+    _observe = observeStore(store)
+    return store
+}
 
-    return _store = store
+export const observe = () => {
+    if (!_observe) {
+        return
+    }
+    _observe.apply(this, arguments)
 }

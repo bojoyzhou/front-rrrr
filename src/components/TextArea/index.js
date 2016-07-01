@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import { history } from '../../utils'
 import edui from './edui.css'
@@ -12,12 +12,7 @@ class TextArea extends Component {
         var that = this
         setTimeout(() => {
             const ue = UE.getEditor('editor')
-            const { actions } = that.props
             that.ue = ue
-            actions.initEditor({
-                ue,
-                ready: () => that.ueReady(ue)
-            })
         }, 300)
     }
     handleCommand(type){
@@ -143,8 +138,14 @@ class TextArea extends Component {
         actions.tempSave()
     }
     render() {
-        const {offset, showTips, menuType} = this.props
+        const {offset, showTips, menuType, content} = this.props
         const show = showTips ? 'block' : 'none'
+        try{
+            this.ue.execCommand('cleardoc')
+            this.ue.execCommand('insertHtml', content)
+        }catch(e){
+            console.log(e)
+        }
         return (
             <div className="container-textarea">
                 <div>
@@ -167,26 +168,7 @@ class TextArea extends Component {
     }
 }
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import actions from '../../actions'
-function mapStateToProps(state) {
-    return {
-        query: state.routing.locationBeforeTransitions.query,
-        offset: state.textArea.offset,
-        showTips: state.textArea.showTips,
-        elem: state.textArea.elem,
-        menuType: state.textArea.menuType
-    }
+TextArea.propTypes = {
+    content: PropTypes.string.isRequired
 }
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TextArea)
+export default TextArea

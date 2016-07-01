@@ -1,18 +1,9 @@
-import * as getOptionPostList from './getOptionPostList'
-import * as getCommonStyle from './getCommonStyle'
-import * as selectPic from './selectPic'
-import * as login from './login'
-import * as textArea from './textArea'
-import * as prompt from './prompt'
-import * as loading from './loading'
-import * as alert from './alert'
+import * as posts from './posts'
+import * as user from './user'
+import * as post from './post'
+
 export default {
-    ...getOptionPostList,
-    ...getCommonStyle,
-    ...selectPic,
-    ...login,
-    ...textArea,
-    ...prompt,
-    ...loading,
-    ...alert
+    ...posts,
+    ...user,
+    ...post
 }

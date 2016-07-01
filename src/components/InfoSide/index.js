@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 import FileUpload from 'react-fileupload'
 import Qrcode from '../Qrcode'
+import Animate from 'rc-animate'
 
 import style from './style.less'
 
@@ -9,69 +10,51 @@ import { VelocityComponent, velocityHelpers } from 'velocity-react'
 import velocityUi from '../../utils/velocity.ui.js'
 
 class InfoSide extends Component {
-    handleChange (name, value){
-        const {actions} = this.props
-        actions.changeSideInfo({
-            name,
-            value
-        })
-    }
-    saveContent() {
-        const {actions, title, author, summary, cover, ue} = this.props
-        const that = this
-        if(!title){
-            return actions.showPrompt('标题不能为空')
-        }else if(!author){
-            return actions.showPrompt('作者不能为空')
-        }else if(!summary){
-            return actions.showPrompt('简介不能为空')
-        }else if(!cover){
-            return actions.showPrompt('请上传一张封面')
-        }else if(!ue.getContent()){
-            return actions.showPrompt('您没有编辑的内容')
+    constructor(props, context){
+        super(props, context)
+        this.state = {
+            show: false,
+            render:false,
+            change: false
         }
-        actions.saveContent({
-            hook: (result) => {
-                if(result.ret_code == 0){
-                    actions.preView(result.docid)
-                }else if(result.ret_code == 3){
-                    actions.openLoginDialog({
-                        complete: (result) => {
-                            that.saveContent()
-                        }
-                    })
-                }else{
-                    actions.showPrompt(result.ret_desc)
-                }
-                return false
-            }
-        })
+        this.onEnd = this.onEnd.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.updateDimensions = this.updateDimensions.bind(this)
     }
     updateDimensions() {
-        const {actions} = this.props
         const width = document.body.offsetWidth
-        if(width > 1550){
-            actions.showSide()
-        }else{
-            actions.hideSide()
+        const { render, show } = this.state
+        if (width > 1550 && !render) {
+            this.setState(Object.assign({}, this.state, {
+                show: true,
+                render: true,
+                change: true
+            }))
+        } else if (width <= 1550 && render) {
+            this.setState(Object.assign({}, this.state, {
+                show: false,
+                render: true,
+                change: false
+            }))
         }
+
     }
     componentWillMount() {
         this.updateDimensions();
     }
     componentDidMount() {
-        window.addEventListener("resize", this.updateDimensions.bind(this));
+        window.addEventListener("resize", this.updateDimensions);
     }
     componentWillUnmount() {
-        window.removeEventListener("resize", this.updateDimensions.bind(this));
+        window.removeEventListener("resize", this.updateDimensions);
     }
     handleClick(){
-        const {actions, showSide} = this.props
-        if(showSide){
-            actions.hideSide()
-        }else{
-            actions.showSide()
-        }
+        const {render, show} = this.state
+        this.setState(Object.assign({}, this.state, {
+            show: !show,
+            render: show ? render : (!render),
+            change: !show
+        }))
     }
     checkLogin(e){
         const {isLogin, actions} = this.props
@@ -81,103 +64,81 @@ class InfoSide extends Component {
             return false
         }
     }
+    onEnd(){
+        const {change, render} = this.state
+        if(change){
+            return
+        }
+        this.setState(Object.assign({}, this.state, {
+            render: !render
+        }))
+    }
     render() {
-        const actions = this.props.actions
-        const {title, author, summary, cover, showSide, isLogin} = this.props
-        const options = {
-            baseUrl : 'http://imgs.8zcloud.com/getfiles.php?thumb=100_0',
-            chooseAndUpload : true,
-            wrapperDisplay : 'block',
-            multiple: true,
-            dataType : 'json',
-            fileFieldName : 'file',
-            beforeChoose: function(){
-                if(!isLogin){
-                    actions.openLoginDialog()
-                    return false
-                }
-            },
-            uploadSuccess: function(result){
-                actions.selectCover(result.data.url)
-            }
-        }
-        const handleChange = this.handleChange.bind(this)
-        const In = {
-            translateX: 0,
-            backgroundColor: "#fff"
-        }
-        const Out = {
-            translateX: 271,
-            backgroundColor: "#333"
-        }
-        const animation = showSide ? In : Out
+        const { show, render, change } = this.state
+
         return (
-            <VelocityComponent animation={animation}>
-                <div className="container-info-side">
-                    {showSide?
-                        <div className="fold"  onClick={this.handleClick.bind(this)}>&gt;&gt;</div>
-                    :
-                        <div className="publish" onClick={this.handleClick.bind(this)}>
-                            <div className="icon"></div>
-                            发<br/>布
-                        </div>
-                    }
+            <Animate
+                component=""
+                transitionName="slideRight"
+                showProp="data-show"
+                onEnd={ this.onEnd }>
+                    { render ? this.fold(show) : this.expand(show) }
+            </Animate>
+        )
+    }
+    fold(show){
+        const actions = this.props.actions
+        const {title, author, summary, cover, options} = this.props
+        return (
+            <div data-show={show} className="container-info-side">
+                <div className="fold"  onClick={this.handleClick}>&gt;&gt;</div>
+                <div className="right-container">
+                    <h4>标题</h4>
+                    <div className="group clear">
+                        <textarea cols="30" rows="5" defaultValue={ title }></textarea>
+                    </div>
 
-                    <div className="right-container">
-                        <div className="group clear">
-                            <h4>标题</h4>
-                            <input onChange={ (e) => handleChange('title', e.target.value)} value={title} />
-                        </div>
+                    <div className="group clear">
+                        <h4>作者</h4>
+                        <input className="author" defaultValue={ author } />
+                    </div>
 
-                        <div className="group clear">
-                            <h4>作者</h4>
-                            <input onChange={ (e) => handleChange('author', e.target.value)} value={author} className="author" />
-                        </div>
-
-                        <h4>封面</h4>
-                        <div className="group clear">
-                            <div className="img_fluid add clear" onClick={(e) => {this.checkLogin(e)}}>
-                                <img src={cover ? cover : require("./img/img_add.png")} alt="" />
-                                <FileUpload className="img-file" options={options}></FileUpload>
-                            </div>
-                        </div>
-
-                        <h4>摘要</h4>
-                        <div className="group clear">
-                            <textarea onChange={ (e) => handleChange('summary', e.target.value)} value={summary} cols="30" rows="10"></textarea>
-                        </div>
-                        <div className="footer">
-                            <a onClick={this.saveContent.bind(this)} href="javascript:;" className="btn">完成</a>
+                    <h4>封面</h4>
+                    <div className="group clear">
+                        <div className="img_fluid add clear">
+                            <img src={cover ? cover : require("./img/img_add.png")} alt="" />
                         </div>
                     </div>
+
+                    <h4>摘要</h4>
+                    <div className="group clear">
+                        <textarea cols="30" rows="10" defaultValue={ summary }></textarea>
+                    </div>
+                    <div className="footer">
+                        <a href="javascript:;" className="btn">完成</a>
+                    </div>
                 </div>
-            </VelocityComponent>
+            </div>
+        )
+    }
+    expand(show){
+        return (
+            <div data-show={show} className="container-info-side expand">
+                <div className="publish" onClick={this.handleClick}>
+                    <div className="icon"></div>
+                    发<br/>布
+                </div>
+            </div>
         )
     }
 }
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import actions from '../../actions'
-function mapStateToProps(state) {
-    return {
-        title: state.textArea.title,
-        author: state.textArea.author,
-        summary: state.textArea.summary,
-        cover: state.textArea.cover,
-        showSide: state.textArea.showSide,
-        ue: state.textArea.ue,
-        isLogin: state.login.isLogin
-    }
+InfoSide.propTypes = {
+    title:PropTypes.string.isRequired,
+    author:PropTypes.string,
+    summary:PropTypes.string,
+    cover:PropTypes.string,
+    options: PropTypes.object
 }
 
-function mapDispatchToProps(dispatch) {
-    return{
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(InfoSide)
+export default InfoSide

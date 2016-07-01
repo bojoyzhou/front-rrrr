@@ -1,0 +1,85 @@
+
+.motion-common() {
+  animation-duration: .5s;
+  animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
+  animation-fill-mode: both;
+}
+
+.make-motion(@className, @keyframeName) {
+  .@{className}-enter {
+    .motion-common();
+    animation-play-state: paused;
+  }
+  .@{className}-appear {
+    .motion-common();
+    animation-play-state: paused;
+  }
+  .@{className}-leave {
+    .motion-common();
+    animation-play-state: paused;
+  }
+  .@{className}-enter.@{className}-enter-active {
+    animation-name: ~"@{keyframeName}In";
+    animation-play-state: running;
+  }
+  .@{className}-leave.@{className}-leave-active {
+    animation-name: ~"@{keyframeName}Out";
+    animation-play-state: running;
+  }
+  .@{className}-appear.@{className}-appear-active {
+    animation-name: ~"@{keyframeName}In";
+    animation-play-state: running;
+  }
+}
+
+.make-motion(fade, fade);
+.fade-enter, .fade-appear {
+  opacity: 0;
+}
+
+.fade-appear {
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+.make-motion(slideRight, slideRight);
+.slideRight-enter, .slideRight-appear  {
+  transform: translateX(100%)
+}
+
+
+@keyframes slideRightIn {
+  0% {
+  transform: translateX(100%)
+  }
+  100% {
+  transform: translateX(0)
+  }
+}
+
+@keyframes slideRightOut {
+  0% {
+  transform: translateX(0)
+  }
+  100% {
+  transform: translateX(100%)
+  }
+}

@@ -1,0 +1,64 @@
+{
+    user: {
+        isloading: false,
+        username: '',
+        email: '',
+        password: '',
+        repassward: '',
+        vcode: ''
+    },
+    images: {
+        isloading: false,
+        local: [{
+            thumb: '',
+            url: '',
+            id: '',
+            picked: false,
+        }],
+        net: [{
+            thumb: '',
+            url: '',
+            id: '',
+            picked: false,
+        }],
+        pics: [{
+            thumb: '',
+            url: '',
+            id: ''
+        }]
+    },
+    styles: {
+        isloading: false,
+        type: '',
+        styleType: ['', '', '', ''],
+        styleType: ['', '', '', ''],
+        styleType: ['', '', '', '']
+    },
+    postlist: {
+        isloading: false,
+        list: [{
+            docid: '',
+            title: '',
+            summary: '',
+            sendtime: ''
+        }]
+    },
+    post: {
+        docid: '',
+        content: '',
+        title: '',
+        author: '',
+        cover: '',
+        summary: '',
+    },
+    isloading: '',
+    error: '',
+    confirm: {
+        title: '',
+        desc: '',
+        show: false,
+        btns: ['confirm', 'cancel'],
+        callbacks: [() => {}, () => {}]
+    },
+    location:''
+}

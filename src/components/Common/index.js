@@ -4,6 +4,8 @@ import style from './style.less'
 
 import { VelocityComponent } from 'velocity-react'
 import velocityUi from '../../utils/velocity.ui.js'
+
+import CommonItem from '../CommonItem'
 class Common extends Component {
     render() {
         return (
@@ -14,7 +16,7 @@ class Common extends Component {
                             常用样式
                         </div>
                         <div className="panel-posts-body">
-                            {this.props.children}
+                            <CommonItem params={this.props.params}></CommonItem>
                         </div>
                     </div>
                 </div>

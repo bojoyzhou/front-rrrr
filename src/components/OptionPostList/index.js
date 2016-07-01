@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -10,49 +10,21 @@ import style from './style.less'
 class OptionPostList extends Component {
     constructor(props, context) {
         super(props, context)
-    }
-    componentDidMount(){
-        let { actions } = this.props
-        actions.getOptionPostList();
+        this.state = {
+            show: false
+        }
+        this.handleClick = this.handleClick.bind(this)
     }
     handleClick(docid){
-        let { actions } = this.props
-        this.setState({
-            show: true
-        })
-        this.confirmCall = () => {
-            actions.getPostDetail({
-                docid,
-                hook: (result) => {
-                    actions.clearEditor(result.data.content)
-                    actions.insertEditor(result.data.content)
-                }
-            })
-        }
-    }
-    confirm(){
-        this.confirmCall && this.confirmCall()
-        this.setState({
-            show: false
-        })
-    }
-    cancel(){
-        this.setState({
-            show: false
-        })
+        this.props.import(docid)
     }
     render() {
-        let { posts } = this.props
-        const handleClick = this.handleClick.bind(this)
-        const alert = {
-            title: '提示信息',
-            desc: '您确认清除正在编辑的信息吗',
-            confirm: this.confirm.bind(this),
-            cancel: this.cancel.bind(this)
-        }
+        const { posts, isFetching } = this.props
+        const { show } = this.state
+        const handleClick = this.handleClick
         return (
             <ul className="container-option-post-list">
-                {
+                { isFetching ? 'loading' :
                     posts.map(function (post, idx){
                         return (
                             <li key={idx} className="list-group-posts" data-id="1">
@@ -75,22 +47,10 @@ class OptionPostList extends Component {
         )
     }
 }
-
-
-function mapStateToProps(state) {
-    return {
-        posts: state.optionPostList.posts,
-        showAlert: false
-    }
+OptionPostList.propTypes = {
+    posts: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    import: PropTypes.func.isRequired
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch),
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(OptionPostList)
+export default OptionPostList

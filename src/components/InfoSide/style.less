@@ -1,5 +1,4 @@
 @import '../../style.less';
-
 .show-side {
     .black {
         display: none;
@@ -48,7 +47,9 @@
     box-sizing: border-box;
     z-index: 3;
     .FUNC_BOX();
-
+    &.expand{
+        transform: translate(100%);
+    }
     .fold {
         position: absolute;
         top: 50%;

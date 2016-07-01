@@ -11,7 +11,6 @@ import App from './containers/App'
 import Editor from './components/Editor'
 import Import from './components/Import'
 import Common from './components/Common'
-import CommonItem from './components/CommonItem'
 import Images from './components/Images'
 import configure from './store'
 
@@ -26,9 +25,7 @@ ReactDOM.render(
                 <Route path="/editor" component={Editor}>
                     <Route path="/editor/import" component={Import}>
                     </Route>
-                    <Route path="/editor/common" component={Common}>
-                        <Route path="/editor/common/:id" component={CommonItem}>
-                        </Route>
+                    <Route path="/editor/common/:id" component={Common}>
                     </Route>
                     <Route path="/editor/images" component={Images}>
                     </Route>

@@ -21,11 +21,6 @@ class App extends Component {
             <div data-reactroot>
                 <Header></Header>
                 {this.props.children}
-                <InfoSide></InfoSide>
-                <Qrcode></Qrcode>
-                <Login></Login>
-                <Prompt></Prompt>
-                <Loading></Loading>
             </div>
         )
     }
