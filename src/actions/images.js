@@ -13,7 +13,7 @@ export const loadImages = createActionAsync(constants.IMAGES_GET, (id) => {
 export const upload = createActionAsync(constants.UPLOAD, (file) => {
     var data = new FormData()
     data.append('file', file.files[0])
-    return fetch(`http://imgs.8zcloud.com/getfiles.php?thumb=100_0`, {
+    return fetch(`http://120.25.80.132:88/getfiles.php?thumb=100_0`, {
         method: 'POST',
         body: data
     })
@@ -59,11 +59,11 @@ export const renderImage = createAction(constants.IMAGES_RENDER)
 export const searchImage = createActionAsync(constants.IMAGES_SEARCH, ({keyword, pn}) => {
     return fetch(`/api/image-search?keyword=${keyword}&pn=${pn}&rn=20`)
 }, (json) => {
-    return json.result.map(pic => ({ id: makeId, url: pic.url, thumb: pic.thumb }))
+    return json.result.map(pic => ({ id: makeId(), url: pic.url, thumb: pic.thumb }))
 })
 
 function makeHost(url) {
-    return 'http://imgs.8zcloud.com' + url
+    return 'http://120.25.80.132:88' + url
 }
 
 function makeId() {

@@ -7,6 +7,8 @@ class NetImage extends Component {
         super(props, context)
         this.pn = 0
         this.keyword = ''
+        this.select = this.select.bind(this)
+        this.state={picked:[]}
     }
     down(e){
         if(e.keyCode == 13){
@@ -30,8 +32,27 @@ class NetImage extends Component {
         const pn = ++this.pn
         this.props.search({keyword, pn})
     }
+
+    select(id) {
+        const picked = this.state.picked
+        let tmp = {}
+        if(!picked[id]){
+            tmp[id] = 1
+            tmp = Object.assign({}, picked, tmp)
+        }else{
+            tmp = picked
+            delete tmp[id]
+        }
+        this.setState(Object.assign({}, this.state, {
+            picked: tmp
+        }))
+        this.props.select(tmp)
+    }
     render() {
         const { images } = this.props
+        const handleSelectPic = this.props.select
+        const {picked} = this.state
+
         return (
             <div className="container-net-image">
                 <div className="wrapper form">
@@ -42,8 +63,9 @@ class NetImage extends Component {
                     <div className="clear">
                         {
                             images.map((pic, idx) => {
+                                const p = picked[pic.id]
                                 return (
-                                    <div onClick={ () => this.handleSelectPic(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
+                                    <div onClick={ () => this.select(pic.id) } key={idx} className={p ? "img_fluid active" : "img_fluid"}>
                                         <img src={pic.thumb} alt="" />
                                         <span className="checked"></span>
                                     </div>
