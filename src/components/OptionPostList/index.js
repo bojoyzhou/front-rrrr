@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Alert from '../Alert'
 
 import actions from '../../actions'
 import style from './style.less'
@@ -42,7 +41,6 @@ class OptionPostList extends Component {
                         )
                     })
                 }
-                { this.state && this.state.show ? (<Alert {...alert}></Alert>) : undefined}
             </ul>
         )
     }

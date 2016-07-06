@@ -1,4 +1,5 @@
 @import '../../style.less';
+
 .alert-container{
     position: fixed;
     top: 0;
@@ -70,4 +71,45 @@
             }
         }
     }
+    .btn{
+        border: none;
+        padding: 8px 30px;
+        font-size: 14px;
+        border-radius: 5px;
+        color: #FA9B5B;
+        background: #FFF;
+        border: #FA9B5B solid 1px;
+        outline: none;
+        text-align: center;
+        cursor: pointer;
+        box-sizing: border-box;
+        &.btn-light{
+            border-radius: 16px;
+            color: #FFF;
+            background: transparent;
+            border: #999 solid 1px;
+            &.active, &:hover{
+                color: #999;
+                background: #FFF;
+            }
+        }
+        &.btn-box{
+            border-radius: 0
+        }
+        &.btn-cancel{
+            color: #999;
+            background: #FFF;
+            border: #999 solid 1px;
+        }
+        &.btn-primary{
+            color: #FFF;
+            background: #FA9B5B;
+            border: 0;
+        }
+        &.btn-block{
+            display: block;
+            width: 100%;
+        }
+    }
+
 }

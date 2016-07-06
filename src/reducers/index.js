@@ -17,7 +17,10 @@ let s = {
         cover: '',
         content: '',
         summary: '',
-        isSaved: ''
+        isSaved: '',
+        url: '',
+        update: function() {},
+        replace: false,
     },
     posts: {
         docid: '',
@@ -30,29 +33,35 @@ let s = {
         }]
     },
     styles: {
-        type: 0,
-        styletype: ['', '']
+        type: -1,
+        "style-1": []
     },
     images: {
-        net: [{
-            id: '',
-            url: '',
-            thumb: '',
-            picked: true
-        }],
-        local: [{
-            id: '',
-            url: '',
-            thumb: '',
-            picked: true
-        }],
-        type: 'net',
-        pics: [{
-            id: '',
-            url: '',
-            thumb: '',
-            picked: true
-        }]
+        net: [
+            // {
+            //     id: '',
+            //     url: '',
+            //     thumb: '',
+            //     picked: true
+            // }
+        ],
+        local: [
+            // {
+            //     id: '',
+            //     url: '',
+            //     thumb: '',
+            //     picked: true
+            // }
+        ],
+        type: 'local',
+        pics: [
+            // {
+            //     id: '',
+            //     url: '',
+            //     thumb: '',
+            //     picked: true
+            // }
+        ]
     }
 }
 
@@ -82,21 +91,59 @@ const post = (state = s.post, action) => {
                 docid: action.payload.result.docid,
                 title: action.payload.result.title,
                 author: action.payload.result.author,
-                summary: action.payload.result.summary
+                summary: action.payload.result.summary,
+                replace: true,
+            })
+        }, () => {}, () => {
+            return Object.assign({}, state, {
+                isFetching: true,
+                replace: false,
             })
         }),
         [constants.POST_GET_BY_ID]: wrapperReduce((state, action) => {
-            debugger
+            const cover = action.payload.data.pics && action.payload.data.pics[0] || ''
             return Object.assign({}, state, {
                 isFetching: false,
-                content: action.payload.data.content,
                 docid: action.payload.data.docid,
                 title: action.payload.data.title,
                 author: action.payload.data.author,
-                cover: action.payload.data.pics[0] || '',
+                content: action.payload.data.content,
                 summary: action.payload.data.summary,
+                cover: cover,
+                replace: true,
             })
-        })
+        }, () => {}, () => {
+            return Object.assign({}, state, {
+                isFetching: true,
+                replace: false,
+            })
+        }),
+        [constants.POST_INSERT]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                isFetching: false,
+                update: (callback) => {
+                    return callback(action.payload)
+                }
+            })
+        }),
+        [constants.POST_SET]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                isFetching: false,
+                content: action.payload
+            })
+        }),
+        [constants.POST_SAVE]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                docid: action.payload.docid,
+                url: 'http://www.8zcloud.com/userwords/single?docid=' + action.payload.docid,
+                isSaved: true
+            })
+        }),
+        [constants.POST_PREVIEW]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                url: action.payload.url
+            })
+        }),
     }, state, action)
 }
 const posts = (state = s.posts, action) => {
@@ -111,26 +158,80 @@ const posts = (state = s.posts, action) => {
 }
 const styles = (state = s.styles, action) => {
     return wrap({
-        ['type']: () => {
-            return state
-        }
+        [constants.STYLE_GET]: wrapperReduce((state, action) => {
+            const { id, list } = action.payload
+            let tmp = {
+                isFetching: false,
+                type: id,
+            }
+            tmp['style' + id] = list
+            return Object.assign({}, state, tmp)
+        }),
+        [constants.STYLE_RENDER]: wrapperReduce((state, action) => {
+            const id = action.payload
+            return Object.assign({}, state, {
+                isFetching: false,
+                type: id,
+            })
+        }),
+
     }, state, action)
 }
 const images = (state = s.images, action) => {
     return wrap({
-        ['type']: () => {
-            return state
-        }
+        [constants.IMAGES_GET]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                pics: action.payload
+            })
+        }),
+        [constants.UPLOAD]: wrapperReduce((state, action) => {
+            const thumb = action.payload.data.Ext['100_0']
+            const url = action.payload.data.url
+            const id = makeId()
+            const picked = false
+            let list = state[state.type]
+            let tmp = {
+                isFetching: false
+            }
+            tmp[state.type] = [...list, {
+                thumb,
+                url,
+                id,
+                picked
+            }]
+            return Object.assign({}, state, tmp)
+        }),
+        [constants.IMAGES_SAVE]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                pics: [...state.pics, ...action.payload]
+            })
+        }),
+        [constants.IMAGES_DEL]: wrapperReduce((state, action) => {
+            const id = action.payload.id
+            return Object.assign({}, state, {
+                pics: state.pics.filter(pic => (pic.id != id))
+            })
+        }),
+        [constants.IMAGES_SEARCH]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                net: [...state.net, ...action.payload]
+            })
+        }),
     }, state, action)
 }
 
 function wrap(obj, state, action) {
     for (var i in obj) {
-        try {
-            return obj[action.type](state, action)
-        } catch (e) {}
-        return state
+        if (typeof obj[action.type] !== 'function') {
+            continue
+        }
+        // try {
+        return obj[action.type](state, action)
+            // } catch (e) {
+            //     console.log(e)
+            // }
     }
+    return state
 }
 
 function wrapperReduce(recieve, error, request) {
@@ -139,12 +240,12 @@ function wrapperReduce(recieve, error, request) {
             return request && request(state, action) || Object.assign({}, state, {
                 isFetching: true
             })
-        } else if (action.status == RECIEVE) {
-            return recieve && recieve(state, action) || Object.assign({}, state, {
-                isFetching: false,
-            })
         } else if (action.status == ERROR) {
             return error && error(state, action) || Object.assign({}, state, {
+                isFetching: false,
+            })
+        } else {
+            return recieve && recieve(state, action) || Object.assign({}, state, {
                 isFetching: false,
             })
         }
@@ -158,3 +259,7 @@ export default combineReducers({
     styles,
     images,
 })
+
+function makeId() {
+    return Math.random().toString(36).replace(/\W/, '').slice(1, 6);
+}

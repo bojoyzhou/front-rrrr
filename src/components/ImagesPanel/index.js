@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import FileUpload from 'react-fileupload'
 
@@ -7,7 +7,15 @@ import NetImage from '../NetImage'
 import style from './style.less'
 
 class ImagesPanel extends Component {
-    handleCancel() {console.log(Date.now())
+    constructor(props, context){
+        super(props, context)
+        this.state={
+            picked: {}
+        }
+        this.selectFile = this.selectFile.bind(this)
+        this.select = this.select.bind(this)
+    }
+    handleCancel() {
         const actions = this.props.actions
         actions.selectPicCancel()
     }
@@ -15,16 +23,18 @@ class ImagesPanel extends Component {
         const actions = this.props.actions
         actions.selectPicConfirm()
     }
-    switchTo(type) {
-        const actions = this.props.actions
-        if(type == 'local'){
-            actions.switchLocal()
-        }else if(type == 'network'){
-            actions.switchNetwork()
-        }
+    selectFile(){
+        this.refs.file.click()
+    }
+    select(picked){
+        this.setState(Object.assign({}, this.state, {
+            picked
+        }))
+        this.props.select(picked)
     }
     render() {
-        const { selectPics, type } = this.props
+        const { images, switchTo, type, handleConfirm, handleCancel } = this.props
+        const picked = this.state.picked
         return (
             <div className="container-images-panel open">
                 <div className="mask">
@@ -34,18 +44,18 @@ class ImagesPanel extends Component {
                         </div>
                         <div className="mask-body">
                             <div className="tabs clear">
-                                <a className={ type == "local" ? "active" : ""} onClick={() => {this.switchTo('local')}} href="javascript:;">本地上传</a>
-                                <a className={ type == "network" ? "active" : ""} onClick={() => {this.switchTo('network')}} href="javascript:;">网络图片上传</a>
+                                <a className={ type == "local" ? "active" : ""} onClick={() => { switchTo('local') }} href="javascript:;">本地上传</a>
+                                <a className={ type == "net" ? "active" : ""} onClick={() => { switchTo('net') }} href="javascript:;">网络图片上传</a>
                             </div>
                             <div className="tabs-content">
-                                { type == "local" ? this.local() : this.network() }
+                                { type && (type == "local" ? this.local() : this.net()) }
                             </div>
                         </div>
                         <div className="mask-footer">
-                            <div className="mask-info"><span className="num-pic">{selectPics.filter((pic) => pic.picked).length}</span>张图片已经被选中</div>
+                            <div className="mask-info"><span className="num-pic">{Object.keys(picked).length}</span>张图片已经被选中</div>
                             <div className="mask-btn">
-                                <button onClick={this.handleCancel.bind(this)} className="btn cancel">取消</button>
-                                <button onClick={this.handleConfirm.bind(this)} className="btn confirm">确定</button>
+                                <button onClick={ handleCancel } className="btn cancel">取消</button>
+                                <button onClick={ handleConfirm } className="btn confirm">确定</button>
                             </div>
                         </div>
                     </div>
@@ -54,56 +64,32 @@ class ImagesPanel extends Component {
         )
     }
     local() {
-        const actions = this.props.actions
-        const options = {
-            baseUrl : 'http://imgs.8zcloud.com/getfiles.php?thumb=100_0',
-            chooseAndUpload : true,
-            wrapperDisplay : 'inline-block',
-            multiple: true,
-            dataType : 'json',
-            accept: 'image/*',
-            fileFieldName : 'file',
-            beforeUpload: function(files){
-                // for (var i = files.length - 1; i >= 0; i--) {
-                //     files[i].filedName = 'file'
-                // }
-            },
-            uploadSuccess: function(result){
-                actions.selectPic(result.data)
-            }
-        }
+        const { images, upload,} = this.props
         return (
-            <ImageFluid>
-                <div className="add">
+            <ImageFluid images={images} select={this.select}>
+                <div onClick={ this.selectFile } className="add">
                     <img src={require("./img/img_add.png")} alt="" />
-                    <FileUpload className="img-file" options={options}></FileUpload>
+                    <input ref="file" type="file" onChange={(e)=>{upload(e.target)}}/>
                 </div>
             </ImageFluid>
         )
     }
-    network() {
+    net() {
+        const { images, search } = this.props
         return (
-            <NetImage />
+            <NetImage images={images} select={this.select} search={search} />
         )
     }
 }
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import actions from '../../actions'
-function mapStateToProps(state) {
-    return {
-        selectPics: state.selectPic.selectPics,
-        type: state.selectPic.type
-    }
+
+ImagesPanel.propTypes = {
+    type: PropTypes.string.isRequired,
+    images: PropTypes.array.isRequired,
+    switchTo: PropTypes.func.isRequired,
+    upload: PropTypes.func.isRequired,
+    handleConfirm: PropTypes.func.isRequired,
+    handleCancel: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired,
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ImagesPanel)
+export default ImagesPanel

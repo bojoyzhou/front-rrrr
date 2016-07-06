@@ -3,7 +3,6 @@ import {
     RECIEVE,
     ERROR
 } from '../constants'
-
 export default createAction
 export const createActionAsync = (type, async, map) => {
     const request = wrapRequest(type)
@@ -13,11 +12,11 @@ export const createActionAsync = (type, async, map) => {
         dispatch(request())
         async(payload).then(response => response.json())
             .then(json => {
-                if (json.ret_code) {
+                if (json.ret_code != 0) {
                     return dispatch(error(json))
                 }
-                if(typeof map == 'function'){
-                    json = map(json)
+                if (typeof map == 'function') {
+                    json = map(json, payload)
                 }
                 dispatch(recieve(json))
             })

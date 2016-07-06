@@ -1,20 +1,39 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import style from './style.less'
 
 class ImageFluid extends Component {
-    handleSelectPic(id) {
-        const actions = this.props.actions
-        actions.pickPic(id)
+    constructor(props, context){
+        super(props, context)
+        this.state = {
+            picked: {}
+        }
+    }
+    select(id) {
+        const picked = this.state.picked
+        let tmp = {}
+        if(!picked[id]){
+            tmp[id] = 1
+            tmp = Object.assign({}, picked, tmp)
+        }else{
+            tmp = picked
+            delete tmp[id]
+        }
+        this.setState(Object.assign({}, this.state, {
+            picked: tmp
+        }))
+        this.props.select(tmp)
     }
     render() {
-        const { pics, children } = this.props
+        const { images, children, select } = this.props
+        const {picked} = this.state
         return (
             <div>
                 {
-                    pics.map((pic, idx) => {
+                    images.map((pic, idx) => {
+                        const p = picked[pic.id]
                         return (
-                            <div onClick={ () => this.handleSelectPic(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
+                            <div onClick={ () => this.select(pic.id) } key={idx} className={p ? "img_fluid active" : "img_fluid"}>
                                 <img src={pic.thumb} alt="" />
                                 <span className="checked"></span>
                             </div>
@@ -28,22 +47,10 @@ class ImageFluid extends Component {
     }
 }
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import actions from '../../actions'
-function mapStateToProps(state) {
-    return {
-        pics: state.selectPic.selectPics
-    }
+
+ImageFluid.propTypes = {
+    images: PropTypes.array.isRequired,
+    select: PropTypes.func.isRequired,
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ImageFluid)
+export default ImageFluid

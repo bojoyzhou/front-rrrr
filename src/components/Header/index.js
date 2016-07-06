@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import style from './style.less'
 import Login from '../Login'
@@ -7,34 +7,13 @@ import Animate from 'rc-animate'
 class Header extends Component {
     constructor(props, context){
         super(props, context)
-        this.onClickLogin = this.onClickLogin.bind(this)
-        this.onClickClose = this.onClickClose.bind(this)
-        this.login = this.login.bind(this)
-        this.state ={
-            showLogin: false
-        }
     }
     componentDidMount() {
         const { actions } = this.props
         actions.getUserName()
     }
-    onClickLogin(){
-        this.setState(Object.assign({}, this.state, {
-            showLogin: true
-        }))
-    }
-    onClickClose(){
-        this.setState(Object.assign({}, this.state, {
-            showLogin: false
-        }))
-    }
-    login(data){
-        const { actions } = this.props
-        actions.userLogin(data)
-    }
     render() {
         const { actions, username } = this.props
-        const { showLogin } = this.state
         return (
             <div>
                 <nav className="nav">
@@ -72,14 +51,17 @@ class Header extends Component {
                         </li>
                     </ul>
                     <div className="right">
-                    { username ? <span>欢迎<a className="username">{ username }</a></span> : <a onClick={ this.onClickLogin } className="login" href="javascript:;">登录</a> } |
+                    { username ? <span>欢迎<a className="username">{ username }</a></span> : <a onClick={ this.props.onClickLogin } className="login" href="javascript:;">登录</a> } |
                         <a className="home" href="/">home</a>
                     </div>
                 </nav>
-                { showLogin ? <Login isLogin={ !!username } close={ this.onClickClose } login={ this.login }></Login> : null }
             </div>
         )
     }
+}
+
+Header.propTypes = {
+    onClickLogin: PropTypes.func.isRequired
 }
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'

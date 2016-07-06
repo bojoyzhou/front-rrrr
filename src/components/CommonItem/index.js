@@ -6,57 +6,43 @@ import { Link } from 'react-router'
 import actions from '../../actions'
 import style from './style.less'
 
-import { VelocityTransitionGroup } from 'velocity-react'
-import velocityUi from '../../utils/velocity.ui.js'
 class CommonItem extends Component {
+    constructor(props, context){
+        super(props, context)
+        this.handleClick = this.handleClick.bind(this)
+    }
     fetchData(){
         let stype = this.props.params.id || 0
         this.props.actions.getCommonStyle({
             stype: stype
         })
     }
-    componentDidMount() {
-        this.fetchData()
-    }
-    componentDidUpdate(prevProps) {
-        if(prevProps.params.id == this.props.params.id){
-            return ;
-        }
-        this.fetchData()
-    }
+    // componentDidMount() {
+    //     this.fetchData()
+    // }
+    // componentDidUpdate(prevProps) {
+    //     if(prevProps.params.id == this.props.params.id){
+    //         return ;
+    //     }
+    //     this.fetchData()
+    // }
     handleClick(idx){
-        const { styleHtml, actions } = this.props
-        actions.insertEditor(styleHtml[idx])
+        const { style, onClick } = this.props
+        onClick(style[idx])
     }
     render() {
-        const { styleHtml } = this.props
-        const rows = styleHtml.map((style, idx) => {
+        const { style } = this.props
+        const rows = style.map((sty, idx) => {
             return (
-                <section onClick={() => this.handleClick(idx)} key={idx} dangerouslySetInnerHTML={{__html:style}}></section>
+                <section onClick={() => this.handleClick(idx)} key={idx} dangerouslySetInnerHTML={{__html:sty}}></section>
             )
         })
         return (
-            <VelocityTransitionGroup component="div" className="container-common-item box" runOnMount={true} enter={{animation: "transition.fadeIn"}} leave={{animation: "transition.fadeOut"}}>
+            <div className="container-common-item box">
             {rows}
-            </VelocityTransitionGroup>
+            </div>
         )
     }
 }
 
-
-function mapStateToProps(state) {
-    return {
-        styleHtml: state.commonStyle.styleHtml
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CommonItem)
+export default CommonItem

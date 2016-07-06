@@ -1,4 +1,3 @@
-
 import { Router, Route, IndexRoute, Redirect } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux'
@@ -9,9 +8,6 @@ import { history } from './utils'
 
 import App from './containers/App'
 import Editor from './components/Editor'
-import Import from './components/Import'
-import Common from './components/Common'
-import Images from './components/Images'
 import configure from './store'
 
 const store = configure()
@@ -21,15 +17,11 @@ ReactDOM.render(
         <Router history={myHistory}>
             <Redirect from="/" to="/editor/common/0"/>
             <Redirect from="/editor" to="/editor/common/0"/>
-            <Route path="/" component={App}>
-                <Route path="/editor" component={Editor}>
-                    <Route path="/editor/import" component={Import}>
-                    </Route>
-                    <Route path="/editor/common/:id" component={Common}>
-                    </Route>
-                    <Route path="/editor/images" component={Images}>
-                    </Route>
-                </Route>
+            <Route path="/editor/import" component={Editor} myRoute="Import">
+            </Route>
+            <Route path="/editor/common/:id" component={Editor} myRoute="Common">
+            </Route>
+            <Route path="/editor/images" component={Editor} myRoute="Images">
             </Route>
         </Router>
     </Provider>,

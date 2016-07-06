@@ -1,18 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router'
 import style from './style.less'
-
-import { VelocityTransitionGroup } from 'velocity-react'
-import velocityUi from '../../utils/velocity.ui.js'
 class NetImage extends Component {
-    handleSelectPic(id) {
-        this.flag = true
-        const actions = this.props.actions
-        actions.pickPic({
-            id,
-            type: 'net'
-        })
+    constructor(props, context){
+        super(props, context)
+        this.pn = 0
+        this.keyword = ''
     }
     down(e){
         if(e.keyCode == 13){
@@ -20,29 +14,24 @@ class NetImage extends Component {
         }
     }
     search(){
-        const actions = this.props.actions
         const keyword = this.refs.keyword.value
-        actions.searchNetwork({ keyword })
-    }
-    loadmore(){
-        const actions = this.props.actions
-        const keyword = this.refs.keyword.value
-        actions.searchNetwork()
-    }
-    componentDidUpdate() {
-        if(this.flag){
-            this.flag = false
+        if(!keyword){
             return
         }
-        const { netPics } = this.props
-        if(netPics.length == 20) {
-            const node = ReactDOM.findDOMNode(this.refs.panel)
-            node.scrollTop = 0
+        const pn = this.pn = 0
+        this.keyword = keyword
+        this.props.search({keyword, pn})
+    }
+    loadmore(){
+        const keyword = this.keyword
+        if(!keyword){
+            return
         }
+        const pn = ++this.pn
+        this.props.search({keyword, pn})
     }
     render() {
-        const { netPics } = this.props
-        // const list = this.list()
+        const { images } = this.props
         return (
             <div className="container-net-image">
                 <div className="wrapper form">
@@ -50,9 +39,9 @@ class NetImage extends Component {
                     <i onClick={() => {this.search()}} className="icon search"></i>
                 </div>
                 <div className="wrapper stage" ref="panel">
-                    <VelocityTransitionGroup component="div" className="clear" enter={{animation: "transition.fadeIn"}} leave={{animation: "transition.fadeOut"}}>
+                    <div className="clear">
                         {
-                            netPics.map((pic, idx) => {
+                            images.map((pic, idx) => {
                                 return (
                                     <div onClick={ () => this.handleSelectPic(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
                                         <img src={pic.thumb} alt="" />
@@ -61,7 +50,7 @@ class NetImage extends Component {
                                 )
                             })
                         }
-                    </VelocityTransitionGroup>
+                    </div>
                     <div className="loadmore">
                         <button onClick={ () => this.loadmore() } className="btn btn-more">加载更多</button>
                     </div>
@@ -70,10 +59,10 @@ class NetImage extends Component {
         )
     }
     list() {
-        const { netPics } = this.props
-        return netPics.map((pic, idx) => {
+        const { images, select } = this.props
+        return images.map((pic, idx) => {
             return (
-                <div onClick={ () => this.handleSelectPic(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
+                <div onClick={ () => select(pic.id) } key={idx} className={pic.picked ? "img_fluid active" : "img_fluid"}>
                     <img src={pic.thumb} alt="" />
                     <span className="checked"></span>
                 </div>
@@ -83,22 +72,10 @@ class NetImage extends Component {
     }
 }
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import actions from '../../actions'
-function mapStateToProps(state) {
-    return {
-        netPics: state.selectPic.netPics
-    }
+NetImage.propTypes = {
+    images: PropTypes.array.isRequired,
+    select: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired,
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(actions, dispatch)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(NetImage)
+export default NetImage

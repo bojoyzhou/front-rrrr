@@ -88,34 +88,34 @@ class InfoSide extends Component {
     }
     fold(show){
         const actions = this.props.actions
-        const {title, author, summary, cover, options} = this.props
+        const {title, author, summary, cover, save, change, addCover} = this.props
         return (
             <div data-show={show} className="container-info-side">
                 <div className="fold"  onClick={this.handleClick}>&gt;&gt;</div>
                 <div className="right-container">
                     <h4>标题</h4>
                     <div className="group clear">
-                        <textarea cols="30" rows="5" defaultValue={ title }></textarea>
+                        <textarea cols="30" rows="5" value={ title||'' } onChange={ (e) => { change('title', e.target.value) } }></textarea>
                     </div>
 
                     <div className="group clear">
                         <h4>作者</h4>
-                        <input className="author" defaultValue={ author } />
+                        <input className="author" value={ author||'' } onChange={ (e) => { change('author', e.target.value) } } />
                     </div>
 
                     <h4>封面</h4>
                     <div className="group clear">
-                        <div className="img_fluid add clear">
+                        <div onClick={ addCover } className="img_fluid add clear">
                             <img src={cover ? cover : require("./img/img_add.png")} alt="" />
                         </div>
                     </div>
 
                     <h4>摘要</h4>
                     <div className="group clear">
-                        <textarea cols="30" rows="10" defaultValue={ summary }></textarea>
+                        <textarea cols="30" rows="10" value={ summary||'' } onChange={ (e) => { change('summary', e.target.value) } }></textarea>
                     </div>
                     <div className="footer">
-                        <a href="javascript:;" className="btn">完成</a>
+                        <a onClick={save} href="javascript:;" className="btn">完成</a>
                     </div>
                 </div>
             </div>
@@ -138,7 +138,11 @@ InfoSide.propTypes = {
     author:PropTypes.string,
     summary:PropTypes.string,
     cover:PropTypes.string,
-    options: PropTypes.object
+    content: PropTypes.string.isRequired,
+    save:PropTypes.func.isRequired,
+    change:PropTypes.func.isRequired,
+    addCover:PropTypes.func.isRequired,
+
 }
 
 export default InfoSide

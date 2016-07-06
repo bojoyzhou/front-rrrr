@@ -23,15 +23,17 @@ div#editor {
     height: 42px;
     background-color: #e6e6e6;
     line-height: 42px;
-    padding: 0 15px;
-    z-index: 9999
+    z-index: 9999;
+    transition: .2s;
 }
 .container-textarea .tips-btn {
     cursor: pointer;
+    transition: .2s;
     float: left;
+    padding: 0 15px;
 }
-.container-textarea .tips-btn {
-    padding: 0 5px;
+.container-textarea .tips-btn:hover {
+    background-color: #aaa;
 }
 .float-bar {
     position: absolute;
@@ -49,7 +51,7 @@ div#editor {
     transition: .2s;
     cursor: pointer;
 }
-.float-item:hover{
+.float-item:hover {
     background-color: #999;
 }
 .float-item.preview {
