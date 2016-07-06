@@ -135,7 +135,7 @@ const post = (state = s.post, action) => {
         [constants.POST_SAVE]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
                 docid: action.payload.docid,
-                url: 'http://www.8zcloud.com/userwords/single?docid=' + action.payload.docid,
+                url: 'http://120.25.80.132/userwords/single?docid=' + action.payload.docid,
                 isSaved: true
             })
         }),
