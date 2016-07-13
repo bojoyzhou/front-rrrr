@@ -51,7 +51,10 @@ class Header extends Component {
                         </li>
                     </ul>
                     <div className="right">
-                    { username ? <span>欢迎<a className="username">{ username }</a></span> : <a onClick={ this.props.onClickLogin } className="login" href="javascript:;">登录</a> } |
+                    { username ?
+                        <span>欢迎<a className="username">{ username }</a>
+                        <a className="login" href="/user/loginout">退出</a></span>
+                        : <a onClick={ this.props.onClickLogin } className="login" href="javascript:;">登录</a> } |
                         <a className="home" href="/">home</a>
                     </div>
                 </nav>

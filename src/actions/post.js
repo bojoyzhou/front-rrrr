@@ -20,6 +20,12 @@ export const getPostById = createActionAsync(constants.POST_GET_BY_ID, ({docid, 
     return fetch(`/api/getwordsingle?type=${type}&docid=${docid}`, {
         credentials: 'include'
     })
+}, (json, {docid, type='pub'}) => {
+    if(type == 'pub'){
+        json.data.docid = ''
+    }
+    json.t = Date.now()
+    return json
 })
 export const savePost = createActionAsync(constants.POST_SAVE, (fields) => {
     let data = new FormData()

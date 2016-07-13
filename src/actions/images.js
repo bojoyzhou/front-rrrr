@@ -13,12 +13,12 @@ export const loadImages = createActionAsync(constants.IMAGES_GET, (id) => {
 export const upload = createActionAsync(constants.UPLOAD, (file) => {
     var data = new FormData()
     data.append('file', file.files[0])
-    return fetch(`http://120.25.80.132:88/getfiles.php?thumb=100_0`, {
+    return fetch(`http://120.25.80.132:88/getfiles.php?thumb=250_0`, {
         method: 'POST',
         body: data
     })
 }, (json) => {
-    json.data.Ext['100_0'] = makeHost(json.data.Ext['100_0'])
+    json.data.thumb = makeHost(json.data.Ext['250_0'])
     json.data.url = makeHost(json.data.url)
     return json
 })
@@ -56,10 +56,14 @@ export const deleteImage = createActionAsync(constants.IMAGES_DEL, (id) => {
     return json
 })
 export const renderImage = createAction(constants.IMAGES_RENDER)
-export const searchImage = createActionAsync(constants.IMAGES_SEARCH, ({keyword, pn}) => {
+export const searchImage = createActionAsync(constants.IMAGES_SEARCH, ({ keyword, pn }) => {
     return fetch(`/api/image-search?keyword=${keyword}&pn=${pn}&rn=20`)
-}, (json) => {
-    return json.result.map(pic => ({ id: makeId(), url: pic.url, thumb: pic.thumb }))
+}, (json, { pn }) => {
+    var list = json.result.map(pic => ({ id: makeId(), url: pic.url, thumb: pic.thumb, width: pic.width * 100 / pic.height, height: 100 }))
+    return {
+        list,
+        pn
+    }
 })
 
 function makeHost(url) {

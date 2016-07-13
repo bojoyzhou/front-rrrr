@@ -3,14 +3,6 @@ import { Link } from 'react-router'
 import style from './style.less'
 
 class PicList extends Component {
-    // handleClick(idx) {
-    //     const { pics, actions } = this.props
-    //     const {url, thumb} = pics[idx]
-    //     const genHtml = () => {
-    //         return '<img src="' + url + '" onerror="this.src=\'' + thumb + '\'" alt="" />'
-    //     }
-    //     actions.insertEditor(genHtml())
-    // }
     render() {
         const { pics, deletePic, selectPic } = this.props
         return (

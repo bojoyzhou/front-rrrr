@@ -3,12 +3,12 @@ import { Link } from 'react-router'
 
 import style from './style.less'
 
+import Animate from 'rc-animate'
 import Login from '../Login'
+import Loading from '../Loading'
 import PicList from '../PicList'
 import ImagesPanel from '../ImagesPanel'
 
-import { VelocityComponent } from 'velocity-react'
-import velocityUi from '../../utils/velocity.ui.js'
 class Images extends Component {
     constructor(props, context){
         super(props, context)
@@ -67,8 +67,6 @@ class Images extends Component {
     }
     search({keyword, pn}){
         const { actions } = this.props
-        console.log(keyword, pn)
-
         actions.searchImage({keyword, pn})
     }
     handleConfirm(){
@@ -121,7 +119,7 @@ class Images extends Component {
     }
     render() {
         const {images} = this.props
-        const {local, net, pics} = this.props
+        const {local, net, pics, isFetching} = this.props
         const type = this.state.type
         const { username } = this.props
         const { showLogin } = this.state
@@ -135,7 +133,9 @@ class Images extends Component {
                             <button onClick={ () => { this.add() } } className="btn-primary">添加图片</button>
                         </div>
                         <div className="panel-posts-body">
-                            <PicList pics={ pics } deletePic={ this.deletePic } selectPic={ this.selectPic }></PicList>
+                            { isFetching ? <Loading></Loading> :
+                                <PicList pics={ pics } deletePic={ this.deletePic } selectPic={ this.selectPic }></PicList>
+                            }
                         </div>
                     </div>
                 </div>
@@ -149,12 +149,19 @@ class Images extends Component {
                             handleCancel={this.handleCancel}
                             search={this.search}
                         ></ImagesPanel> : undefined}
-                { showLogin ? <Login
-                    isLogin = {!!username }
-                    close = { this.onClickClose }
-                    login = { this.login }
-                    > </Login> : null
-                }
+
+                <Animate
+                    component=""
+                    transitionName="fade"
+                    showProp="data-show">
+                        { showLogin ? <Login
+                            data-show = {showLogin}
+                            isLogin = {!!username }
+                            close = { this.onClickClose }
+                            login = { this.login }
+                            > </Login> : null
+                        }
+                </Animate>
             </div>
         )
     }

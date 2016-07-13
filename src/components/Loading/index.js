@@ -4,9 +4,8 @@ import style from './style.less'
 
 class Loading extends Component {
     render() {
-        const style = { display: this.props.show ? "block" : "none" }
         return (
-            <div className="loading-container" style = { style }>
+            <div className="loading-container">
                 <div className="loading">
                     <div className="wrap">
                         <div className="pw-1">

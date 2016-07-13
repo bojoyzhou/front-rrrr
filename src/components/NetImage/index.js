@@ -8,6 +8,7 @@ class NetImage extends Component {
         this.pn = 0
         this.keyword = ''
         this.select = this.select.bind(this)
+        this.onLoad = this.onLoad.bind(this)
         this.state={picked:[]}
     }
     down(e){
@@ -48,6 +49,49 @@ class NetImage extends Component {
         }))
         this.props.select(tmp)
     }
+    resize(){
+        const { images } = this.props
+        var panelWidth = this.refs.imgs.offsetWidth - 3
+        var list = []
+        var listWidth = []
+        var row = []
+        var width = 0
+        Array.prototype.slice.call(this.refs.imgs.children).forEach((child, idx) => {
+            var img =  images[idx]
+            width += img.width;
+            if(width + row.length * 5 + 5 > panelWidth){
+                list.push(row)
+                listWidth.push(width - img.width)
+                row = [child]
+                width = img.width
+            }else{
+                row.push(child)
+            }
+        })
+        listWidth.map((width, idx) => {
+            var elems = list[idx]
+            var px = (panelWidth - elems.length * 5)/(width) * 100 + 'px'
+            elems.map(elem => {
+                var img = elem.querySelector('img')
+                img.style.maxHeight = px
+                img.style.height = px
+            })
+        })
+        row.map(elem => {
+            var img = elem.querySelector('img')
+            img.style.maxHeight = '100px'
+            img.style.height = '100px'
+        })
+    }
+    componentDidUpdate() {
+        this.resize()
+    }
+    componentDidMount() {
+         this.resize()
+    }
+    onLoad(e){
+        e.target.style.opacity = 1
+    }
     render() {
         const { images } = this.props
         const handleSelectPic = this.props.select
@@ -60,22 +104,25 @@ class NetImage extends Component {
                     <i onClick={() => {this.search()}} className="icon search"></i>
                 </div>
                 <div className="wrapper stage" ref="panel">
-                    <div className="clear">
+                    <div ref="imgs" className="clear wrap">
                         {
                             images.map((pic, idx) => {
                                 const p = picked[pic.id]
                                 return (
                                     <div onClick={ () => this.select(pic.id) } key={idx} className={p ? "img_fluid active" : "img_fluid"}>
-                                        <img src={pic.thumb} alt="" />
+                                        <img src={pic.thumb} onLoad={ this.onLoad } alt="" />
                                         <span className="checked"></span>
                                     </div>
                                 )
                             })
                         }
                     </div>
-                    <div className="loadmore">
-                        <button onClick={ () => this.loadmore() } className="btn btn-more">加载更多</button>
-                    </div>
+                    { images.length ?
+                        <div className="loadmore">
+                            <button onClick={ () => this.loadmore() } className="btn btn-more">加载更多</button>
+                        </div>
+                        : null
+                    }
                 </div>
             </div>
         )

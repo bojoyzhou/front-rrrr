@@ -4,8 +4,6 @@ import * as constants from '../constants'
 import { REQUEST, RECIEVE, ERROR } from '../constants'
 import fetch from 'isomorphic-fetch'
 let s = {
-    routing: '',
-    location: '',
     user: {
         isFetching: false,
         username: ''
@@ -21,16 +19,19 @@ let s = {
         url: '',
         update: function() {},
         replace: false,
+        t: null
     },
     posts: {
         docid: '',
         isFetching: false,
-        list: [{
-            title: '',
-            date: '',
-            summary: '',
-            docid: ''
-        }]
+        list: [
+            // {
+            //     title: '',
+            //     date: '',
+            //     summary: '',
+            //     docid: ''
+            // }
+        ]
     },
     styles: {
         type: -1,
@@ -88,7 +89,6 @@ const post = (state = s.post, action) => {
             return Object.assign({}, state, {
                 isFetching: false,
                 content: action.payload.result.content,
-                docid: action.payload.result.docid,
                 title: action.payload.result.title,
                 author: action.payload.result.author,
                 summary: action.payload.result.summary,
@@ -110,12 +110,14 @@ const post = (state = s.post, action) => {
                 content: action.payload.data.content,
                 summary: action.payload.data.summary,
                 cover: cover,
+                t: action.payload.data.t,
                 replace: true,
             })
         }, () => {}, () => {
             return Object.assign({}, state, {
                 isFetching: true,
                 replace: false,
+                t: false,
             })
         }),
         [constants.POST_INSERT]: wrapperReduce((state, action) => {
@@ -181,11 +183,12 @@ const images = (state = s.images, action) => {
     return wrap({
         [constants.IMAGES_GET]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
-                pics: action.payload
+                pics: action.payload,
+                isFetching: false
             })
         }),
         [constants.UPLOAD]: wrapperReduce((state, action) => {
-            const thumb = action.payload.data.Ext['100_0']
+            const thumb = action.payload.data.thumb
             const url = action.payload.data.url
             const id = makeId()
             const picked = false
@@ -200,21 +203,62 @@ const images = (state = s.images, action) => {
                 picked
             }]
             return Object.assign({}, state, tmp)
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
+            })
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
+            })
         }),
         [constants.IMAGES_SAVE]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
-                pics: [...state.pics, ...action.payload]
+                pics: [...state.pics, ...action.payload],
+                isFetching: false
+            })
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
+            })
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
             })
         }),
         [constants.IMAGES_DEL]: wrapperReduce((state, action) => {
             const id = action.payload.id
             return Object.assign({}, state, {
-                pics: state.pics.filter(pic => (pic.id != id))
+                pics: state.pics.filter(pic => (pic.id != id)),
+                isFetching: false
+            })
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
+            })
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
             })
         }),
         [constants.IMAGES_SEARCH]: wrapperReduce((state, action) => {
+            var net
+            if (action.payload.pn) {
+                net = [...state.net, ...action.payload.list]
+            } else {
+                net = action.payload.list
+            }
             return Object.assign({}, state, {
-                net: [...state.net, ...action.payload]
+                net: net,
+                isFetching: false
+            })
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
+            })
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
             })
         }),
     }, state, action)

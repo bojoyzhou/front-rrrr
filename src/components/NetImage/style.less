@@ -3,13 +3,55 @@
 .container-net-image {
     .wrapper {
         position: relative;
-        &.form{
+
+        &.form {
             height: 50px;
         }
-        &.stage{
+        &.stage {
             height: 350px;
-            overflow: auto;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
+        img {
+            opacity: 0;
+            transition: .5s;
+        }
+    }
+    .img_fluid {
+        cursor: pointer;
+        float: left;
+        text-align: center;
+        vertical-align: middle;
+        position: relative;
+        margin-right: 5px;
+
+        &.active .checked {
+            display: block;
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            border-left: @S_ORNAMENT solid 1px;
+            border-bottom: @S_ORNAMENT solid 1px;
+            transform: rotate(-45deg);
+            right: 15px;
+            bottom: 15px;
+        }
+        img {
+            max-height: 100px;
+        }
+    }
+    .img_fluid:hover:after, .img_fluid.active:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, .2);
+    }
+    .img_fluid .checked {
+        display: none;
     }
     input {
         display: block;
@@ -32,6 +74,7 @@
     .loadmore {
         text-align: center;
         margin-top: 35px;
+
         .btn {
             &.btn-more {
                 cursor: pointer;

@@ -17,24 +17,16 @@ class CommonItem extends Component {
             stype: stype
         })
     }
-    // componentDidMount() {
-    //     this.fetchData()
-    // }
-    // componentDidUpdate(prevProps) {
-    //     if(prevProps.params.id == this.props.params.id){
-    //         return ;
-    //     }
-    //     this.fetchData()
-    // }
     handleClick(idx){
         const { style, onClick } = this.props
-        onClick(style[idx])
+        var elem = this.refs['section' + idx]
+        onClick(elem.innerHTML)
     }
     render() {
         const { style } = this.props
         const rows = style.map((sty, idx) => {
             return (
-                <section onClick={() => this.handleClick(idx)} key={idx} dangerouslySetInnerHTML={{__html:sty}}></section>
+                <section ref={ 'section' + idx} onClick={(e) => this.handleClick(idx)} key={idx} dangerouslySetInnerHTML={{__html:sty}}></section>
             )
         })
         return (

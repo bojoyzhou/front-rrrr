@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import Loading from '../Loading'
 import actions from '../../actions'
 import style from './style.less'
 
@@ -23,7 +24,7 @@ class OptionPostList extends Component {
         const handleClick = this.handleClick
         return (
             <ul className="container-option-post-list">
-                { isFetching ? 'loading' :
+                { isFetching ? <Loading></Loading> :
                     posts.map(function (post, idx){
                         return (
                             <li key={idx} className="list-group-posts" data-id="1">

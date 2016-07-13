@@ -78,6 +78,9 @@ module.exports = {
             '/api/*': {
                 target: 'http://www.8zcloud.com:88'
             },
+            '/user/*': {
+                target: 'http://www.8zcloud.com:88'
+            },
             '/temp/*': {
                 target: 'http://www.8zcloud.com:88'
             },

@@ -1,0 +1,110 @@
+.container-textarea {
+    height: 100%;
+    top: 60px;
+    bottom: 0;
+    left: 586px;
+    position: absolute;
+    right: 0;
+    max-width: 800px;
+    z-index: 2;
+
+    div#editor {
+        position: absolute;
+        margin-left: 250px;
+        width: 500px;
+        height: 100%;
+        margin-top: 15px;
+        padding-bottom: 15px;
+        box-sizing: border-box;
+    }
+    .tips {
+        position: absolute;
+        height: 42px;
+        background-color: #e6e6e6;
+        line-height: 42px;
+        z-index: 99;
+        transition: .2s;
+    }
+    .tips-btn {
+        cursor: pointer;
+        transition: .2s;
+        float: left;
+        padding: 0 15px;
+    }
+    .tips-btn.color:after {
+        content: ' ';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-color: red;
+        border-radius: 10px;
+    }
+    .tips-btn:hover {
+        background-color: #aaa;
+    }
+    .float-bar {
+        position: absolute;
+        right: 70px;
+        bottom: 80px;
+    }
+    .float-item {
+        width: 30px;
+        height: 30px;
+        margin-bottom: 10px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-color: #333;
+        border-radius: 5px;
+        transition: .2s;
+        cursor: pointer;
+    }
+    .float-item:hover {
+        background-color: #999;
+    }
+    .float-item.preview {
+        background-image: url(./img/preview.png)
+    }
+    .float-item.delete {
+        background-image: url(./img/delete.png)
+    }
+    .color-picker {
+        position: absolute;
+        left: 10px;
+        top: 30px;
+        z-index: 100;
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 2px, rgba(0, 0, 0, 0.298039) 0px 4px 8px;
+    }
+    .color-picker>div:first-child {
+        box-shadow: none !important;
+    }
+    .color-picker .btn {
+        font-size: 14px;
+        width: 81px;
+        line-height: 30px;
+        background: #fff;
+        color: #fa9b5b;
+        border: 1px solid #fa9b5b;
+        border-radius: 5px;
+        text-align: center;
+        outline: none;
+        cursor: pointer;
+        margin: 10px auto;
+        display: block;
+    }
+    .btn-cancel{
+        display: block;
+        width: 15px;
+        height: 15px;
+        text-align: center;
+        line-height: 100%;
+        color: #fff;
+        padding: 2px;
+        cursor: pointer;
+        border-radius: 15px;
+        background: red;
+        position: absolute;
+        right: -20px;
+        top: -20px;
+    }
+}

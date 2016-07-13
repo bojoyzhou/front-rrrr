@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { history } from '../../utils'
 
+import Animate from 'rc-animate'
 import style from './style.less'
 import Menu from '../Menu'
 import Header from '../Header'
@@ -10,7 +11,6 @@ import InfoSide from '../InfoSide'
 import Qrcode from '../Qrcode'
 import Login from '../Login'
 import Prompt from '../Prompt'
-import Loading from '../Loading'
 import Import from '../Import'
 import Common from '../Common'
 import Images from '../Images'
@@ -67,7 +67,6 @@ class Editor extends Component {
         this.setState(Object.assign({}, this.state, {
             output: 'editor'
         }))
-        console.log(e)
     }
     closeQr(){
         this.setState(Object.assign({}, this.state, {
@@ -110,16 +109,19 @@ class Editor extends Component {
         }))
     }
     componentWillReceiveProps(nextProps) {
-        if(!this.docid && !nextProps.docid || this.docid == nextProps.docid){
-            this.docid = nextProps.docid
+        if(!nextProps.replace){
+            this.replace =false
             return
         }
-        this.docid = nextProps.docid
+        if(this.replace){
+            return
+        }
+        this.replace = true
         this.setState(Object.assign({}, this.state, {
-            title:nextProps.title,
-            author:nextProps.author,
-            summary:nextProps.summary,
-            cover: nextProps.cover
+            title: nextProps.title,
+            author: nextProps.author,
+            summary: nextProps.summary,
+            cover:nextProps.cover
         }))
     }
     componentDidMount() {
@@ -130,7 +132,7 @@ class Editor extends Component {
         }
     }
     render() {
-        const { content, update, replace, docid, url } = this.props
+        const { content, update, replace, docid, url, username } = this.props
         const { title, author, cover, summary, showLogin, output, showQR } = this.state
         const myRoute = this.props.route.myRoute
         const attr = ({
@@ -167,16 +169,26 @@ class Editor extends Component {
                     addCover={ this.addCover }
                 ></InfoSide>
                 <Prompt></Prompt>
-                <Loading></Loading>
-                { showLogin ? <Login
-                    isLogin = {!!username }
-                    close = { this.onClickClose }
-                    login = { this.login }
-                    > </Login> : null
-                }
+            <Animate
+                component=""
+                transitionName="fade"
+                showProp="data-show">
+                    { showLogin ? <Login
+                        data-show = {showLogin}
+                        isLogin = {!!username }
+                        close = { this.onClickClose }
+                        login = { this.login }
+                        > </Login> : null
+                    }
+            </Animate>
+            <Animate
+                component=""
+                transitionName="fade"
+                showProp="data-show">
                 {
-                    showQR && url ? <Qrcode qrimg={qrimg} url={url} close={this.closeQr}></Qrcode> : null
+                    showQR && url ? <Qrcode data-show={showQR && url} qrimg={qrimg} url={url} close={this.closeQr}></Qrcode> : null
                 }
+            </Animate>
             </div>
         )
     }
@@ -197,6 +209,7 @@ function mapStateToProps(state) {
         update: state.post.update,
         url: state.post.url,
         replace: state.post.replace,
+        username: state.user.username,
     }
 }
 

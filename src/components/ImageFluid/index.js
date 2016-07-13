@@ -28,7 +28,7 @@ class ImageFluid extends Component {
         const { images, children, select } = this.props
         const {picked} = this.state
         return (
-            <div>
+            <div className="imgfluid-container">
                 {
                     images.map((pic, idx) => {
                         const p = picked[pic.id]

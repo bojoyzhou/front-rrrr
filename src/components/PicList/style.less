@@ -1,19 +1,31 @@
+.container-pic-list{
+    height: 100%;
+    overflow-y: scroll;
+}
 .container-pic-list ul.pic-list{
-    padding: 0
+    min-height: 100%;
+    padding: 0;
+    padding-bottom: 20px;
 }
 .container-pic-list .item-img{
     position: relative;
     list-style: none;
-    transition: .2s;
+    transition: max-height .5s;
     padding: 10px;
+    max-height: 250px;
+    overflow: hidden;
     text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5)
 }
 .container-pic-list .item-img img{
     max-width: 100%;
+    width: 100%;
     cursor: pointer;
 }
 .container-pic-list .item-img:hover{
-    background-color: #f5f5f5;
+    background-color: rgba(200, 200, 200, .5);
+    max-height: 500px;
+    box-shadow: none;
 }
 .container-pic-list .item-img:hover .close{
     display:block
