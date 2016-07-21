@@ -1,8 +1,8 @@
 .container-textarea {
-    height: 100%;
     top: 60px;
     bottom: 0;
     left: 586px;
+    flex: 1;
     position: absolute;
     right: 0;
     max-width: 800px;
@@ -44,7 +44,7 @@
     }
     .float-bar {
         position: absolute;
-        right: 70px;
+        right: 0px;
         bottom: 80px;
     }
     .float-item {
@@ -106,5 +106,15 @@
         position: absolute;
         right: -20px;
         top: -20px;
+    }
+}
+@media screen and (max-width: 1370px) {
+    div#editor {
+        margin-left: 150px!important;
+    }
+}
+@media screen and (max-width: 1250px) {
+    div#editor {
+        margin-left: 50px!important;
     }
 }

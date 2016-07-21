@@ -1304,6 +1304,10 @@ div.edui-box {
     height: 380px;
     overflow: hidden
 }
+.edui-default .edui-editor-iframeholder iframe {
+    padding-bottom: 0!important;
+    box-sizing: border-box;
+}
 .edui-default .edui-for-emotion .edui-popup-content {
     position: relative;
     z-index: 555

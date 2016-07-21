@@ -104,22 +104,18 @@ class TextArea extends Component {
         if(show){
             this.elem = elem
             this.elem.style.border = '#fe9a5f dashed 1px'
-            const elemOffset = getOffset(elem)
             var scrollTop = doc.body.scrollTop || doc.documentElement.scrollTop
+            var top = elem.offsetTop + elem.offsetHeight + 77 - scrollTop
+            var sheight = parseFloat(window.getComputedStyle(this.refs.container).height)
+            if(top + 50 > sheight){
+                top = sheight - 70
+            }
             this.showTools(elem.tagName.toUpperCase(), {
-                left: elemOffset.left + editor.offsetLeft,
-                top: elemOffset.top + elem.offsetHeight + 77 - scrollTop
+                left: elem.offsetLeft + editor.offsetLeft,
+                top: top
             })
         }else{
             this.hideTools()
-        }
-        function getOffset(elem, left = 0, top = 0){
-            left = elem.offsetLeft || 0 + left
-            top = elem.offsetTop || 0 + top
-            if(elem.parentNode){
-                return getOffset(elem.parentNode, left, top)
-            }
-            return { left, top }
         }
         this.props.onClick(e)
     }
@@ -203,7 +199,7 @@ class TextArea extends Component {
         const { update } = this.props
         const {showTools, menuType, offset, showColor} = this.state
         return (
-            <div className="container-textarea">
+            <div ref="container" className="container-textarea">
                 <div>
                     <script id="editor" type="text/plain" width="500"></script>
                     <ul className="float-bar">

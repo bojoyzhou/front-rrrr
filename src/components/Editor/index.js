@@ -138,6 +138,7 @@ class Editor extends Component {
         const attr = ({
             Images:{
                 setCover:this.setCover,
+                onClickLogin: this.onClickLogin,
                 output
             },
             Common:{

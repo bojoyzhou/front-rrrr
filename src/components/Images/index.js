@@ -12,9 +12,6 @@ import ImagesPanel from '../ImagesPanel'
 class Images extends Component {
     constructor(props, context){
         super(props, context)
-        this.onClickLogin = this.onClickLogin.bind(this)
-        this.onClickClose = this.onClickClose.bind(this)
-        this.login = this.login.bind(this)
         this.switchTo = this.switchTo.bind(this)
         this.upload = this.upload.bind(this)
         this.select = this.select.bind(this)
@@ -34,7 +31,7 @@ class Images extends Component {
         if(isLogin){
             this.switchTo('local')
         }else{
-            this.onClickLogin()
+            this.props.onClickLogin()
         }
     }
     switchTo(type){
@@ -103,20 +100,6 @@ class Images extends Component {
             actions.loadImages()
         }
     }
-    onClickLogin() {
-        this.setState(Object.assign({}, this.state, {
-            showLogin: true
-        }))
-    }
-    onClickClose() {
-        this.setState(Object.assign({}, this.state, {
-            showLogin: false
-        }))
-    }
-    login(data) {
-        const { actions } = this.props
-        actions.userLogin(data)
-    }
     render() {
         const {images} = this.props
         const {local, net, pics, isFetching} = this.props
@@ -124,7 +107,7 @@ class Images extends Component {
         const { username } = this.props
         const { showLogin } = this.state
         return (
-            <div style={{height: '100%'}}>
+            <div style={{position: 'relative'}}>
                 <div className="container-images">
                     <div className="panel-posts box">
                         <div className="panel-title">

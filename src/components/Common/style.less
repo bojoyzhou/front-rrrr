@@ -1,13 +1,14 @@
 @import '../../style.less';
 
 .container-common {
-    float: left;
-    height: 100%;
     position: relative;
     z-index: 2;
     .FUNC_BOX();
 
     .panel-posts {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
         box-sizing: border-box;
         width: 386px;
         height: 100%;
@@ -23,14 +24,12 @@
         position: relative;
     }
     .panel-posts-body {
-        height: 100%;
+        position: relative;
         box-sizing: border-box;
-        padding-top: 55px;
-        margin-top: -55px;
-        padding-bottom: 60px;
         background-color: @BG_BOX;
         z-index: 1;
         position: relative;
+        flex: 1;
     }
     .color-picker {
         position: absolute;
