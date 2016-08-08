@@ -15,12 +15,9 @@ class Alert extends Component {
         cancel && cancel()
     }
     render() {
-        const {title, desc} = this.props
-        const style = {
-            textAlign: 'center'
-        }
+        const {title, desc, btns} = this.props
         return (
-            <div className="alert-container mask" style={style}>
+            <div className="alert-container mask">
                 <div style={{display:'inline-block'}}>
                     <div className="mask-panel">
                         <div className="mask-title">
@@ -29,8 +26,12 @@ class Alert extends Component {
                             <div className="content">{desc}</div>
                         </div>
                         <div className="mask-footer">
-                            <button className="btn btn-primary" onClick = {this.confirm.bind(this)}>确认</button>
-                            <button className="btn btn-cancel" onClick = {this.cancel.bind(this)}>取消</button>
+                            {
+                                btns.map((btn, idx) => {
+                                    var clname = btn.click ? 'btn btn-primary' : 'btn btn-cancel'
+                                    return (<button key={idx} className={clname} onClick = {btn.click}>{btn.text}</button>)
+                                })
+                            }
                         </div>
                     </div>
                 </div>

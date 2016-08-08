@@ -22,8 +22,7 @@ class Images extends Component {
         this.deletePic = this.deletePic.bind(this)
         this.selectPic = this.selectPic.bind(this)
         this.state = {
-            type: null,
-            showLogin: false
+            type: null
         }
     }
     add(){
@@ -55,7 +54,7 @@ class Images extends Component {
         if(output == 'cover'){
             this.props.setCover(pic.thumb)
         }else{
-            const html = `<img src="${pic.url}" onerror="this.src='${pic.thumb}';this.onerror=null" alt="" /><br />`
+            const html = `<img style="max-width:100%;" src="${pic.url}" onerror="this.src='${pic.thumb}';this.onerror=null" alt="" /><br />`
             actions.insertInto(html)
         }
     }
@@ -89,25 +88,23 @@ class Images extends Component {
     }
     componentDidMount() {
         const {actions, isLogin, isFetching, pics} = this.props
-        if(isLogin != false && pics.length == 0 && !isFetching){
+        if(isLogin != false && pics === null && !isFetching){
             actions.loadImages()
         }
     }
     componentWillReceiveProps(nextProps) {
         const {isLogin, isFetching, pics} = nextProps
         const { actions } = this.props
-        if(isLogin != false && pics.length == 0 && !isFetching){
+        if(isLogin != false && pics === null && !isFetching){
             actions.loadImages()
         }
     }
     render() {
-        const {images} = this.props
-        const {local, net, pics, isFetching} = this.props
+        var {images, local, net, pics, isFetching, username} = this.props
         const type = this.state.type
-        const { username } = this.props
-        const { showLogin } = this.state
+        pics = pics || []
         return (
-            <div style={{position: 'relative'}}>
+            <div>
                 <div className="container-images">
                     <div className="panel-posts box">
                         <div className="panel-title">
@@ -132,19 +129,6 @@ class Images extends Component {
                             handleCancel={this.handleCancel}
                             search={this.search}
                         ></ImagesPanel> : undefined}
-
-                <Animate
-                    component=""
-                    transitionName="fade"
-                    showProp="data-show">
-                        { showLogin ? <Login
-                            data-show = {showLogin}
-                            isLogin = {!!username }
-                            close = { this.onClickClose }
-                            login = { this.login }
-                            > </Login> : null
-                        }
-                </Animate>
             </div>
         )
     }

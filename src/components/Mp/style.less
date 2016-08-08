@@ -1,0 +1,127 @@
+@import '../../style.less';
+
+.container-mp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: fade(black, 40%);
+        z-index: 9;
+    }
+    .mask-panel {
+        width: 600px;
+        background-color: #fff;
+        position: absolute;
+        left: 50%;
+        margin-left: -300px;
+        top: 50%;
+        margin-top: -210px;
+    }
+    .mask-title {
+        line-height: 50px;
+        box-sizing: border-box;
+        background-color: #333333;
+        color: #fff;
+        position: relative;
+        padding: 0 20px;
+        height: 50px;
+        .close {
+            width: 25px;
+            height: 25px;
+            right: 10px;
+            top: 13px;
+            position: absolute;
+            display: block;
+            line-height: 25px;
+            text-align: center;
+            border-radius: 50%;
+            transition: .2s;
+
+            &:hover {
+                background-color: fade(white, 20%);
+            }
+            &:active {
+                background-color: fade(white, 60%);
+            }
+        }
+    }
+    .mask-body {
+        padding: 25px 20px 18px;
+        box-sizing: border-box;
+        margin-left: -10px;
+        height: 210px;
+    }
+    .mask-footer{
+        padding: 11px 10px 0;
+        height: 55px;
+        line-height: 35px;
+        background: #f2f2f2;
+        box-sizing: border-box;
+    }
+    button.btn {
+        padding: 5px 25px;
+        margin-left: 10px;
+        .FUNC_PRI_BTN();
+
+        &.btn-cancel {
+            .FUNC_COM_BTN();
+        }
+    }
+
+    .item{
+        background: #e6e6e6;
+        width: 180px;
+        height: 80px;
+        margin-left: 10px;
+        padding: 13px 10px;
+        box-sizing: border-box;
+        line-height: 54px;
+        overflow: hidden;
+        cursor: pointer;
+        float: left;
+        position: relative;
+        .head{
+            border-radius: 50%;
+            border: #fff solid 2px;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            float: left;
+        }
+        .stat{
+            display: none;
+            position: absolute;
+            background: url(./img/checked.png);
+            width: 40px;
+            height: 40px;
+            right: 0;
+            top: 0;
+        }
+        &:hover .stat, &.checked .stat{
+            display: block;
+        }
+    }
+    .add{
+        text-align: center;
+        img{
+            margin-top: 13px;
+        }
+        a{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .right{
+        float: right;
+    }
+}

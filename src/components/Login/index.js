@@ -41,7 +41,7 @@ class Login extends Component {
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.isLogin){
-            this.props.close()
+            // this.props.close()
         }
     }
     render() {

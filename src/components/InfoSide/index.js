@@ -88,7 +88,7 @@ class InfoSide extends Component {
     }
     fold(show){
         const actions = this.props.actions
-        const {title, author, summary, cover, save, change, addCover} = this.props
+        const {title, author, summary, cover, save, change, addCover, sync} = this.props
         return (
             <div data-show={show} className="container-info-side">
                 <div className="fold"  onClick={this.handleClick}>&gt;&gt;</div>
@@ -115,7 +115,8 @@ class InfoSide extends Component {
                         <textarea cols="30" rows="10" value={ summary||'' } onChange={ (e) => { change('summary', e.target.value) } }></textarea>
                     </div>
                     <div className="footer">
-                        <a onClick={save} href="javascript:;" className="btn">完成</a>
+                        <a onClick={save} href="javascript:;" className="btn btn-primary">保存</a>
+                        <a onClick={sync} href="javascript:;" className="btn">同步到公众号</a>
                     </div>
                 </div>
             </div>
@@ -140,6 +141,7 @@ InfoSide.propTypes = {
     cover:PropTypes.string,
     content: PropTypes.string.isRequired,
     save:PropTypes.func.isRequired,
+    sync:PropTypes.func.isRequired,
     change:PropTypes.func.isRequired,
     addCover:PropTypes.func.isRequired,
 

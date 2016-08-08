@@ -12,11 +12,13 @@ export const createActionAsync = (type, async, map) => {
         dispatch(request())
         async(payload).then(response => response.json())
             .then(json => {
-                if (json.ret_code != 0) {
+                if (typeof map == 'function' && json.ret_code != 0) {
+                    map(json, payload)
                     return dispatch(error(json))
-                }
-                if (typeof map == 'function') {
+                } else if (typeof map == 'function' && json.ret_code == 0) {
                     json = map(json, payload)
+                } else if (json.ret_code != 0) {
+                    return dispatch(error(json))
                 }
                 dispatch(recieve(json))
             })

@@ -28,7 +28,9 @@ class TextArea extends Component {
         var that = this
         var ready = this.ready.bind(this)
         setTimeout(() => {
-            const ue = UE.getEditor('editor')
+            const ue = UE.getEditor('editor', {
+                enterTag: 'br'
+            })
             that.ue = ue
             ue.ready(ready)
         }, 300)
@@ -100,10 +102,10 @@ class TextArea extends Component {
                 history.push('/editor/images');
             }
         }
-        this.elem && (this.elem.style.border = '0')
+        this.elem && (this.elem.className = this.elem.className.replace('tips_active', ''))
         if(show){
             this.elem = elem
-            this.elem.style.border = '#fe9a5f dashed 1px'
+            this.elem.className = this.elem.className + ' tips_active'
             var scrollTop = doc.body.scrollTop || doc.documentElement.scrollTop
             var top = elem.offsetTop + elem.offsetHeight + 77 - scrollTop
             var sheight = parseFloat(window.getComputedStyle(this.refs.container).height)
@@ -129,7 +131,7 @@ class TextArea extends Component {
         this.setState(Object.assign({}, this.state, {
             showTools:false
         }))
-        this.elem && (this.elem.style.border = '0')
+        this.elem && (this.elem.className = this.elem.className.replace('tips_active', ''))
     }
     ready() {
         const {ue, uereadycall} = this
@@ -139,7 +141,7 @@ class TextArea extends Component {
             that.onClick(e, ue.document)
         })
         setTimeout(() => {
-            const html = ue.execCommand('getlocaldata')
+            const html = ue.execCommand('getlocaldata').replace(/<p><br><\/p>$/, '')
             ue.execCommand('insertHtml', html)
             uereadycall && uereadycall.map(ready => ready())
 

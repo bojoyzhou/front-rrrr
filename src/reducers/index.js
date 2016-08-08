@@ -6,7 +6,8 @@ import fetch from 'isomorphic-fetch'
 let s = {
     user: {
         isFetching: false,
-        username: ''
+        username: '',
+        mps: []
     },
     post: {
         docid: '',
@@ -55,14 +56,15 @@ let s = {
             // }
         ],
         type: 'local',
-        pics: [
+        pics: null
+        // [
             // {
             //     id: '',
             //     url: '',
             //     thumb: '',
             //     picked: true
             // }
-        ]
+        // ]
     }
 }
 
@@ -78,6 +80,12 @@ const user = (state = s.user, action) => {
             return Object.assign({}, state, {
                 isFetching: false,
                 username: action.payload.uInfo.uname
+            })
+        }),
+        [constants.USER_GETWXMPS]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                isFetching: false,
+                mps: action.payload
             })
         })
     }, state, action)
@@ -140,12 +148,24 @@ const post = (state = s.post, action) => {
                 url: 'http://120.25.80.132/userwords/single?docid=' + action.payload.docid,
                 isSaved: true
             })
+        },(state, action) => {
+            console.log(action)
+            return state
         }),
         [constants.POST_PREVIEW]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
                 url: action.payload.url
             })
         }),
+        [constants.POST_SYNC]: wrapperReduce((state, action) => {
+            return Object.assign({}, state, {
+                postSyncError: '同步成功'
+            })
+        }, (state, action) => {
+            return Object.assign({}, state, {
+                postSyncError: action.payload.ret_desc
+            })
+        })
     }, state, action)
 }
 const posts = (state = s.posts, action) => {
@@ -271,9 +291,9 @@ function wrap(obj, state, action) {
         }
         // try {
         return obj[action.type](state, action)
-            // } catch (e) {
-            //     console.log(e)
-            // }
+        // } catch (e) {
+        //     console.log(e)
+        // }
     }
     return state
 }

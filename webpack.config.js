@@ -76,22 +76,25 @@ module.exports = {
         hot: true,
         proxy: {
             '/api/*': {
-                target: 'http://www.8zcloud.com:88'
+                target: 'http://www.i8za.com'
             },
             '/user/*': {
-                target: 'http://www.8zcloud.com:88'
+                target: 'http://www.i8za.com'
+            },
+            '/auth/*': {
+                target: 'http://www.i8za.com'
             },
             '/temp/*': {
-                target: 'http://www.8zcloud.com:88'
+                target: 'http://www.i8za.com'
             },
             '/content/*': {
-                target: 'http://www.8zcloud.com:88'
+                target: 'http://www.i8za.com'
             },
             '/userwords/*': {
-                target: 'http://www.8zcloud.com:88'
+                target: 'http://www.i8za.com'
             },
             '/it/*': {
-                target: 'http://www.8zcloud.com:88'
+                target: 'http://www.i8za.com'
             },
             '/upload/*': {
                 target: 'http://imgs.8zcloud.com'

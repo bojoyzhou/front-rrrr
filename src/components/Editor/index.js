@@ -10,7 +10,8 @@ import TextArea from '../TextArea'
 import InfoSide from '../InfoSide'
 import Qrcode from '../Qrcode'
 import Login from '../Login'
-import Prompt from '../Prompt'
+import Mp from '../Mp'
+import Alert from '../Alert'
 import Import from '../Import'
 import Common from '../Common'
 import Images from '../Images'
@@ -29,6 +30,10 @@ class Editor extends Component {
         this.change = this.change.bind(this)
         this.preview = this.preview.bind(this)
         this.save = this.save.bind(this)
+        this.syncClick = this.syncClick.bind(this)
+        this.closeMp = this.closeMp.bind(this)
+        this.selectMp = this.selectMp.bind(this)
+        this.confirmMp = this.confirmMp.bind(this)
         this.state = {
             title: '',
             author: '',
@@ -38,7 +43,15 @@ class Editor extends Component {
             showLogin: '',
             showQR: false,
             qrimg: '',
-            url: ''
+            url: '',
+            showMps: false,
+            mpschecked: [],
+            alertData: null,
+            // {
+            //     title: 'asdf',
+            //     desc: 'asdfaf',
+            //     btns:[{text: '取消'}]
+            // }
         }
     }
     onClickLogin() {
@@ -53,7 +66,15 @@ class Editor extends Component {
     }
     login(data) {
         const { actions } = this.props
-        actions.userLogin(data)
+        var that = this
+        actions.userLogin({
+            ...data,
+            callback: (json) => {
+                if(json.ret_code == 0){
+                    that.onClickClose()
+                }
+            }
+        })
     }
     syncContent(content){
         const {actions} = this.props
@@ -93,17 +114,103 @@ class Editor extends Component {
         }))
     }
     save(){
-        const {content, actions, docid} = this.props
+        const {content, actions, docid, isLogin} = this.props
         const { title, author, summary, cover } = this.state
+        if(!isLogin){
+            return this.onClickLogin()
+        }
         actions.savePost({ docid, content, title, author, summary, pics:JSON.stringify([cover]) })
         this.setState(Object.assign({}, this.state, {
             showQR: true
         }))
     }
+    syncClick(){
+        const { actions, mps, isLogin, docid } = this.props
+        if(!isLogin){
+            return this.onClickLogin()
+        }else if(!mps || mps.length == 0){
+            actions.getUserWxMps()
+        }
+        if(!docid){
+            var that = this
+            this.setState(Object.assign({}, this.state, {
+                alertData: {
+                    title: '提示',
+                    desc: '',
+                    btns: [{
+                        text: '保存',
+                        click: () => {
+                            that.save()
+                            that.setState(Object.assign({}, that.state, {
+                                alertData: null
+                            }))
+                        }
+                    },{
+                        text: '关闭',
+                        click: () => {
+                            that.save()
+                            that.setState(Object.assign({}, that.state, {
+                                alertData: null
+                            }))
+                        }
+                    }]
+                }
+            }))
+            return
+        }
+        // actions.syncPost2Mp({ docid, content, title, author, summary, pics:JSON.stringify([cover]) })
+        this.setState(Object.assign({}, this.state, {
+            showMps: true
+        }))
+    }
+    closeMp(){
+        this.setState(Object.assign({}, this.state, {
+            showMps: false,
+            mpschecked: []
+        }))
+    }
+    selectMp(idx){
+        var mpschecked = this.state.mpschecked.slice(0)
+        mpschecked[idx] = !mpschecked[idx]
+        this.setState(Object.assign({}, this.state, {
+            mpschecked
+        }))
+    }
+    confirmMp(){
+        var that = this
+        const { mps, actions, docid} = this.props
+        const { mpschecked } = this.state
+        var appids = mpschecked.map((x, idx) => x !== false ? idx : false).filter(x => x!==false).map(idx => mps[idx].appid)
+        actions.syncPost2Mp({
+            appids,
+            docid,
+            callback: (msg, ret) => {
+                var showMps = true
+                if(!ret){
+                    showMps = false
+                }
+                that.setState(Object.assign({}, this.state, {
+                    alertData: {
+                        title: '提示',
+                        desc: msg,
+                        btns: [{
+                            text: '关闭',
+                            click: () => {
+                                that.setState(Object.assign({}, that.state, {
+                                    alertData: null
+                                }))
+                            }
+                        }]
+                    },
+                    showMps
+                }))
+            }
+        })
+    }
     preview(){
         const {content, actions, docid} = this.props
         const { title, author, summary, cover } = this.state
-        actions.previewPost(content )
+        actions.previewPost(content)
         this.setState(Object.assign({}, this.state, {
             showQR: true
         }))
@@ -116,6 +223,7 @@ class Editor extends Component {
         if(this.replace){
             return
         }
+        console.log('componentWillReceiveProps')
         this.replace = true
         this.setState(Object.assign({}, this.state, {
             title: nextProps.title,
@@ -125,15 +233,18 @@ class Editor extends Component {
         }))
     }
     componentDidMount() {
-        const {actions} = this.props
+        const {actions, isLogin, mps} = this.props
         const {docid, type} = this.props.location.query
         if(docid && type){
             actions.getPostById({docid, type})
         }
+        if(isLogin && !mps){
+            actions.getUserWxMps()
+        }
     }
     render() {
-        const { content, update, replace, docid, url, username } = this.props
-        const { title, author, cover, summary, showLogin, output, showQR } = this.state
+        const { content, update, replace, docid, url, username, mps, isLogin } = this.props
+        const { title, author, cover, summary, showLogin, output, showQR, showMps, mpschecked, alertData } = this.state
         const myRoute = this.props.route.myRoute
         const attr = ({
             Images:{
@@ -166,30 +277,39 @@ class Editor extends Component {
                     cover={ cover }
                     content={ content }
                     save={ this.save }
+                    sync={ this.syncClick }
                     change={ this.change }
                     addCover={ this.addCover }
                 ></InfoSide>
-                <Prompt></Prompt>
-            <Animate
-                component=""
-                transitionName="fade"
-                showProp="data-show">
-                    { showLogin ? <Login
-                        data-show = {showLogin}
-                        isLogin = {!!username }
-                        close = { this.onClickClose }
-                        login = { this.login }
-                        > </Login> : null
+                <Animate
+                    component=""
+                    transitionName="fade"
+                    showProp="data-show">
+                        { showLogin ? <Login
+                            data-show = {showLogin}
+                            isLogin = {!!username }
+                            close = { this.onClickClose }
+                            login = { this.login }
+                            > </Login> : null
+                        }
+                </Animate>
+                <Animate
+                    component=""
+                    transitionName="fade"
+                    showProp="data-show">
+                    {
+                        showQR && url ? <Qrcode data-show={showQR && url} qrimg={qrimg} url={url} close={this.closeQr}></Qrcode> : null
                     }
-            </Animate>
-            <Animate
-                component=""
-                transitionName="fade"
-                showProp="data-show">
-                {
-                    showQR && url ? <Qrcode data-show={showQR && url} qrimg={qrimg} url={url} close={this.closeQr}></Qrcode> : null
-                }
-            </Animate>
+                </Animate>
+                <Animate
+                    component=""
+                    transitionName="fade"
+                    showProp="data-show">
+                    {
+                        showMps ? <Mp data-show={showMps} selectMp={this.selectMp} checked={mpschecked} mps={ mps } close={this.closeMp} confirm={this.confirmMp}></Mp> : null
+                    }
+                </Animate>
+                { alertData ? <Alert {...alertData} ></Alert> : null }
             </div>
         )
     }
@@ -209,8 +329,11 @@ function mapStateToProps(state) {
         isSaved: state.post.isSaved,
         update: state.post.update,
         url: state.post.url,
+        postSyncError: state.post.postSyncError,
         replace: state.post.replace,
         username: state.user.username,
+        isLogin: !!state.user.username,
+        mps: state.user.mps,
     }
 }
 

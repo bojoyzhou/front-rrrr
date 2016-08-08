@@ -102,7 +102,8 @@ div.edui-box {
 .edui-default .edui-editor-toolbarbox {
     position: relative;
     margin-bottom: 10px;
-    zoom: 1
+    zoom: 1;
+    z-index: 2;
 }
 .edui-default .edui-editor-toolbarboxouter {
     background-color: #fff;
@@ -111,11 +112,20 @@ div.edui-box {
 .edui-default .edui-editor-toolbarboxinner {
     padding: 2px
 }
+.edui-default .edui-editor-iframeholder iframe{
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
+}
 .edui-default .edui-editor-iframeholder {
-    position: relative;
-    background-color: #fff
+    overflow: initial!important;
+    background-color: #fff;
+    box-shadow: none!important;
+    position: absolute!important;
+    top: 0;
+    padding-top: 65px;
+    z-index: 1!important;
 }
 .edui-default .edui-editor-bottomContainer {
+    display: none;
     overflow: hidden
 }
 .edui-default .edui-editor-bottomContainer table {

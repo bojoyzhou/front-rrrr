@@ -13,7 +13,8 @@ export const loadImages = createActionAsync(constants.IMAGES_GET, (id) => {
 export const upload = createActionAsync(constants.UPLOAD, (file) => {
     var data = new FormData()
     data.append('file', file.files[0])
-    return fetch(`http://120.25.80.132:88/getfiles.php?thumb=250_0`, {
+    return fetch(`http://imgs.i8za.com/getfiles.php?thumb=250_0`, {
+    // return fetch(`http://120.25.80.132:88/getfiles.php?thumb=250_0`, {
         method: 'POST',
         body: data
     })
@@ -67,7 +68,7 @@ export const searchImage = createActionAsync(constants.IMAGES_SEARCH, ({ keyword
 })
 
 function makeHost(url) {
-    return 'http://120.25.80.132:88' + url
+    return 'http://imgs.i8za.com' + url
 }
 
 function makeId() {

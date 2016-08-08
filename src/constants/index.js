@@ -6,6 +6,7 @@ export const USER_LOGIN = 'USER_LOGIN'
 export const USER_REGIST = 'USER_REGIST'
 export const USER_CHECK_VCODE = 'USER_CHECK_VCODE'
 export const USER_GETCURRENT = 'USER_GETCURRENT'
+export const USER_GETWXMPS = 'USER_GETWXMPS'
 
 export const POST_SAVE = 'POST_SAVE'
 export const POST_GET_BY_ID = 'POST_GET_BY_ID'
@@ -16,7 +17,7 @@ export const POST_SET = 'POST_SET'
 export const POST_CLEAR = 'POST_CLEAR'
 export const POST_LOAD = 'POST_LOAD'
 export const POST_PREVIEW = 'POST_PREVIEW'
-
+export const POST_SYNC = 'POST_SYNC'
 
 export const STYLE_GET = 'STYLE_GET'
 export const STYLE_RENDER = 'STYLE_RENDER'
