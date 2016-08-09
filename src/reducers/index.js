@@ -10,6 +10,7 @@ let s = {
         mps: []
     },
     post: {
+        isFetching: false,
         docid: '',
         title: '',
         author: '',
@@ -35,6 +36,7 @@ let s = {
         ]
     },
     styles: {
+        isFetching: false,
         type: -1,
         "style-1": []
     },
@@ -55,6 +57,7 @@ let s = {
             //     picked: true
             // }
         ],
+        isFetching: false,
         type: 'local',
         pics: null
         // [
@@ -102,7 +105,11 @@ const post = (state = s.post, action) => {
                 summary: action.payload.result.summary,
                 replace: true,
             })
-        }, () => {}, () => {
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
+            })
+        }, () => {
             return Object.assign({}, state, {
                 isFetching: true,
                 replace: false,
@@ -121,7 +128,11 @@ const post = (state = s.post, action) => {
                 t: action.payload.data.t,
                 replace: true,
             })
-        }, () => {}, () => {
+        }, () => {
+            return Object.assign({}, state, {
+                isFetching: false
+            })
+        }, () => {
             return Object.assign({}, state, {
                 isFetching: true,
                 replace: false,
@@ -144,25 +155,28 @@ const post = (state = s.post, action) => {
         }),
         [constants.POST_SAVE]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
+                isFetching: false,
                 docid: action.payload.docid,
                 url: 'http://120.25.80.132/userwords/single?docid=' + action.payload.docid,
                 isSaved: true
             })
         },(state, action) => {
-            console.log(action)
             return state
         }),
         [constants.POST_PREVIEW]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
+                isFetching: false,
                 url: action.payload.url
             })
         }),
         [constants.POST_SYNC]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
+                isFetching: false,
                 postSyncError: '同步成功'
             })
         }, (state, action) => {
             return Object.assign({}, state, {
+                isFetching: false,
                 postSyncError: action.payload.ret_desc
             })
         })
@@ -208,20 +222,20 @@ const images = (state = s.images, action) => {
             })
         }),
         [constants.UPLOAD]: wrapperReduce((state, action) => {
-            const thumb = action.payload.data.thumb
-            const url = action.payload.data.url
-            const id = makeId()
             const picked = false
             let list = state[state.type]
             let tmp = {
                 isFetching: false
             }
-            tmp[state.type] = [...list, {
-                thumb,
-                url,
-                id,
-                picked
-            }]
+            const newList = action.payload.map(data => {
+                var id = makeId()
+                return {
+                    id,
+                    picked,
+                    ...data
+                }
+            })
+            tmp[state.type] = [...list, ...newList]
             return Object.assign({}, state, tmp)
         }, () => {
             return Object.assign({}, state, {

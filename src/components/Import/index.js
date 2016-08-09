@@ -28,17 +28,49 @@ class Import extends Component {
             this.replaceCall = null
         }
         this.setState(Object.assign({}, this.state, {
-            alert: true
+            alert: {
+                title: '提示信息',
+                desc: '您确认清除正在编辑的信息吗',
+                btns: [{
+                    text: '清除',
+                    click: this.confirmClear
+                },{
+                    text: '关闭',
+                    click: this.cancelClear
+                }]
+            }
         }))
     }
     importByUrl(url) {
         const {actions} = this.props
+        var that = this
         this.replaceCall = () => {
-            actions.getPostByUrl(url)
+            actions.getPostByUrl({url, callback : () =>{
+                this.setState(Object.assign({}, this.state, {
+                    alert: {
+                        title: '提示信息',
+                        desc: '导入失败',
+                        btns: [{
+                            text: '关闭',
+                            click: this.cancelClear
+                        }]
+                    }
+                }))
+            }})
             this.replaceCall = null
         }
         this.setState(Object.assign({}, this.state, {
-            alert: true
+            alert: {
+                title: '提示信息',
+                desc: '您确认清除正在编辑的信息吗',
+                btns: [{
+                    text: '清除',
+                    click: this.confirmClear
+                },{
+                    text: '关闭',
+                    click: this.cancelClear
+                }]
+            }
         }))
     }
     componentDidMount() {
@@ -57,12 +89,7 @@ class Import extends Component {
     }
     render() {
         const {postslist, postsisFetching} = this.props
-        const alert = {
-            title: '提示信息',
-            desc: '您确认清除正在编辑的信息吗',
-            confirm: this.confirmClear,
-            cancel: this.cancelClear
-        }
+        const alert = this.state.alert
         return (
             <div className="container-import">
                 <div className="panel-import box">
@@ -79,7 +106,7 @@ class Import extends Component {
                         </div>
                     </div>
                 </div>
-                { this.state.alert ? (<Alert {...alert}></Alert>) : undefined}
+                { alert ? (<Alert {...alert}></Alert>) : undefined}
             </div>
         )
     }

@@ -19,10 +19,10 @@ p{
 // img + img{
 //     margin-top: 20px;
 // }
-// img{
-//     max-width: 100%;
-//     cursor: pointer;
-// }
+img{
+    max-width: 100%;
+    cursor: pointer;
+}
 // .bazaEditor{
 //     cursor: pointer;
 // }

@@ -15,6 +15,7 @@ import Alert from '../Alert'
 import Import from '../Import'
 import Common from '../Common'
 import Images from '../Images'
+import Loading from '../Loading'
 
 class Editor extends Component {
     constructor(props, context){
@@ -136,7 +137,7 @@ class Editor extends Component {
             this.setState(Object.assign({}, this.state, {
                 alertData: {
                     title: '提示',
-                    desc: '',
+                    desc: '文章未保存',
                     btns: [{
                         text: '保存',
                         click: () => {
@@ -243,7 +244,8 @@ class Editor extends Component {
         }
     }
     render() {
-        const { content, update, replace, docid, url, username, mps, isLogin } = this.props
+        const { content, update, replace, docid, url, username, mps, isLogin, isFetching } = this.props
+        console.log(isFetching)
         const { title, author, cover, summary, showLogin, output, showQR, showMps, mpschecked, alertData } = this.state
         const myRoute = this.props.route.myRoute
         const attr = ({
@@ -280,6 +282,8 @@ class Editor extends Component {
                     sync={ this.syncClick }
                     change={ this.change }
                     addCover={ this.addCover }
+                    isLogin={ isLogin }
+                    login={ this.onClickLogin }
                 ></InfoSide>
                 <Animate
                     component=""
@@ -310,6 +314,7 @@ class Editor extends Component {
                     }
                 </Animate>
                 { alertData ? <Alert {...alertData} ></Alert> : null }
+                { isFetching ? <div className="loading-a"><Loading></Loading></div> : null }
             </div>
         )
     }
@@ -334,6 +339,7 @@ function mapStateToProps(state) {
         username: state.user.username,
         isLogin: !!state.user.username,
         mps: state.user.mps,
+        isFetching: state.user.isFetching || state.post.isFetching || state.posts.isFetching || state.styles.isFetching || state.images.isFetching
     }
 }
 

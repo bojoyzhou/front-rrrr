@@ -12,16 +12,39 @@ export const loadImages = createActionAsync(constants.IMAGES_GET, (id) => {
 })
 export const upload = createActionAsync(constants.UPLOAD, (file) => {
     var data = new FormData()
-    data.append('file', file.files[0])
-    return fetch(`http://imgs.i8za.com/getfiles.php?thumb=250_0`, {
+    var field = 'file'
+    var type = 1
+    if(file.files.length > 1){
+        field = 'file[]'
+        type = 2
+    }
+    Array.prototype.forEach.call(file.files, f => {
+        data.append(field, f)
+    })
+    return fetch(`http://imgs.i8za.com/getfiles.php?thumb=250_0&type=${type}`, {
     // return fetch(`http://120.25.80.132:88/getfiles.php?thumb=250_0`, {
         method: 'POST',
         body: data
     })
-}, (json) => {
-    json.data.thumb = makeHost(json.data.Ext['250_0'])
-    json.data.url = makeHost(json.data.url)
-    return json
+}, (json, payload) => {
+    var data,
+        arr = [],
+        i=0
+    while(data = json[i++]){
+        data = data.data
+        arr.push({
+            thumb: makeHost(data.Ext['250_0']),
+            url: makeHost(data.url)
+        })
+    }
+    if(i == 1){
+        data = json.data
+        arr.push({
+            thumb: makeHost(data.Ext['250_0']),
+            url: makeHost(data.url)
+        })
+    }
+    return arr
 })
 export const saveImage = createActionAsync(constants.IMAGES_SAVE, (picked) => {
     var json = picked.map(pic => ({

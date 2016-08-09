@@ -55,7 +55,9 @@ class ImagesPanel extends Component {
                             <div className="mask-info"><span className="num-pic">{Object.keys(picked).length}</span>张图片已经被选中</div>
                             <div className="mask-btn">
                                 <button onClick={ handleCancel } className="btn cancel">取消</button>
-                                <button onClick={ handleConfirm } className="btn confirm">确定</button>
+                                {Object.keys(picked).length ? <button onClick={ handleConfirm } className="btn confirm">确定</button>
+                                    : '您还未选择图片'}
+
                             </div>
                         </div>
                     </div>
@@ -69,7 +71,7 @@ class ImagesPanel extends Component {
             <ImageFluid images={images} select={this.select}>
                 <div onClick={ this.selectFile } className="add">
                     <img src={require("./img/img_add.png")} alt="" />
-                    <input ref="file" type="file" onChange={(e)=>{upload(e.target)}}/>
+                    <input ref="file" type="file" multiple="multiple" accept="image/*" onChange={(e)=>{upload(e.target)}}/>
                 </div>
             </ImageFluid>
         )

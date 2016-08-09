@@ -5,7 +5,10 @@ export const getPostByUrl = createActionAsync(constants.POST_GET_BY_URL, (url) =
     return fetch(`/api/load-url?url=${encodeURIComponent(url)}`, {
         credentials: 'include'
     })
-}, (json) => {
+}, (json, payload) => {
+    if(json.ret_code != 0){
+        return payload.callback()
+    }
     json.result.content = json.result.content.reduce(function(a, b) {
         if (b.text) {
             return a + `<p>${b.text}</p>`
@@ -62,7 +65,7 @@ export const syncPost2Mp = createActionAsync(constants.POST_SYNC, ({
     callback
 }) => {
     let data = new FormData()
-    data.append('appid', appids[0])
+    data.append('appid', appids.join(','))
     data.append('docid', docid)
     return fetch('/auth/wxqunfa', {
         credentials: 'include',

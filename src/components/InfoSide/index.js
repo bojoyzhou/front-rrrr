@@ -88,7 +88,7 @@ class InfoSide extends Component {
     }
     fold(show){
         const actions = this.props.actions
-        const {title, author, summary, cover, save, change, addCover, sync} = this.props
+        const {title, author, summary, cover, save, change, addCover, sync, isLogin, login} = this.props
         return (
             <div data-show={show} className="container-info-side">
                 <div className="fold"  onClick={this.handleClick}>&gt;&gt;</div>
@@ -114,10 +114,18 @@ class InfoSide extends Component {
                     <div className="group clear">
                         <textarea cols="30" rows="10" value={ summary||'' } onChange={ (e) => { change('summary', e.target.value) } }></textarea>
                     </div>
-                    <div className="footer">
-                        <a onClick={save} href="javascript:;" className="btn btn-primary">保存</a>
-                        <a onClick={sync} href="javascript:;" className="btn">同步到公众号</a>
-                    </div>
+                    {
+                        isLogin ?
+                            <div className="footer">
+                                <a onClick={save} href="javascript:;" className="btn btn-primary">保存</a>
+                                <a onClick={sync} href="javascript:;" className="btn">同步到公众号</a>
+                            </div>
+                            :
+                            <div className="footer">
+                                <div className="info">登录后您可以保存文章并且发布到您的公众号</div>
+                                <a onClick={login} href="javascript:;" className="btn btn-primary">登录</a>
+                            </div>
+                    }
                 </div>
             </div>
         )
@@ -144,6 +152,8 @@ InfoSide.propTypes = {
     sync:PropTypes.func.isRequired,
     change:PropTypes.func.isRequired,
     addCover:PropTypes.func.isRequired,
+    login:PropTypes.func.isRequired,
+    isLogin:PropTypes.bool.isRequired,
 
 }
 
