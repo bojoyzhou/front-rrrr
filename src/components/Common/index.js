@@ -35,9 +35,11 @@ class Common extends Component {
             actions.loadStylesFromCache(id)
         }
     }
-    checkColor(){
-        var rgb = this.state.color
-        var color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`
+    checkColor(color){
+        if(!color){
+            var rgb = this.state.color
+            color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`
+        }
         Array.prototype.slice.call(this.refs.node.querySelectorAll('*')).forEach( element => {
             if(element.style.backgroundColor){
                 element.style.backgroundColor = color
@@ -62,6 +64,7 @@ class Common extends Component {
         this.setState(Object.assign({}, this.state, {
             showColor: false
         }))
+        this.props.addColor(color)
     }
     closeColor(){
         this.setState(Object.assign({}, this.state, {
@@ -82,6 +85,7 @@ class Common extends Component {
         const {styles, type} = this.props
         const {showColor, color} = this.state
         const style = styles['style' + type]
+        const checkColor = this.checkColor
         return (
             <div className="container-common" style={{ zIndex: showColor ? 3 : 1}}>
                 <div className="panel-posts box">
@@ -96,8 +100,15 @@ class Common extends Component {
                 { showColor ?
                     <div className="color-picker">
                         <ChromePicker color={this.state.color} onChangeComplete={ this.onChangeComplete }></ChromePicker>
+                        <div className="last-colors">
+                            {
+                                this.props.colors.map((color, idx) => {
+                                    return (<span key={idx} style={{background: color}} onClick={ () => {checkColor(color)} }></span>)
+                                })
+                            }
+                        </div>
                         <div>
-                            <button className="btn btn-primary" onClick={this.checkColor}>确认</button>
+                            <button className="btn btn-primary" onClick={() => {checkColor()}}>确认</button>
                         </div>
                         <a className="btn-cancel" onClick = {this.closeColor} href="javascript:;" >&times;</a>
                     </div>

@@ -3,41 +3,77 @@ import { Link } from 'react-router'
 import style from './style.less'
 
 class Alert extends Component {
-    componentDidMount() {
-         this.id = Math.random()
+    constructor(props, context) {
+        super(props, context)
+        this.close = this.close.bind(this)
+        this.wrap = this.wrap.bind(this)
     }
-    confirm(){
-        const {confirm, actions} = this.props
-        confirm && confirm()
+    close(n, id){
+        const {actions} = this.props
+        actions.closeAlert(id)
     }
-    cancel(){
-        const {cancel, actions} = this.props
-        cancel && cancel()
+    wrap(id, callback) {
+        var close = this.close
+        return () => {
+            if (callback) {
+                callback(() => {
+                    close(null, id)
+                }, id)
+            } else {
+                close(null, id)
+            }
+        }
     }
+
     render() {
-        const {title, desc, btns} = this.props
+        const {actions, title, desc, btns} = this.props
         return (
-            <div className="alert-container mask">
-                <div style={{display:'inline-block'}}>
-                    <div className="mask-panel">
-                        <div className="mask-title">
-                            <h4>{title}</h4><a className="close">×</a></div>
-                        <div className="mask-body">
-                            <div className="content">{desc}</div>
+            <div>
+                {this.props.message.map((m, idx) => {
+                    return (
+                        <div className="alert-container mask" key={idx}>
+                            <div style={{display:'inline-block'}}>
+                                <div className="mask-panel">
+                                    <div className="mask-title">
+                                        <h4>{m.title}</h4><a onClick={ this.wrap(m.id) } className="close">×</a></div>
+                                    <div className="mask-body">
+                                        <div className="content">{m.desc}</div>
+                                    </div>
+                                    <div className="mask-footer">
+                                        {
+                                            m.btns.map((btn, idx) => {
+                                                var clname = btn.click ? 'btn btn-primary' : 'btn btn-cancel'
+                                                return (<button key={idx} className={clname} onClick = {this.wrap(m.id, btn.click)}>{btn.text}</button>)
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="mask-footer">
-                            {
-                                btns.map((btn, idx) => {
-                                    var clname = btn.click ? 'btn btn-primary' : 'btn btn-cancel'
-                                    return (<button key={idx} className={clname} onClick = {btn.click}>{btn.text}</button>)
-                                })
-                            }
-                        </div>
-                    </div>
-                </div>
+                    )
+                })}
             </div>
         )
     }
 }
 
-export default Alert
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import actions from '../../actions'
+
+function mapStateToProps(state) {
+    return {
+        message: state.alert.message
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actions, dispatch)
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Alert)

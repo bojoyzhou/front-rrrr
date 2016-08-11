@@ -6,7 +6,6 @@ import React from 'react'
 
 import { history } from './utils'
 
-import App from './containers/App'
 import Editor from './components/Editor'
 import configure from './store'
 

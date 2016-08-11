@@ -1,8 +1,14 @@
-body{
+html{
+    width: 280px;
     zoom: 1.5625;
+}
+body{
     line-height: 1.923;
-    padding: 20px!important;
+    padding: 0px!important;
+    margin: 20px;
+    width: 100%;
     font-size: 13px;
+    overflow-x: hidden;
 }
 p{
     margin: 8px 0 !important;

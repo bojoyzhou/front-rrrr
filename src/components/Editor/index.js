@@ -35,6 +35,7 @@ class Editor extends Component {
         this.closeMp = this.closeMp.bind(this)
         this.selectMp = this.selectMp.bind(this)
         this.confirmMp = this.confirmMp.bind(this)
+        this.addColor = this.addColor.bind(this)
         this.state = {
             title: '',
             author: '',
@@ -47,7 +48,7 @@ class Editor extends Component {
             url: '',
             showMps: false,
             mpschecked: [],
-            alertData: null,
+            colors: [],
             // {
             //     title: 'asdf',
             //     desc: 'asdfaf',
@@ -117,13 +118,43 @@ class Editor extends Component {
     save(){
         const {content, actions, docid, isLogin} = this.props
         const { title, author, summary, cover } = this.state
+        var that = this
         if(!isLogin){
             return this.onClickLogin()
         }
-        actions.savePost({ docid, content, title, author, summary, pics:JSON.stringify([cover]) })
-        this.setState(Object.assign({}, this.state, {
-            showQR: true
-        }))
+        if(!content || !title){
+            return actions.alert({
+                title: '提示',
+                desc: '标题和内容不能为空',
+                btns: [{
+                    text: '关闭'
+                }]
+            })
+        }
+        actions.savePost({
+            docid,
+            content,
+            title,
+            author,
+            summary,
+            pics: JSON.stringify([cover]),
+            callback: (desc, code) => {
+                if(code == 0){
+                    that.setState(Object.assign({}, this.state, {
+                        showQR: true
+                    }))
+                }else{
+                    actions.alert({
+                        title: '提示',
+                        desc: desc,
+                        btns: [{
+                            text: '关闭'
+                        }]
+                    })
+                }
+            }
+        })
+
     }
     syncClick(){
         const { actions, mps, isLogin, docid } = this.props
@@ -134,32 +165,23 @@ class Editor extends Component {
         }
         if(!docid){
             var that = this
-            this.setState(Object.assign({}, this.state, {
-                alertData: {
-                    title: '提示',
-                    desc: '文章未保存',
-                    btns: [{
-                        text: '保存',
-                        click: () => {
+            actions.alert({
+                title: '提示',
+                desc: '文章未保存',
+                btns: [{
+                    text: '保存',
+                    click: (close) => {
+                        close()
+                        setTimeout(function(){
                             that.save()
-                            that.setState(Object.assign({}, that.state, {
-                                alertData: null
-                            }))
-                        }
-                    },{
-                        text: '关闭',
-                        click: () => {
-                            that.save()
-                            that.setState(Object.assign({}, that.state, {
-                                alertData: null
-                            }))
-                        }
-                    }]
-                }
-            }))
+                        })
+                    }
+                },{
+                    text: '关闭',
+                }]
+            })
             return
         }
-        // actions.syncPost2Mp({ docid, content, title, author, summary, pics:JSON.stringify([cover]) })
         this.setState(Object.assign({}, this.state, {
             showMps: true
         }))
@@ -177,11 +199,35 @@ class Editor extends Component {
             mpschecked
         }))
     }
-    confirmMp(){
+    confirmMp(confirm){
         var that = this
         const { mps, actions, docid} = this.props
         const { mpschecked } = this.state
         var appids = mpschecked.map((x, idx) => x !== false ? idx : false).filter(x => x!==false).map(idx => mps[idx].appid)
+        if(appids.length == 0){
+            return actions.alert({
+                title: '提示',
+                desc: '您还没有添加公众号',
+                btns: [{
+                    text: '关闭'
+                }]
+            })
+        }
+        if(confirm !== true){
+            return actions.alert({
+                title: '提示',
+                desc: '这会直接将文章在公众号群发，请注意！',
+                btns: [{
+                    text: '群发',
+                    click: (close) => {
+                        close()
+                        that.confirmMp(true)
+                    }
+                },{
+                    text: '关闭'
+                }]
+            })
+        }
         actions.syncPost2Mp({
             appids,
             docid,
@@ -190,30 +236,34 @@ class Editor extends Component {
                 if(!ret){
                     showMps = false
                 }
-                that.setState(Object.assign({}, this.state, {
-                    alertData: {
-                        title: '提示',
-                        desc: msg,
-                        btns: [{
-                            text: '关闭',
-                            click: () => {
-                                that.setState(Object.assign({}, that.state, {
-                                    alertData: null
-                                }))
-                            }
-                        }]
-                    },
-                    showMps
-                }))
+                return actions.alert({
+                    title: '提示',
+                    desc: msg,
+                    btns: [{
+                        text: '关闭'
+                    }]
+                })
             }
         })
     }
     preview(){
         const {content, actions, docid} = this.props
         const { title, author, summary, cover } = this.state
-        actions.previewPost(content)
+        var that = this
+        actions.previewPost({
+            content,
+            callback: () => {
+                that.setState(Object.assign({}, this.state, {
+                    showQR: true
+                }))
+            }
+        })
+    }
+    addColor(color){
+        var colors = this.state.colors.filter(c => (c!==color))
+        colors.unshift(color)
         this.setState(Object.assign({}, this.state, {
-            showQR: true
+            colors: [...colors]
         }))
     }
     componentWillReceiveProps(nextProps) {
@@ -224,7 +274,6 @@ class Editor extends Component {
         if(this.replace){
             return
         }
-        console.log('componentWillReceiveProps')
         this.replace = true
         this.setState(Object.assign({}, this.state, {
             title: nextProps.title,
@@ -245,8 +294,7 @@ class Editor extends Component {
     }
     render() {
         const { content, update, replace, docid, url, username, mps, isLogin, isFetching } = this.props
-        console.log(isFetching)
-        const { title, author, cover, summary, showLogin, output, showQR, showMps, mpschecked, alertData } = this.state
+        const { title, author, cover, summary, showLogin, output, showQR, showMps, mpschecked } = this.state
         const myRoute = this.props.route.myRoute
         const attr = ({
             Images:{
@@ -255,7 +303,9 @@ class Editor extends Component {
                 output
             },
             Common:{
-                id:this.props.params.id
+                id:this.props.params.id,
+                colors: this.state.colors,
+                addColor: this.addColor
             }
         })[myRoute]
         const MyRoute = ({
@@ -270,7 +320,7 @@ class Editor extends Component {
                 <div className="container-editor clear">
                     <Menu></Menu>
                     <MyRoute {...attr}></MyRoute>
-                    <TextArea preview={this.preview} content={ content } update={ update } replace={ replace } syncContent={ this.syncContent } onClick={ this.onClick }></TextArea>
+                    <TextArea colors={this.state.colors} addColor={this.addColor} preview={this.preview} content={ content } update={ update } replace={ replace } syncContent={ this.syncContent } onClick={ this.onClick }></TextArea>
                 </div>
                 <InfoSide
                     title={ title }
@@ -313,7 +363,7 @@ class Editor extends Component {
                         showMps ? <Mp data-show={showMps} selectMp={this.selectMp} checked={mpschecked} mps={ mps } close={this.closeMp} confirm={this.confirmMp}></Mp> : null
                     }
                 </Animate>
-                { alertData ? <Alert {...alertData} ></Alert> : null }
+                <Alert></Alert>
                 { isFetching ? <div className="loading-a"><Loading></Loading></div> : null }
             </div>
         )

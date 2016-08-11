@@ -28955,6 +28955,7 @@ UE.ui = baidu.editor.ui = {};
                         container = container.parentNode;
                     }
                     this.getDom().style.cssText = this._bakCssText;
+                    debugger
                     this.getDom('iframeholder').style.cssText = this._bakCssText1;
                     if (this._bakAutoHeight) {
                         editor.autoHeightEnabled = true;

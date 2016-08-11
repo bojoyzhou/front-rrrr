@@ -4,6 +4,9 @@ import * as constants from '../constants'
 import { REQUEST, RECIEVE, ERROR } from '../constants'
 import fetch from 'isomorphic-fetch'
 let s = {
+    alert: {
+        message: []
+    },
     user: {
         isFetching: false,
         username: '',
@@ -69,6 +72,29 @@ let s = {
             // }
         // ]
     }
+}
+
+
+const alert = (state = s.alert, action) => {
+    return wrap({
+        [constants.ALERT_SHOW]: wrapperReduce((state, action) => {
+            var message = action.payload
+            if(!message.id){
+                message.id = makeId()
+            }
+            return Object.assign({}, state, {
+                message: [...state.message, message]
+            })
+        }),
+        [constants.ALERT_CLOSE]: wrapperReduce((state, action) => {
+            var message = state.message.filter(m => {
+                return m.id !== action.payload
+            })
+            return Object.assign({}, state, {
+                message: [...message]
+            })
+        })
+    }, state, action)
 }
 
 const user = (state = s.user, action) => {
@@ -157,11 +183,9 @@ const post = (state = s.post, action) => {
             return Object.assign({}, state, {
                 isFetching: false,
                 docid: action.payload.docid,
-                url: 'http://120.25.80.132/userwords/single?docid=' + action.payload.docid,
+                url: 'http://www.i8za.com/userwords/single?docid=' + action.payload.docid,
                 isSaved: true
             })
-        },(state, action) => {
-            return state
         }),
         [constants.POST_PREVIEW]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
@@ -237,26 +261,10 @@ const images = (state = s.images, action) => {
             })
             tmp[state.type] = [...list, ...newList]
             return Object.assign({}, state, tmp)
-        }, () => {
-            return Object.assign({}, state, {
-                isFetching: false
-            })
-        }, () => {
-            return Object.assign({}, state, {
-                isFetching: false
-            })
         }),
         [constants.IMAGES_SAVE]: wrapperReduce((state, action) => {
             return Object.assign({}, state, {
                 pics: [...state.pics, ...action.payload],
-                isFetching: false
-            })
-        }, () => {
-            return Object.assign({}, state, {
-                isFetching: false
-            })
-        }, () => {
-            return Object.assign({}, state, {
                 isFetching: false
             })
         }),
@@ -264,14 +272,6 @@ const images = (state = s.images, action) => {
             const id = action.payload.id
             return Object.assign({}, state, {
                 pics: state.pics.filter(pic => (pic.id != id)),
-                isFetching: false
-            })
-        }, () => {
-            return Object.assign({}, state, {
-                isFetching: false
-            })
-        }, () => {
-            return Object.assign({}, state, {
                 isFetching: false
             })
         }),
@@ -284,14 +284,6 @@ const images = (state = s.images, action) => {
             }
             return Object.assign({}, state, {
                 net: net,
-                isFetching: false
-            })
-        }, () => {
-            return Object.assign({}, state, {
-                isFetching: false
-            })
-        }, () => {
-            return Object.assign({}, state, {
                 isFetching: false
             })
         }),
@@ -316,11 +308,13 @@ function wrapperReduce(recieve, error, request) {
     return (state, action) => {
         if (action.status == REQUEST) {
             return request && request(state, action) || Object.assign({}, state, {
-                isFetching: true
+                isFetching: true,
+                error:null
             })
         } else if (action.status == ERROR) {
             return error && error(state, action) || Object.assign({}, state, {
                 isFetching: false,
+                error: action.payload.ret_desc
             })
         } else {
             return recieve && recieve(state, action) || Object.assign({}, state, {
@@ -331,6 +325,7 @@ function wrapperReduce(recieve, error, request) {
 }
 export default combineReducers({
     routing,
+    alert,
     user,
     post,
     posts,

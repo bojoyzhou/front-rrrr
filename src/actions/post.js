@@ -1,12 +1,12 @@
 import createAction, { createActionAsync } from './createAction'
 import * as constants from '../constants'
 
-export const getPostByUrl = createActionAsync(constants.POST_GET_BY_URL, (url) => {
+export const getPostByUrl = createActionAsync(constants.POST_GET_BY_URL, ({ url }) => {
     return fetch(`/api/load-url?url=${encodeURIComponent(url)}`, {
         credentials: 'include'
     })
 }, (json, payload) => {
-    if(json.ret_code != 0){
+    if (json.ret_code != 0) {
         return payload.callback()
     }
     json.result.content = json.result.content.reduce(function(a, b) {
@@ -44,13 +44,14 @@ export const savePost = createActionAsync(constants.POST_SAVE, (fields) => {
         body: data,
         method: 'POST'
     })
-}, (json, fields) => {
+}, (json, payload) => {
     if (!json.docid) {
-        json.docid = fields.docid
+        json.docid = payload.docid
     }
+    payload.callback(json.ret_desc, json.ret_code)
     return json
 })
-export const previewPost = createActionAsync(constants.POST_PREVIEW, (content) => {
+export const previewPost = createActionAsync(constants.POST_PREVIEW, ({ content }) => {
     let data = new FormData()
     data.append('content', content)
     return fetch('/api/preview', {
@@ -58,6 +59,8 @@ export const previewPost = createActionAsync(constants.POST_PREVIEW, (content) =
         body: data,
         method: 'POST'
     })
+}, (json, payload) => {
+    payload.callback(json.ret_desc, json.ret_code)
 })
 export const syncPost2Mp = createActionAsync(constants.POST_SYNC, ({
     appids,

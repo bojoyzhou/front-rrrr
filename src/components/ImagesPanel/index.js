@@ -68,12 +68,15 @@ class ImagesPanel extends Component {
     local() {
         const { images, upload,} = this.props
         return (
-            <ImageFluid images={images} select={this.select}>
-                <div onClick={ this.selectFile } className="add">
-                    <img src={require("./img/img_add.png")} alt="" />
-                    <input ref="file" type="file" multiple="multiple" accept="image/*" onChange={(e)=>{upload(e.target)}}/>
-                </div>
-            </ImageFluid>
+            <div className="wrapper">
+                <div className="info">选择文件时，按住ctrl（⌘）键可选择多张图片</div>
+                <ImageFluid images={images} select={this.select}>
+                    <div onClick={ this.selectFile } className="add">
+                        <img src={require("./img/img_add.png")} alt="" />
+                        <input ref="file" type="file" multiple="multiple" accept="image/*" onChange={(e)=>{upload(e.target)}}/>
+                    </div>
+                </ImageFluid>
+            </div>
         )
     }
     net() {

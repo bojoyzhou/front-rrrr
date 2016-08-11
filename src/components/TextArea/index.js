@@ -12,6 +12,7 @@ class TextArea extends Component {
         this.deleteContent = this.deleteContent.bind(this)
         this.checkColor = this.checkColor.bind(this)
         this.closeColor = this.closeColor.bind(this)
+        this.hideTools = this.hideTools.bind(this)
         this.onChangeComplete = this.onChangeComplete.bind(this)
 
         this.state = {
@@ -38,11 +39,9 @@ class TextArea extends Component {
     componentWillUnmount() {
         clearInterval(this.interval)
     }
-    handleCommand(type) {
+    handleCommand(type, color) {
         const elem = this.elem
         if (type == 'CHANGE_COLOR') {
-            var rgb = this.state.color
-            var color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`
             Array.prototype.slice.call(elem.querySelectorAll('*')).forEach( element => {
                 if(element.style.backgroundColor){
                     element.style.backgroundColor = color
@@ -107,7 +106,7 @@ class TextArea extends Component {
             this.elem = elem
             this.elem.className = this.elem.className + ' tips_active'
             var scrollTop = doc.body.scrollTop || doc.documentElement.scrollTop
-            var top = elem.offsetTop + elem.offsetHeight + 77 - scrollTop
+            var top = (elem.offsetTop + elem.offsetHeight) * 1.5625 + 77 - scrollTop
             var sheight = parseFloat(window.getComputedStyle(this.refs.container).height)
             if(top + 50 > sheight){
                 top = sheight - 70
@@ -139,6 +138,13 @@ class TextArea extends Component {
         let that = this
         ue.document.addEventListener('click', (e) => {
             that.onClick(e, ue.document)
+        })
+        ue.document.addEventListener('scroll', (e) => {
+            that.hideTools()
+        })
+        const types = ['click', 'scroll']
+        types.forEach(type => {
+            document.addEventListener(type, that.hideTools)
         })
         setTimeout(() => {
             const html = ue.execCommand('getlocaldata').replace(/<p><br><\/p>$/, '')
@@ -181,11 +187,16 @@ class TextArea extends Component {
         }
         this.replace = nextProps.replace
     }
-    checkColor(){
-        this.handleCommand('CHANGE_COLOR')
+    checkColor(color){
+        if(!color){
+            var rgb = this.state.color
+            color = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`
+        }
+        this.handleCommand('CHANGE_COLOR', color)
         this.setState(Object.assign({}, this.state, {
             showColor: false
         }))
+        this.props.addColor(color)
     }
     closeColor(){
         this.setState(Object.assign({}, this.state, {
@@ -200,6 +211,7 @@ class TextArea extends Component {
     render() {
         const { update } = this.props
         const {showTools, menuType, offset, showColor} = this.state
+        const checkColor =  this.checkColor
         return (
             <div ref="container" className="container-textarea">
                 <div>
@@ -225,8 +237,15 @@ class TextArea extends Component {
                 {showColor ?
                     <div className="color-picker">
                         <ChromePicker color={this.state.color} onChangeComplete={ this.onChangeComplete }></ChromePicker>
+                        <div className="last-colors">
+                            {
+                                this.props.colors.map((color, idx) => {
+                                    return (<span key={idx} style={{background: color}} onClick={ () => {checkColor(color)} }></span>)
+                                })
+                            }
+                        </div>
                         <div>
-                            <button className="btn btn-primary" onClick={this.checkColor}>确认</button>
+                            <button className="btn btn-primary" onClick={() => {checkColor()}}>确认</button>
                         </div>
                         <a className="btn-cancel" onClick={this.closeColor} href="javascript:;" >&times;</a>
                     </div>

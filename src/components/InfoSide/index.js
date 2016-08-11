@@ -93,39 +93,41 @@ class InfoSide extends Component {
             <div data-show={show} className="container-info-side">
                 <div className="fold"  onClick={this.handleClick}>&gt;&gt;</div>
                 <div className="right-container">
-                    <h4>标题</h4>
-                    <div className="group clear">
-                        <textarea cols="30" rows="5" value={ title||'' } onChange={ (e) => { change('title', e.target.value) } }></textarea>
-                    </div>
-
-                    <div className="group clear">
-                        <h4>作者</h4>
-                        <input className="author" value={ author||'' } onChange={ (e) => { change('author', e.target.value) } } />
-                    </div>
-
-                    <h4>封面</h4>
-                    <div className="group clear">
-                        <div onClick={ addCover } className="img_fluid add clear">
-                            <img src={cover ? cover : require("./img/img_add.png")} alt="" />
+                    <div>
+                        <h4>标题</h4>
+                        <div className="group clear">
+                            <textarea cols="30" rows="5" value={ title||'' } onChange={ (e) => { change('title', e.target.value) } }></textarea>
                         </div>
-                    </div>
 
-                    <h4>摘要</h4>
-                    <div className="group clear">
-                        <textarea cols="30" rows="10" value={ summary||'' } onChange={ (e) => { change('summary', e.target.value) } }></textarea>
+                        <div className="group clear">
+                            <h4>作者</h4>
+                            <input className="author" value={ author||'' } onChange={ (e) => { change('author', e.target.value) } } />
+                        </div>
+
+                        <h4>封面</h4>
+                        <div className="group clear">
+                            <div onClick={ addCover } className="img_fluid add clear">
+                                <img src={cover ? cover : require("./img/img_add.png")} alt="" />
+                            </div>
+                        </div>
+
+                        <h4>摘要</h4>
+                        <div className="group clear">
+                            <textarea cols="30" rows="10" value={ summary||'' } onChange={ (e) => { change('summary', e.target.value) } }></textarea>
+                        </div>
+                        {
+                            isLogin ?
+                                <div className="footer">
+                                    <a onClick={save} href="javascript:;" className="btn btn-primary">保存</a>
+                                    <a onClick={sync} href="javascript:;" className="btn">同步到公众号</a>
+                                </div>
+                                :
+                                <div className="footer">
+                                    <div className="info">登录后您可以保存文章并且发布到您的公众号</div>
+                                    <a onClick={login} href="javascript:;" className="btn btn-primary">登录</a>
+                                </div>
+                        }
                     </div>
-                    {
-                        isLogin ?
-                            <div className="footer">
-                                <a onClick={save} href="javascript:;" className="btn btn-primary">保存</a>
-                                <a onClick={sync} href="javascript:;" className="btn">同步到公众号</a>
-                            </div>
-                            :
-                            <div className="footer">
-                                <div className="info">登录后您可以保存文章并且发布到您的公众号</div>
-                                <a onClick={login} href="javascript:;" className="btn btn-primary">登录</a>
-                            </div>
-                    }
                 </div>
             </div>
         )

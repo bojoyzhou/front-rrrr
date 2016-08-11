@@ -3,19 +3,15 @@ import { Link } from 'react-router'
 import OptionPostList from '../OptionPostList'
 import style from './style.less'
 
-import Alert from '../Alert'
-
 class Import extends Component {
     constructor(props, context){
         super(props, context)
         this.handleClick = this.handleClick.bind(this)
         this.importById = this.importById.bind(this)
-        this.confirmClear = this.confirmClear.bind(this)
-        this.cancelClear = this.cancelClear.bind(this)
+        this.inputOn = this.inputOn.bind(this)
         this.state = {
-            alert: false
+            closeDisplay: 'none'
         }
-
     }
     handleClick() {
         const url = this.refs.url.value
@@ -23,77 +19,85 @@ class Import extends Component {
     }
     importById(docid) {
         const {actions} = this.props
-        this.replaceCall = () => {
+        const replaceCall = () => {
             actions.getPostById({docid})
-            this.replaceCall = null
         }
-        this.setState(Object.assign({}, this.state, {
-            alert: {
-                title: '提示信息',
-                desc: '您确认清除正在编辑的信息吗',
-                btns: [{
-                    text: '清除',
-                    click: this.confirmClear
-                },{
-                    text: '关闭',
-                    click: this.cancelClear
-                }]
-            }
-        }))
+
+        return actions.alert({
+            title: '提示',
+            desc: '您确认清除正在编辑的信息吗',
+            btns: [{
+                text: '清除',
+                click: (close) => {
+                    close()
+                    setTimeout(replaceCall)
+                }
+            },{
+                text: '关闭'
+            }]
+        })
     }
     importByUrl(url) {
         const {actions} = this.props
+        if(!url){
+            return actions.alert({
+                title: '提示',
+                desc: '文章链接不能为空',
+                btns: [{
+                    text: '关闭'
+                }]
+            })
+        }
         var that = this
-        this.replaceCall = () => {
-            actions.getPostByUrl({url, callback : () =>{
-                this.setState(Object.assign({}, this.state, {
-                    alert: {
-                        title: '提示信息',
+        const replaceCall = () => {
+            actions.getPostByUrl({
+                url,
+                callback: () => {
+                    return actions.alert({
+                        title: '提示',
                         desc: '导入失败',
                         btns: [{
-                            text: '关闭',
-                            click: this.cancelClear
+                            text: '关闭'
                         }]
-                    }
-                }))
-            }})
-            this.replaceCall = null
+                    })
+                }
+            })
         }
-        this.setState(Object.assign({}, this.state, {
-            alert: {
-                title: '提示信息',
-                desc: '您确认清除正在编辑的信息吗',
-                btns: [{
-                    text: '清除',
-                    click: this.confirmClear
-                },{
-                    text: '关闭',
-                    click: this.cancelClear
-                }]
-            }
-        }))
+        return actions.alert({
+            title: '提示',
+            desc: '您确认清除正在编辑的信息吗',
+            btns: [{
+                text: '清除',
+                click: (close) => {
+                    close()
+                    setTimeout(replaceCall)
+                }
+            },{
+                text: '关闭'
+            }]
+        })
     }
     componentDidMount() {
         const {actions} = this.props
         actions.loadPosts()
     }
-
-    confirmClear() {
-        this.replaceCall()
-        this.cancelClear()
-    }
-    cancelClear() {
+    inputOn(){
+        var value = this.refs.url.value
         this.setState(Object.assign({}, this.state, {
-            alert: false
+            closeDisplay: value ? 'block' : 'none'
         }))
     }
     render() {
         const {postslist, postsisFetching} = this.props
-        const alert = this.state.alert
+        var display = this.state.closeDisplay
+        var that = this
         return (
             <div className="container-import">
                 <div className="panel-import box">
-                    <input ref="url" type="url" placeholder="输入要导入的文章URL" />
+                    <div className="input">
+                        <input onInput={this.inputOn} ref="url" type="url" placeholder="输入要导入的文章URL" />
+                        <span style={{display}} onClick={ () => {that.refs.url.value=''; that.inputOn()} } className="close">&times;</span>
+                    </div>
                     <button onClick={this.handleClick} className="btn-import">导入</button>
                 </div>
                 <div className="panel-posts">
@@ -106,7 +110,6 @@ class Import extends Component {
                         </div>
                     </div>
                 </div>
-                { alert ? (<Alert {...alert}></Alert>) : undefined}
             </div>
         )
     }

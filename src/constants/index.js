@@ -28,3 +28,6 @@ export const IMAGES_SAVE = 'IMAGES_SAVE'
 export const IMAGES_SEARCH = 'IMAGES_SEARCH'
 export const IMAGES_DEL = 'IMAGES_DEL'
 export const UPLOAD = 'UPLOAD'
+
+export const ALERT_SHOW = 'ALERT_SHOW'
+export const ALERT_CLOSE = 'ALERT_CLOSE'

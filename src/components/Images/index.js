@@ -5,7 +5,6 @@ import style from './style.less'
 
 import Animate from 'rc-animate'
 import Login from '../Login'
-import Loading from '../Loading'
 import PicList from '../PicList'
 import ImagesPanel from '../ImagesPanel'
 
@@ -104,7 +103,7 @@ class Images extends Component {
         const type = this.state.type
         pics = pics || []
         return (
-            <div>
+            <div style={ {position: 'relative', width: '386px'} }>
                 <div className="container-images">
                     <div className="panel-posts box">
                         <div className="panel-title">
@@ -113,9 +112,7 @@ class Images extends Component {
                             <button onClick={ () => { this.add() } } className="btn-primary">添加图片</button>
                         </div>
                         <div className="panel-posts-body">
-                            { isFetching ? <Loading></Loading> :
-                                <PicList pics={ pics } deletePic={ this.deletePic } selectPic={ this.selectPic }></PicList>
-                            }
+                            <PicList pics={ pics } deletePic={ this.deletePic } selectPic={ this.selectPic }></PicList>
                         </div>
                     </div>
                 </div>

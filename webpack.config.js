@@ -76,31 +76,40 @@ module.exports = {
         hot: true,
         proxy: {
             '/api/*': {
-                target: 'http://www.i8za.com'
+                target: 'http://www.i8za.com',
+                host: 'www.i8za.com'
             },
             '/user/*': {
-                target: 'http://www.i8za.com'
+                target: 'http://www.i8za.com',
+                host: 'www.i8za.com'
             },
             '/auth/*': {
-                target: 'http://www.i8za.com'
+                target: 'http://www.i8za.com',
+                host: 'www.i8za.com'
             },
             '/temp/*': {
-                target: 'http://www.i8za.com'
+                target: 'http://www.i8za.com',
+                host: 'www.i8za.com'
             },
             '/content/*': {
-                target: 'http://www.i8za.com'
+                target: 'http://www.i8za.com',
+                host: 'www.i8za.com'
             },
             '/userwords/*': {
-                target: 'http://www.i8za.com'
+                target: 'http://www.i8za.com',
+                host: 'www.i8za.com'
             },
             '/it/*': {
-                target: 'http://www.i8za.com'
+                target: 'http://www.i8za.com',
+                host: 'www.i8za.com'
             },
             '/upload/*': {
-                target: 'http://imgs.8zcloud.com'
+                target: 'http://imgs.i8za.com',
+                host: 'imgs.i8za.com'
             },
             '/getfiles*': {
-                target: 'http://imgs.8zcloud.com'
+                target: 'http://imgs.i8za.com',
+                host: 'imgs.i8za.com'
             }
             // '/api/collectpager': {
             //     target: 'http://www.8zcloud.com'
